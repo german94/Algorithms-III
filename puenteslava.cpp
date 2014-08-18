@@ -45,3 +45,29 @@ int main()
 
 	cout<<endl;
 }
+
+CLAUDIO
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int arr[] = { 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1 };
+	int c = 3;
+	int n = 13;
+
+	int i=-1;
+	int j=0;
+	while(i< n){
+		for(j=i+c;true;--j)
+        {
+        	if (arr[j]== 0) {i=j; cout<<i<<endl;break;}
+        	if (j ==i+1 && arr[j]==1) {i=n;cout<<"sin solucion"<<endl;break;}
+        	if (i + c > n) {i= n;break;}
+        }
+	}
+
+    return 0;
+}
