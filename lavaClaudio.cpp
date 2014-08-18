@@ -11,7 +11,7 @@ int main()
 	int i=-1;
 	int j=0;
 	while(i< n){
-		for(j=i+c;true;--j)
+		for(j=i+c+1;j>i;--j)
         {
         	if (arr[j]== 0) {i=j; cout<<i<<endl;break;}
         	if (j ==i+1 && arr[j]==1) {i=n;cout<<"sin solucion"<<endl;break;}

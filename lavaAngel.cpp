@@ -66,7 +66,7 @@ int main()
     saltos(12, 3, tabla);
     return 0;
     * */
-int arr[] = { 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1 };
+int arr[] = { 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1 };
 int c = 3;
 int length = 13;
 saltos(13,3,arr);
