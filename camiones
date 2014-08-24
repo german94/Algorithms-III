@@ -1,0 +1,14 @@
+minimizar_camiones(productos, camiones)
+	si no hay productos
+		devolver camiones
+	si hay productos
+		solucion_optima = vacia
+		para cada p en productos hacer
+			para cada posible tira de camiones (camiones*) con el nuevo producto agregado hacer
+				solucion_parcial = minimizar_camiones(productos_sin_producto(productos, p), camiones*)
+				si solucion_optima es vacia o solucion_optima es peor que solucion_parcial
+					solucion_optima = solucion_parcial
+				fin
+			fin
+		devolver solucion_optima
+	fin
