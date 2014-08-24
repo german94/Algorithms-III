@@ -7,6 +7,8 @@ minimizar_camiones(productos, camiones)
 			para cada posible tira de camiones (camiones*) con el nuevo producto agregado hacer
 				solucion_parcial = minimizar_camiones(productos_sin_producto(productos, p), camiones*)
 				si solucion_optima es vacia o solucion_optima es peor que solucion_parcial
+				;  la primera parte siempre es verdad lo pusiste en la linea 5
+				;solucion optima vive afuera de la función ? 
 					solucion_optima = solucion_parcial
 				fin
 			fin
