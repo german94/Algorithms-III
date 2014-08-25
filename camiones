@@ -14,3 +14,30 @@ minimizar_camiones(productos, camiones)
 			fin
 		devolver solucion_optima
 	fin
+
+____________________________________________________________________________________________________________________________________________________
+
+minimizar_camiones_2(productos_coeficientes, productos)
+	para cada k de 1 a n
+		matriz = kx|productos|
+		respuesta = ubicarproductos(productos_coeficientes, productos, matriz)
+		si respuesta.pudeubicar = true
+			devolver respuesta.matriz 
+
+ubicarproductos(productos_coeficientes, pqfaltan, matriz)
+	si pqfaltan = vacio
+		devuelvo (pudeubicar: true, solucion: matriz)
+	para cada p producto en pqfaltan
+		puedo_ubicar_a_p = false
+		para cada f fila en matriz
+			si puedo meter a p en f
+				puedo_ubicar_a_p = true
+				nuevamatriz = matriz con 1 en la fila f columna p
+				ubicarproductos(productos_coeficientes, pqfaltan - p, nuevamatriz)
+			fin
+		fin
+		si puedo_ubicar_a_p = false
+			devuelvo (pudeubicar: false, solucion: matriznula)
+		fin
+	fin
+	
