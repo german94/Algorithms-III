@@ -33,7 +33,10 @@ ubicarproductos(productos_coeficientes, pqfaltan, matriz)
 			si puedo meter a p en f
 				puedo_ubicar_a_p = true
 				nuevamatriz = matriz con 1 en la fila f columna p
-				ubicarproductos(productos_coeficientes, pqfaltan - p, nuevamatriz)
+				res = ubicarproductos(productos_coeficientes, pqfaltan - p, nuevamatriz)
+				si res.pudeubicar = true
+					devuelvo res
+				fin
 			fin
 		fin
 		si puedo_ubicar_a_p = false
