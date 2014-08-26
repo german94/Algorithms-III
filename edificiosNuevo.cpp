@@ -37,7 +37,6 @@ while(siguiente < total_de_edificios)
  			{ // luego del comparo, la altura disminuye hasta la del proximo, esta es una solucion
  				imprimir(edificio_comparo.der, heap.proximo.altura)
  				comparo = heap.proximo //ahora voy a comparar el que estaba en el heap con siguiente
- 				heap.desencolar //no encolo nada porque el que era comparo ya quedo atras
  				break for 
  			}	// else si el que estaba proximo su lado derecho es menor que el de comparo
  			//significa que quedo atras el del heap entonces lo desencolo y me olvido de ese
