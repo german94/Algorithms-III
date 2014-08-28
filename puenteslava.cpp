@@ -77,7 +77,7 @@ void resolverInstancia(vector<int> p, int c)
     	{
     		//si la distancia del tablon donde estoy ahora al ultimo tablon sano (no necesariamente donde estaba parado antes ya que lo voy pisando) es mayor que lo que puedo
     		//llegar a saltar, entonces quiere decir que no hay ningun tablon sano en el medio, o sea que tengo mas de c tablones rotos
-    		if(i - ultimosano > c || ultimosano == -1)
+    		if(i - ultimosano > c - 1 || ultimosano == -1)
     		{
     			cout<<"no";
     			return;
