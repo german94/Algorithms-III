@@ -77,7 +77,7 @@ void resolverInstancia(vector<int> p, int c)
     	{
     		//si la distancia del tablon donde estoy ahora al ultimo tablon sano (no necesariamente donde estaba parado antes ya que lo voy pisando) es mayor que lo que puedo
     		//llegar a saltar, entonces quiere decir que no hay ningun tablon sano en el medio, o sea que tengo mas de c tablones rotos
-    		if(i - ultimosano > c - 1 || ultimosano == -1)
+    		if(i - ultimosano > c || ultimosano == -1)
     		{
     			cout<<"no";
     			return;
@@ -99,8 +99,16 @@ void resolverInstancia(vector<int> p, int c)
     //puente antes de que saltados llegue a c + 1, entonces en ese caso, el tablon donde estaba parado antes de pasar al final del puente nunca se agregaria.
     //La manera de chequear esto es ver si desde el ultimo tablon que agregue puedo pasar al final del puente, si puedo quiere decir que lo agregue, si no quiere decir que me falta
     //agregar el ultimo sano.
-    if(p.size() - s[s.size() - 1] > c)
-    	s.push_back(ultimosano + 1);
+    if(s.size() > 0 && p.size() - s[s.size() - 1] > c)
+    {
+    	if(p.size() - ultimosano <= c)
+    	   	s.push_back(ultimosano + 1);
+    	else
+    	{
+    		cout<<"no";
+    		return;
+    	}
+    }
     s.push_back(p.size() + 1);
 
     clock_t end = clock();
