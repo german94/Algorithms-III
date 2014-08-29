@@ -25,9 +25,12 @@ vector<pair<int**, pair<int, int> > > entradas;
 	std::getline(cin, l);
 	while(l.at(0) != '0')
 	{
-		cant = atoi(l.c_str());
-		std::getline(cin, l);
-		umbral = atoi(l.c_str());
+		istringstream sse(l);
+		string tokenl;
+		std::getline(sse, tokenl, ' ');
+		cant = atoi(tokenl.c_str());
+		std::getline(sse, tokenl, ' ');
+		umbral = atoi(tokenl.c_str());
 		int **peligrosidad = new int *[cant];// creo una matriz con el coeficiente de peligrosidad entre pares de elementos donde el numero de 
 		// fila y columna determinan que elementos analizo, la matriz va a ser de tamaña n.n, pero la mitad de sus elementos estan 
 		// repetidos ya que la peligrosidad de 1 con 2, es la misma de 2 con 1. Asi quese podria achicar a un tamaño n.n/2
