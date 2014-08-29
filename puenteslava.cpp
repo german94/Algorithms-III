@@ -90,9 +90,7 @@ void resolverInstancia(vector<int> p, int c)
     		//puedo estar parado mucho antes, en tal caso voy a poder saltar menos de c tablones desde donde estoy, porque significa que los tablones entre el tablon donde estoy
     		//parado y el tablon i estan todos rotos, entonces a los saltados hasta ahora, le tengo que restar los saltados anteriores a donde estoy parado que es el ultimo tablon
     		//sano por donde pase
-    		saltados -= ultimosano + 1;
-    		if(saltados < 0)
-    			saltados = 0;
+    		saltados = i - ultimosano;
     	}   	
     }
 
