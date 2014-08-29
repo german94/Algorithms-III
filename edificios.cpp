@@ -1,22 +1,130 @@
+#include <queue>
+#include <string>
+#include <iostream>
+#include <vector>
 
-cout 0_I,0_A
-cor = 0_I,0_A
-for (int i = 0; i < n; ++i)
+using namespace std;
+
+struct Edificio
 {
-	// if (i == 0) 
-	// 	i_I,i_A
-	// 	subir(())
-	// else
-		m = minimoI (i de los mayores, que tiene mayor altura) 	
-		if (puedoSubir (cor) && no tiene superpuesto(m))
-			m_I,m_A,bajar(m_A,m_D)
-		else
-			if (puedoSubir (cor) && tiene superpuesto(m))
-				m_i,m_A,subir(m_A,m_I)
-			else bajar(i_A,i_D)
-			// m_d, m_A, (maximo altura de los que parte m_d)_A
-			// bajar(())
+	int i_;
+	int a_;
+	int d_;
+	bool operator< (const Edificio& otra) const
+	{
+		return this->a_ < otra.a_;
+	}
+};
 
-		else 
+vector<int> edificios(vector<Edificio> v, int total_de_edificios) //n es la cantidad
+{
 
-}
+	std::priority_queue<Edificio> heap;
+	vector <int> res;
+	int comparo = 0;
+	int siguiente = 1; 
+
+	res.push_back(v[comparo].i_);
+	res.push_back(v[comparo].a_);
+	Edificio e_comparo = v[comparo];
+	Edificio e_siguiente = v[siguiente];
+	while(siguiente < total_de_edificios) 
+	{
+			if (e_comparo.d_ >= e_siguiente.i_) //el edificio i corta al i+1 
+ 			{
+ 				if(e_comparo < e_siguiente) // el siguiente edificio es mas a_o estrictamente
+ 				{	//entonces cambia la a_ura, es una solucion.  
+ 					res.push_back(e_siguiente.i_);
+					res.push_back(e_siguiente.a_);
+ 					heap.push(e_comparo);
+ 					comparo = siguiente;
+ 					siguiente++;
+ 					e_comparo = v[comparo];
+ 					e_siguiente = v[siguiente];
+ 				}	
+ 				else
+ 				{ // el siguiente edifio es mas chico lo sa_eo momentaneamente
+ 					heap.push(e_siguiente);
+ 					siguiente++;
+ 					e_siguiente = v[siguiente]; // ahora comparo con el siguiente al siguiente, con el cual voy a comparar se mantiene
+ 				}
+ 			}
+			else // el siguiente edificio no me corta, entonces puede que en el medio de estos dos
+ 	//	(comparar y siguiente) haya algun techo que quedo de antes es decir, el contorno
+ 	// baja y ese es un punto solucion 
+ 			{
+ 				for (; !heap.empty(); heap.pop())
+ 				{
+ 					if(heap.top().d_ > e_comparo.d_) 
+ 					{ // luego del comparo, la a_ura disminuye hasta la del proximo, esta es una solucion
+ 						res.push_back(e_comparo.d_);
+						res.push_back(heap.top().a_);
+ 					 	e_comparo = heap.top(); //ahora voy a comparar el que estaba en el heap con siguiente
+ 						break;
+ 					}	// else si el que estaba proximo su lado d_echo es menor que el de comparo
+ 			//significa que quedo atras el del heap entonces lo desencolo y me olvido de ese
+ 				}
+ 				if (heap.empty()) //si sali del heap porque me quede sin edificios
+ 				{// entonces no hay nada entre ambos edificios la a_ura del siguiente es solucion
+ 			//ya que termina el v[comparo], luego la a_ura es la del piso y asciendo con
+ 			// la a_ura del edificio siguiente
+ 					
+ 					res.push_back(e_comparo.d_);
+					res.push_back(0);
+					res.push_back(e_siguiente.i_);
+					res.push_back(e_siguiente.a_);
+ 					comparo = siguiente; // no encolo nada porque es como si el ejercicio empezara de nuevo
+ 					siguiente++; //  
+ 					e_comparo = v[comparo];
+ 					e_siguiente = v[siguiente];
+ 				} // si el heap no esta vacio entonces el if de adentro del for ya dejo arreglado
+ 			}// quien es el comparar y siguiente;
+ 	}//comparo quedo dentro del limite 
+ 	if (!heap.empty()) //ESTO ES NUEVO, ES EL CASO EN EL QUE SALIA DEL CICLO PORQUE 
+ 		//YA NO TENIA UN SIGUIENTE EDIFICIO, PERO.. ME QUEDABAN ALGUNOS EN EL HEAP
+ 		// POR ANALIZAR
+ 	{
+ 		while(!heap.empty())
+ 		{
+ 			if(heap.top().d_ > e_comparo.d_) 
+ 				{ // luego del comparo, la a_ura disminuye hasta la del proximo, esta es una solucion
+ 					res.push_back(e_comparo.d_);
+					res.push_back(heap.top().a_);
+ 				 	e_comparo = heap.top(); //ahora voy a comparar el que estaba en el heap con siguiente
+ 				}	// else si el que estaba proximo su lado d_echo es menor que el de comparo
+ 			//significa que quedo atras el del heap entonces lo desencolo y me olvido de ese
+ 		heap.pop();
+ 		}
+ 	}
+ 	res.push_back(e_comparo.d_);
+	res.push_back(0);
+
+	return res;
+ }
+
+	
+int main()
+{
+	
+	int a[] = {2, 8, 20, 3, 12, 5, 7, 9, 11, 13, 10, 19};
+	int tam = 12;
+	int cant= tam/3;
+	vector<Edificio> entrada;
+
+	for (int j = 0; j < tam; j=j+3)
+	{
+		Edificio e;
+		e.i_ = a[j]; 
+		e.a_ = a[j+1];
+		e.d_ = a[j+2];	
+		entrada.push_back(e);
+	}
+	
+	vector <int> res = edificios(entrada, cant);
+	for(int j = 0; j < res.size(); j++)
+	{
+		cout << res[j] << " ";
+	}
+	
+ 	return 0;
+ }
