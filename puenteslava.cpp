@@ -18,51 +18,6 @@ void DarTiempo(int n, double t)
 
 void resolverInstancia(vector<int> p, int c)
 {
-	/*clock_t begin = clock();
-	int length = p.size();
-
-	int rotosSeguidos = 0;
-	for(int i=0; i<length; i++)
-	{
-		if(p[i] == 1)
-		{
-			rotosSeguidos++;
-			if(rotosSeguidos > c)
-			{
-				cout<<"no";
-
-				clock_t end = clock();
-  				double elapsed_secs = double(end - begin);
-				DarTiempo(length, elapsed_secs);
-
-				return;
-			}
-		}
-		else
-			rotosSeguidos = 0;
-	}
-
-	vector<int> s;
-	int i = c + 1;
-	while(i - 1 < length)
-	{
-		if(p[i - 1] == 0)
-		{
-			s.push_back(i);
-			i = i + c + 1;
-		}
-		else
-		{
-			int j = i - 1;
-			while(p[j] == 1)
-				j--;
-
-			i = j + 1;
-		}
-	}
-*/
-
-
 	clock_t begin = clock();
 	int length = p.size();
     int ultimosano = -1;
@@ -98,7 +53,7 @@ void resolverInstancia(vector<int> p, int c)
     //puente antes de que saltados llegue a c + 1, entonces en ese caso, el tablon donde estaba parado antes de pasar al final del puente nunca se agregaria.
     //La manera de chequear esto es ver si desde el ultimo tablon que agregue puedo pasar al final del puente, si puedo quiere decir que lo agregue, si no quiere decir que me falta
     //agregar el ultimo sano.
-    if(s.size() > 0 && p.size() - s.back() > c)
+   /* if(s.size() > 0 && p.size() - s.back() > c)
     {
     	if(p.size() - ultimosano <= c)
     	   	s.push_back(ultimosano + 1);
@@ -107,7 +62,7 @@ void resolverInstancia(vector<int> p, int c)
     		cout<<"no";
     		return;
     	}
-    }
+    }*/
     s.push_back(p.size() + 1);
 
     clock_t end = clock();
