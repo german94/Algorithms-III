@@ -12,7 +12,7 @@ void DarTiempo(int n, double t)
 {
 	ofstream myfile;
 	myfile.open ("tiempos.txt", ios::app);
-	myfile << n << " " <<t << ".\n";
+	myfile <<t << "\n";
 	myfile.close();
 }
 
@@ -66,12 +66,12 @@ void resolverInstancia(vector<int> p, int c)
     s.push_back(p.size() + 1);
 
     clock_t end = clock();
-    double elapsed_secs = (double(end - begin) / CLOCKS_PER_SEC)*1000000;
-    DarTiempo(length, elapsed_secs);
+    double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
+    DarTiempo(length, elapsed_msecs);
 
     list<int>::const_iterator ci;
-    for(ci=s.begin(); ci!=s.end(); ci++)
-   	    cout << *ci << " ";
+    //for(ci=s.begin(); ci!=s.end(); ci++)
+   	//    cout << *ci << " ";
 }
 
 int main()
@@ -97,6 +97,11 @@ int main()
 		int c = v[i][1];
 		v[i].erase(v[i].begin(), v[i].begin()+2);
 		resolverInstancia(v[i], c);
-		cout<<endl;
+		//cout<<endl;
 	}
+
+    ofstream myfile;
+    myfile.open ("tiempos.txt", ios::app);
+    myfile << "_________________________________________________________\n";
+    myfile.close();
 }
