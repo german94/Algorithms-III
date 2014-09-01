@@ -94,4 +94,23 @@ Llamemos $j$ al primer tabl\'on de esos $k$ tablones rotos seguidos. $j-1$ enton
 {\noindent \Huge Complejidad temporal:}
 \newline \newline
 La complejidad del algoritmo es claramente lineal a la cantidad de tablones, ya que todas las operaciones que se hacen dentro del ciclo son de orden constante (en el c\'odigo fuente almacenamos la soluci\'on en el tipo std::list, el cual tiene orden constante en la inserci\'on seg\'un http://en.cppreference.com/w/cpp/container/list y para almacenar el puente utilizamos std::vector<int> el cual tiene orden constante en el acceso a una posici\'on seg\'un http://en.cppreference.com/w/cpp/container/vector). Todas las dem\'as operaciones realizadas son if's y asignaciones/sumas de enteros, que tambi\'en tienen \'ordenes de complejidad constantes.
+\newline El peor caso del algoritmo entonces, es cuando tiene soluci\'on, ya que si pasa eso entonces debe recorrer necesariamente todos los tablones (no sale antes del ciclo) y es $\theta (n)$.
+\newline El mejor caso del algoritmo, es cuando no tiene soluci\'on y los primeros $k > c$ tablones seguidos, son los primeros $k$ tablones del puente, en tal caso el algoritmo tendr\'ia un tiempo de $\theta (k)$ donde $c < k \le n$.
+
+\vspace{1.5cm}
+{\noindent \Huge Mediciones de tiempo:}
+\newline \newline Para medir la performance del algoritmo se han generado dos conjuntos de 30 instancias cada uno. La instancia $i$ de cada conjunto tiene $n = i * 1.000.000$ (o sea van de un mill\'on a treinta millones de tablones) y el salto m\'aximo $c$, tambi\'en elegido de manera aleatoria, est\'a en el rango [0, 999.999].
+\newline La diferencia entre los dos conjuntos radica en que, en un conjunto (R), la probabilidad de que un tabl\'on est\'e roto es 0.99 y en otro (S) es 0.5. De esta manera, intuitivamente podemos ver que en el conjunto S, es muy poco probable que una instancia del problema no tenga soluci\'on.
+\newline Cada una de las instancias de cada conjunto fue resuelta (o no) por el algoritmo 10 veces y se registraron los tiempos de cada ejecuci\'on, tomando el m\'inimo, m\'aximo y promedio de tiempo de cada una de las 10 ejecuciones de cada instancia.
+\newline\newline Presentamos los gr\'aficos de tiempo para el conjunto S:
+
+\vspace{0.5cm}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{puentetiempominimoS.jpg}
+\vspace{0.5cm}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{puentetiempomaximoS.jpg}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{puentetiempopromedioS.jpg}
+
 \end{document}
