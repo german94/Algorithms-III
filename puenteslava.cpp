@@ -36,6 +36,9 @@ void resolverInstancia(vector<int> p, int c)
     		if(i - ultimosano > c || ultimosano == -1)
     		{
     			cout<<"no";
+                clock_t end = clock();
+                double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
+                DarTiempo(length, elapsed_msecs);
     			return;
     		}
 
