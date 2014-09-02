@@ -44,7 +44,7 @@ std::ostream& operator<<(std::ostream& os, const Edificio& edi)
 bool porIzq(const Edificio& e1,const Edificio& e2)
 {
 	if (e1.i_ == e2.i_)
-		return e1.a_ <= e2.a_;
+		return e1.a_ > e2.a_;
 	else 
 		return e1.i_ < e2.i_;
 }
@@ -59,7 +59,7 @@ void DarTiempo(int n, double t)
 {
 	ofstream myfile;
 	myfile.open ("tiempos.txt", ios::app);
-	myfile <<n <<","<<t<< "\n";
+	myfile<<t<< "\n";
 	myfile.close();
 }
 
@@ -70,6 +70,7 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 	//pasar a tuplas en un vector
 	int length = cant;
 	clock_t begin = clock();
+
 	std::vector <Edificio>  v(cant);
 	int pos=0;
 	for (int j = 0; j < cant*3; j=j+3)
@@ -99,7 +100,7 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 
 		for (int i = 0; i < cant; ++i)
 		{
-			cout<< v[i];
+			cout<< v[i]<< " ";
 		}
 
 		// reestablecer las tuplas
@@ -115,7 +116,7 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 */
 	// ya tengo las tuplas ordenadas por izquierda en un vectore de tuplas.
 	//eliminar edificios metidos dentro de otro
-		std::vector <Edificio> v2(cant);
+	/*	std::vector <Edificio> v2(cant);
 		int posV2=0;
 		for (int i = 0; i < cant-1; ++i)
 		{
@@ -137,7 +138,7 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 		{
 			cout<< v2[i];
 		}
-
+*/
 
 	std::priority_queue<Edificio> heap;
 	list <int> res;
@@ -296,15 +297,16 @@ void generar(int cantEdi, int cantInstancias, int r)
 int main()
 {	
 	//generados de instancias
-/*	for(int i=2; i>0; i--)
+	std::ofstream file("entrada.txt", std::ios::trunc); // eliminar viejas instancias.
+	for(int i=2; i>0; i--)
     {
     	
-    	generar(i,1,9);
+    	generar(i*10000,1,9);
 	}
 	ofstream myfile;
 	myfile.open ("entrada.txt", ios::app);
 	myfile <<"0";
-	myfile.close();*/
+	myfile.close();
 
 	//generar una isntancia
 /*	generar(1,1);
