@@ -99,12 +99,11 @@ La complejidad del algoritmo es claramente lineal a la cantidad de tablones, ya 
 
 \vspace{1.5cm}
 {\noindent \Huge Mediciones de tiempo:}
-\newline \newline Para medir la performance del algoritmo se han generado dos conjuntos de 30 instancias cada uno. La instancia $i$ de cada conjunto tiene $n = i * 1.000.000$ (o sea van de un mill\'on a treinta millones de tablones) y el salto m\'aximo $c$, tambi\'en elegido de manera aleatoria, est\'a en el rango [0, 999.999].
-\newline La diferencia entre los dos conjuntos radica en que, en un conjunto (R), la probabilidad de que un tabl\'on est\'e roto es 0.99 y en otro (S) es 0.5. De esta manera, intuitivamente podemos ver que en el conjunto S, es muy poco probable que una instancia del problema no tenga soluci\'on.
+\newline \newline Para medir la performance del algoritmo se han generado dos conjuntos de 120 instancias cada uno. La instancia $i$ de cada conjunto tiene $n = i * 100.000$ tablones (o sea van de un 100.000 a 12.000.000 de tablones) y el salto m\'aximo $c$, tambi\'en elegido de manera aleatoria, est\'a en el rango [0, 999.999].
+\newline La diferencia entre los dos conjuntos radica en que, en un conjunto (R), la probabilidad de que un tabl\'on est\'e roto es 0.99 y en otro (S) es 0.5. Adem\'as, en el conjunto S \textbf{no hay instancias sin soluci\'on}. Intuitivamente podemos ver que en el conjunto R, es muy probable que una instancia del problema no tenga soluci\'on.
 \newline Cada una de las instancias de cada conjunto fue resuelta (o no) por el algoritmo 10 veces y se registraron los tiempos de cada ejecuci\'on, tomando el m\'inimo, m\'aximo y promedio de tiempo de cada una de las 10 ejecuciones de cada instancia.
 \newline\newline Presentamos los gr\'aficos de tiempo para el conjunto S:
 
-\vspace{0.5cm}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio
 ]{puentetiempominimoS.jpg}
 \vspace{0.5cm}
@@ -112,5 +111,13 @@ La complejidad del algoritmo es claramente lineal a la cantidad de tablones, ya 
 ]{puentetiempomaximoS.jpg}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio
 ]{puentetiempopromedioS.jpg}
+
+\newpage Tomando el tiempo m\'inimo como el tiempo "m\'as cercano" a lo que tarda el algoritmo independientemente de los dem\'as procesos que est\'an corriendo paralelamente y consumiendo tiempo, si dividimos ese tiempo por la cantidad de tablones de cada instancia, nos queda el siguiente gr\'afico:
+
+\vspace{0.5cm}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{puenteconstante.jpg}
+en el cual podemos observar que claramente, la funci\'on tiende a una constante. Dicha constante es la que "despreciamos" a la hora de decir que en el peor caso es lineal a la cantidad de tablones.
+
 
 \end{document}
