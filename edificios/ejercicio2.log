@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.30)  31 AUG 2014 22:39
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.30)  2 SEP 2014 14:52
 entering extended mode
  %&-line parsing enabled.
 **ejercicio2.tex
@@ -332,9 +332,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 11.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 11.
- <edificiosGraf1.png, id=1, 349.305pt x 173.64874pt>
+ <edificiosGraf1.png, id=1, 725.71124pt x 364.36125pt>
 File: edificiosGraf1.png Graphic file (type png)
- <use edificiosGraf1.png>
+
+<use edificiosGraf1.png>
 Underfull \hbox (badness 10000) in paragraph at lines 9--19
 
  []
@@ -342,15 +343,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--19
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./edificiosGraf1.png (PNG 
-copy)>] <edificiosGraf2.png, id=11, 488.82625pt x 224.84pt>
+copy)>] <edificiosGraf2.png, id=11, 889.3225pt x 398.48875pt>
 File: edificiosGraf2.png Graphic file (type png)
 
-<use edificiosGraf2.png>
-<edificiosGraf2b.png, id=12, 483.8075pt x 223.83624pt>
+<use edificiosGraf2.png> <edificiosGraf2b.png, id=12, 740.7675pt x 343.2825pt>
 File: edificiosGraf2b.png Graphic file (type png)
 
 <use edificiosGraf2b.png> [2 <./edificiosGraf2.png (PNG copy)> <./edificiosGraf
-2b.png (PNG copy)>] <edificiosGraf2c.png, id=16, 497.86pt x 230.8625pt>
+2b.png (PNG copy)>] <edificiosGraf2c.png, id=16, 844.15375pt x 427.5975pt>
 File: edificiosGraf2c.png Graphic file (type png)
 
 <use edificiosGraf2c.png>
@@ -359,12 +359,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 41--45
  []
 
 [3 <./edificiosGraf2c.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 48--65
+Underfull \hbox (badness 10000) in paragraph at lines 48--66
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--65
+Underfull \hbox (badness 10000) in paragraph at lines 48--66
 
  []
 
@@ -374,37 +374,45 @@ Underfull \hbox (badness 10000) in paragraph at lines 135--141
  []
 
 
-Overfull \hbox (34.20892pt too wide) in paragraph at lines 158--160
-\OT1/cmr/m/it/10 los\OT1/cmr/m/n/10 ] + n[\OT1/cmr/m/it/10 invertir las tu-plas
- de nuevo\OT1/cmr/m/n/10 ] + c[\OT1/cmr/m/it/10 operaciones\OT1/cmr/m/n/10 ]+n[
-\OT1/cmr/m/it/10 encolar\OT1/cmr/m/n/10 ]+n*(log(n))[\OT1/cmr/m/it/10 desencola
-r
+Underfull \hbox (badness 10000) in paragraph at lines 135--141
+
+ []
+
+
+Overfull \hbox (10.19508pt too wide) in paragraph at lines 142--147
+\OT1/cmr/m/n/10 cios(por lo ex-pli-cado ar-riba de la can-ti-dad de en-co-lar),
+ en-tro en el while(suponiendo
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--156
+
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 164--169
+Underfull \hbox (badness 10000) in paragraph at lines 166--171
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--180
+Underfull \hbox (badness 10000) in paragraph at lines 172--182
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 181--191
+Underfull \hbox (badness 10000) in paragraph at lines 183--192
 
  []
 
 [7] (./ejercicio2.aux) ) 
 Here is how much of TeX's memory you used:
- 1711 strings out of 493848
- 21817 string characters out of 1152823
- 77901 words of memory out of 3000000
- 5007 multiletter control sequences out of 15000+50000
+ 1710 strings out of 493848
+ 21802 string characters out of 1152823
+ 78901 words of memory out of 3000000
+ 5006 multiletter control sequences out of 15000+50000
  5193 words of font info for 19 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 25i,6n,19p,466b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 25i,6n,19p,795b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
 m/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
@@ -413,7 +421,7 @@ xlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/
 type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/
 amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
 /cmti10.pfb>
-Output written on ejercicio2.pdf (7 pages, 153648 bytes).
+Output written on ejercicio2.pdf (7 pages, 195515 bytes).
 PDF statistics:
  62 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

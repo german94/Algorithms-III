@@ -13,10 +13,7 @@
 #include <cstdlib>
 
 
-
-
 using namespace std;
-
 
 struct Edificio
 {
@@ -66,11 +63,11 @@ void DarTiempo(int n, double t)
 
 void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 {
-
-	//pasar a tuplas en un vector
+	//comienzo el reloj
 	int length = cant;
 	clock_t begin = clock();
 
+	//pasar vector de int a vector de edificos
 	std::vector <Edificio>  v(cant);
 	int pos=0;
 	for (int j = 0; j < cant*3; j=j+3)
@@ -84,61 +81,13 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 	}
 
 	// ordenar las tuplas
-		//invertir Alt por Izq, esto lo hacemos porque < está en función de la altura para el heap.
-/*		for (int i = 0; i < cant ; ++i)
-		{
-			Edificio e;
-			e.i_ = v[i].a_; 
-			e.a_ = v[i].i_;
-			e.d_ = v[i].d_;
-			v[i]=e;	
 
-		}*/
-
-		//ordenar por Izq que está en la posición de Alt.
 		std::sort (v.begin(), v.begin()+cant,porIzq);
-
 		for (int i = 0; i < cant; ++i)
 		{
-			cout<< v[i]<< " ";
+			cout<< v[i];
 		}
 
-		// reestablecer las tuplas
-/*		for (int i = 0; i < cant ; ++i)
-		{
-			Edificio e;
-			e.i_ = v[i].a_; 
-			e.a_ = v[i].i_;
-			e.d_ = v[i].d_;
-			v[i]=e;	
-
-		}
-*/
-	// ya tengo las tuplas ordenadas por izquierda en un vectore de tuplas.
-	//eliminar edificios metidos dentro de otro
-	/*	std::vector <Edificio> v2(cant);
-		int posV2=0;
-		for (int i = 0; i < cant-1; ++i)
-		{
-			if (cant>=2)
-				{
-					if (!dentroDe (v[i], v[i+1]))
-					{	
-						Edificio e;
-						e.i_ = v[i].i_; 
-						e.a_ = v[i].a_;
-						e.d_ = v[i].d_;	
-						v2[posV2]=e;
-						posV2++;
-					};
-				}
-		}
-
-		for (int i = 0; i < cant; ++i)
-		{
-			cout<< v2[i];
-		}
-*/
 
 	std::priority_queue<Edificio> heap;
 	list <int> res;
@@ -148,8 +97,9 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 	res.push_back(v[comparo].i_); res.push_back(v[comparo].a_);
 	Edificio e_comparo = v[comparo];
 	Edificio e_siguiente = v[siguiente];
+
 	while(siguiente < cant) 
-	{			// se arruina caso edificios iguales mayor altura siguiente
+	{			
 			if (e_comparo.d_ >= e_siguiente.i_ ) //el edificio i corta al i+1 
  			{	//en este if había un problema, cuando las izqs eran iguales y la altura de siguiente es mayor
  				if(e_comparo < e_siguiente && e_comparo.i_ != e_siguiente.i_ ) // el siguiente edificio es mas a_o estrictamente
@@ -208,19 +158,18 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
  				if (heap.empty()) //si sali del heap porque me quede sin edificios
  				{// entonces no hay nada entre ambos edificios la a_ura del siguiente es solucion
  					res.push_back(e_comparo.d_); res.push_back(0); 
- 					//cambio en el if
- 					if (siguiente != cant-1)
+
+ 					
  							res.push_back(e_siguiente.i_); res.push_back(e_siguiente.a_);
 
- 					/**/res.push_back(e_siguiente.i_); res.push_back(e_siguiente.a_);
- 					comparo = siguiente; // no encolo nada porque es como si el ejercicio empezara de nuevo
- 					siguiente++; //  
+ 					comparo = siguiente; 
+ 					siguiente++;   
  					e_comparo = v[comparo];
  					e_siguiente = v[siguiente];
  				} // si el heap no esta vacio entonces el if de adentro del for ya dejo arreglado
  			}// quien es el comparar y siguiente;
  	}//comparo quedo dentro del limite 
- 	if (!heap.empty()) //por si ya no hay sgtes pero si me quedaron algunos en el heap
+ 	if (!heap.empty()) //por si ya no hay siguientes pero si me quedaron algunos en el heap
  	{
  		for (;!heap.empty(); heap.pop())
  		{
@@ -238,19 +187,20 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
  	res.push_back(e_comparo.d_);
 	res.push_back(0);
 
-
+	// terminar el reloj.
     clock_t end = clock();
     double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
     DarTiempo(length, elapsed_msecs);
 	
+	// mostrar por pantalla el resultado
 	for (std::list<int>::iterator it=res.begin(); it != res.end(); ++it)
     std::cout << ' ' << *it;
 	std::cout << '\n';
 
  }
-//no fuciona porque genera edificios no válidos, por ejemplo 7 2 1 siempre izq es menor que derechar
-//por enunciado, traté de solucionarlo pero entra en un while infinito :/
-void generar(int cantEdi, int cantInstancias, int r)
+
+
+void generar(int cantEdi, int cantInstancias, int r) // r es el rando del edificio
 {   
     ofstream myfile;
     myfile.open ("entrada.txt", ios::app);
@@ -297,20 +247,13 @@ void generar(int cantEdi, int cantInstancias, int r)
 int main()
 {	
 	//generados de instancias
-	std::ofstream file("entrada.txt", std::ios::trunc); // eliminar viejas instancias.
-	for(int i=2; i>0; i--)
+	// std::ofstream file("entrada.txt", std::ios::trunc); // eliminar viejas instancias.
+/*	for(int i=1; i<=10; i++)
     {
     	
-    	generar(i*10000,1,9);
+    	generar(i,1,9);
+
 	}
-	ofstream myfile;
-	myfile.open ("entrada.txt", ios::app);
-	myfile <<"0";
-	myfile.close();
-
-	//generar una isntancia
-/*	generar(1,1);
-
 	ofstream myfile;
 	myfile.open ("entrada.txt", ios::app);
 	myfile <<"0";
@@ -344,29 +287,6 @@ int main()
 		resolverInstancia(v[i], c);
 	}
 
-
-/*
-	int a[] = {0,3,8,1,6,5,2,4,6,4,2,7,9,6,10};
-	int cant = 5;
-	vector<int> entrada;
-
-	for (int i = 0; i < cant*3; ++i)
-	{
-		entrada.push_back(a[i]);
-	}
-	
-	list <int> res = edificios(entrada, cant);*/
-/*
-	Edificio e;
-		e.i_ = 1;
-		e.a_ = 5;
-		e.d_ = 3;
-	Edificio e1;
-		e1.i_ = 1;
-		e1.a_ = 2;
-		e1.d_ = 3;
-
-	cout<< dentroDe(e,e1);*/
 
 
 	return 0;
