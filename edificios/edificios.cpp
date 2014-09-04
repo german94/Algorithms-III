@@ -83,11 +83,11 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
 	// ordenar las tuplas
 
 		std::sort (v.begin(), v.begin()+cant,porIzq);
-		for (int i = 0; i < cant; ++i)
+/*		for (int i = 0; i < cant; ++i)
 		{
 			cout<< v[i];
 		}
-
+*/
 
 	std::priority_queue<Edificio> heap;
 	list <int> res;
@@ -193,9 +193,9 @@ void resolverInstancia(vector<int> v1, int cant) //n es la cantidad
     DarTiempo(length, elapsed_msecs);
 	
 	// mostrar por pantalla el resultado
-	for (std::list<int>::iterator it=res.begin(); it != res.end(); ++it)
-    std::cout << ' ' << *it;
-	std::cout << '\n';
+	//for (std::list<int>::iterator it=res.begin(); it != res.end(); ++it)
+    //std::cout << ' ' << *it;
+	//std::cout << '\n';
 
  }
 
@@ -235,7 +235,7 @@ void generar(int cantEdi, int cantInstancias, int r) // r es el rando del edific
 	        			myfile <<" ";
         }
         myfile << "\n";
-    };
+    }
 
     myfile.close(); 
 
@@ -243,21 +243,64 @@ void generar(int cantEdi, int cantInstancias, int r) // r es el rando del edific
 
 }
 
+void generadorDeTortas(int hasta, int altura, int cant)
+{
+	ofstream myfile;
+
+    myfile.open ("tortas.txt", ios::app);
+    myfile<<cant<<" ";
+    int desde=0;
+    for (int i = 0; i < cant ; ++i)
+    {	
+
+    	myfile<<desde<<" ";
+    	myfile<<altura<<" ";
+    	myfile<<hasta<<" ";
+
+    	desde ++;
+    	hasta ++;
+    	altura --;
+    }
+    	myfile << "\n";
+
+
+    myfile.close(); 
+
+
+}
+
+
+
 	
 int main()
 {	
 	//generados de instancias
 	// std::ofstream file("entrada.txt", std::ios::trunc); // eliminar viejas instancias.
-/*	for(int i=1; i<=10; i++)
-    {
-    	
-    	generar(i,1,9);
 
-	}
-	ofstream myfile;
-	myfile.open ("entrada.txt", ios::app);
-	myfile <<"0";
-	myfile.close();*/
+	// for(int i=1; i<=10; i++)
+ //    {
+    	
+ //    	generar(i,1,9);
+
+	// }
+
+	// ofstream myfile;
+	// myfile.open ("entrada.txt", ios::app);
+	// myfile <<"0";
+	// myfile.close(); 
+
+
+	//generarTortas
+	// int cant = 100;
+
+	//  	generadorDeTortas(5,300000,1000000);
+
+	// ofstream myfile;
+	// myfile.open ("tortas.txt", ios::app);
+	// myfile <<"0";
+	// myfile.close();
+
+
 
 
 	vector<vector<int> > v;
@@ -290,5 +333,5 @@ int main()
 
 
 	return 0;
-    
+  
  }

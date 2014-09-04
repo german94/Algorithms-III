@@ -1,17 +1,11 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.30)  2 SEP 2014 14:52
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.16)  3 SEP 2014 15:17
 entering extended mode
  %&-line parsing enabled.
 **ejercicio2.tex
 (./ejercicio2.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
-ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
-9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
-skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
-orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
-, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
-rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+yphenation, spanish, galician, catalan, loaded.
 (/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
@@ -336,8 +330,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 File: edificiosGraf1.png Graphic file (type png)
 
 <use edificiosGraf1.png>
-Underfull \hbox (badness 10000) in paragraph at lines 9--19
+Underfull \hbox (badness 10000) in paragraph at lines 9--22
 
+ []
+
+
+Overfull \hbox (3.89322pt too wide) in paragraph at lines 9--22
+ [] 
  []
 
 [1
@@ -354,76 +353,92 @@ File: edificiosGraf2b.png Graphic file (type png)
 File: edificiosGraf2c.png Graphic file (type png)
 
 <use edificiosGraf2c.png>
-Underfull \hbox (badness 10000) in paragraph at lines 41--45
+Underfull \hbox (badness 10000) in paragraph at lines 46--50
 
  []
 
 [3 <./edificiosGraf2c.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 48--66
+Underfull \hbox (badness 10000) in paragraph at lines 53--75
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--66
+Underfull \hbox (badness 10000) in paragraph at lines 53--75
 
  []
 
-[4] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 135--141
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 135--141
+[4] [5] [6]
+Underfull \hbox (badness 10000) in paragraph at lines 144--150
 
  []
 
 
-Overfull \hbox (10.19508pt too wide) in paragraph at lines 142--147
+Underfull \hbox (badness 10000) in paragraph at lines 144--150
+
+ []
+
+
+Overfull \hbox (10.19508pt too wide) in paragraph at lines 151--156
 \OT1/cmr/m/n/10 cios(por lo ex-pli-cado ar-riba de la can-ti-dad de en-co-lar),
  en-tro en el while(suponiendo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--156
-
- []
-
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 166--171
+Underfull \hbox (badness 10000) in paragraph at lines 157--165
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 172--182
+Underfull \hbox (badness 10000) in paragraph at lines 166--170
+
+ []
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 174--184
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--192
+Overfull \hbox (4.49138pt too wide) in paragraph at lines 174--184
+\OT1/cmr/m/n/10 ?`El primer punto que pone mi al-go-ritmo cumple con dichas pro
+piedades? Veamos,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--184
 
  []
 
-[7] (./ejercicio2.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--197
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 198--206
+
+ []
+
+[8] [9] (./ejercicio2.aux) ) 
 Here is how much of TeX's memory you used:
- 1710 strings out of 493848
- 21802 string characters out of 1152823
- 78901 words of memory out of 3000000
- 5006 multiletter control sequences out of 15000+50000
+ 1710 strings out of 494999
+ 21802 string characters out of 1180816
+ 77941 words of memory out of 3000000
+ 4915 multiletter control sequences out of 15000+50000
  5193 words of font info for 19 fonts, out of 3000000 for 9000
- 714 hyphenation exceptions out of 8191
- 25i,6n,19p,795b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
-m/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.p
-fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/
-amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
-/cmti10.pfb>
-Output written on ejercicio2.pdf (7 pages, 195515 bytes).
+ 54 hyphenation exceptions out of 8191
+ 25i,6n,19p,795b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc
+10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmti10.pfb>
+Output written on ejercicio2.pdf (9 pages, 198399 bytes).
 PDF statistics:
- 62 PDF objects out of 1000 (max. 8388607)
+ 68 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
