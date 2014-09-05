@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <vector>
 #include <stdlib.h>
 #include <sstream>
 #include <fstream>
@@ -10,11 +9,19 @@
 
 using namespace std;
 
-void mostrar (vector<std::pair <vector<int>, int> >a);
-bool agregar_elemento(std::pair<vector<int>,int>& actual, int umbral, int elemento_actual, int **peligrosidad, int cantidad_total);
-bool recursion(int umbral, int desde,  int cantidad_total, int elemento_actual, int camiones_actuales, 	vector <std::pair <vector<int>,int> >& ubicaciones, int **eligrosidad);
-int ordenar(int umbral, int cantidad,int **peligrosidad);
-void sacar_producto(std::pair<vector<int>,int>& ubicacion, int elemento_actual, int **peligrosidad);
+void mostrar_resultado (vector<std::pair <vector<int>, int> >a);
+bool agregar_producto_a_un_camion(std::pair<vector<int>,int>& actual, int umbral, int producto_actual, int **peligrosidades, int cantidad_total);
+bool ubicar_siguientes_productos(int umbral, int cantidad_total, int producto_actual, int camiones_actuales, 	vector <std::pair <vector<int>,int> >& camiones, int **eligrosidad);
+int ubicar_producto(int umbral, int cantidad_total, int **peligrosidades);
+void sacar_producto_de_un_camion(std::pair<vector<int>,int>& ubicacion, int producto_actual, int **peligrosidades);
+
+void DarTiempo(double t)
+{
+	ofstream myfile;
+	myfile.open ("tiempos.txt", ios::app);
+	myfile <<t << "\n";
+	myfile.close();
+}
 
 int main()
 {
@@ -31,13 +38,13 @@ vector<pair<int**, pair<int, int> > > entradas;
 		cant = atoi(tokenl.c_str());
 		std::getline(sse, tokenl, ' ');
 		umbral = atoi(tokenl.c_str());
-		int **peligrosidad = new int *[cant];// creo una matriz con el coeficiente de peligrosidad entre pares de elementos donde el numero de 
+		int **peligrosidades = new int *[cant];// creo una matriz con el coeficiente de peligrosidades entre pares de elementos donde el numero de 
 		// fila y columna determinan que elementos analizo, la matriz va a ser de tamaña n.n, pero la mitad de sus elementos estan 
-		// repetidos ya que la peligrosidad de 1 con 2, es la misma de 2 con 1. Asi quese podria achicar a un tamaño n.n/2
+		// repetidos ya que la peligrosidades de 1 con 2, es la misma de 2 con 1. Asi quese podria achicar a un tamaño n.n/2
 		// pero es mucho mas comodo tener la matriz completa.
 		for(int i = 0; i <cant; i++)
 	   	{	
-	   		peligrosidad[i] = new int[cant];
+	   		peligrosidades[i] = new int[cant];
 		}
 		int j = 0;
 		while(j < cant -1)
@@ -48,14 +55,14 @@ vector<pair<int**, pair<int, int> > > entradas;
 			int k = j + 1;
 			while(std::getline(ss, token, ' ')) 
 			{
-				peligrosidad[j][k] = atoi(token.c_str());
-				peligrosidad[k][j] = atoi(token.c_str());
+				peligrosidades[j][k] = atoi(token.c_str());
+				peligrosidades[k][j] = atoi(token.c_str());
 			    k++;
 			}
 			j++;
 		}
 		pair<int**, pair<int, int> > entrada;
-		entrada.first = peligrosidad;
+		entrada.first = peligrosidades;
 		entrada.second.first = cant;
 		entrada.second.second = umbral;
 		entradas.push_back(entrada);
@@ -65,59 +72,59 @@ vector<pair<int**, pair<int, int> > > entradas;
 cout<<"Soluciones:"<<endl;
 	for(int i=0; i<entradas.size(); i++)
 	{
-		ordenar(entradas[i].second.second, entradas[i].second.first, entradas[i].first);
+		ubicar_producto(entradas[i].second.second, entradas[i].second.first, entradas[i].first);
 		cout<<"_________________________"<<endl;
 	}
 	
     return 0;
 }
 	
-void mostrar (vector<std::pair <vector<int>, int> >a)
-{// PARA MOSTRAR EL RESULTADO
+void mostrar_resultado (vector<std::pair <vector<int>, int> > camion)
+{// P camionR camion mostr camionr_result camiondo EL RESULT camionDO
 	int i =0;
-	while (i < a.size())
+	while (i <  camion.size())
 	{
  		cout << "camión n°" << i+1 << " [";
  		int j = 0;
- 		while(j < a[i].first.size() -1)
+ 		while(j <  camion[i].first.size() -1)
  		{
-			cout << (a[i].first)[j] << ",";
+			cout << ( camion[i].first)[j] << ",";
 		j++;
 		}
-		cout << a[i].first[j]<< "]" << endl;
+		cout <<  camion[i].first[j]<< "]" << endl;
 	i++;
 	}
 } 
 
-bool agregar_elemento(std::pair<vector<int>,int>& actual, int umbral, int elemento_actual, int **peligrosidad, int cantidad_total)
-{ // SE FIJA SI SE PUEDE INGRESAR EL ELEMENTO EN EL CAMION ACTUAL
+bool agregar_producto_a_un_camion(std::pair<vector<int>,int>& camion_actual, int umbral, int producto_actual, int **peligrosidades, int cantidad_total)
+{ // SE FIJA SI SE PUEDE INGRESAR EL ELEMENTO EN EL CAMION camion_actual
 	//SUMANDO LOS COEFICIENTES, SI SE PUEDE SE INSERTA EL PRODUCTO
-	// Y SE ACTUALIZA EL COEFICIENTE, SI NO NADA.
-	int suma = actual.second; 
-	for (int i =0; i < actual.first.size(); i++)
+	// Y SE camion_actualIZA EL COEFICIENTE, SI NO NADA.
+	int suma = camion_actual.second; 
+	for (int i =0; i < camion_actual.first.size(); i++)
 	{
-		suma = suma + peligrosidad[actual.first[i]-1][elemento_actual -1];
+		suma = suma + peligrosidades[camion_actual.first[i]-1][producto_actual -1];
 		if (suma > umbral)
 			return false;
 	}
-	actual.second = suma; // es la suma con el nuevo elemento
-	actual.first.push_back(elemento_actual);
+	camion_actual.second = suma; // es la suma con el nuevo elemento
+	camion_actual.first.push_back(producto_actual);
 	return true;
 }
 
- void sacar_producto(std::pair<vector<int>,int>& ubicacion, int elemento_actual, int **peligrosidad)
+ void sacar_producto_de_un_camion(std::pair<vector<int>,int>& camion_actual, int producto_actual, int **peligrosidades)
  { // SE RETIRA EL PRODUCTO DEL CAMION Y ADEMAS SE ACTUALIZA LA SUMA DE LOS COEFICIENTES
- 	ubicacion.first.pop_back(); // retiro el elemento
- 	for (int i = 0; i < ubicacion.first.size(); i++) 
+ 	camion_actual.first.pop_back(); // retiro el elemento
+ 	for (int i = 0; i < camion_actual.first.size(); i++) 
  		{
- 			ubicacion.second = ubicacion.second - peligrosidad[ubicacion.first[i] -1][elemento_actual-1];
+ 			camion_actual.second = camion_actual.second - peligrosidades[camion_actual.first[i] -1][producto_actual-1];
  		}
  }
 
-bool recursion(int umbral, int desde,  int cantidad_total, int elemento_actual, int camiones_actuales, 	vector <std::pair <vector<int>,int> >& ubicaciones ,int **peligrosidad)
+bool ubicar_siguientes_productos(int umbral,  int cantidad_total, int producto_actual, int camiones_actuales, vector <std::pair <vector<int>,int> >& camiones ,int **peligrosidades)
 {
-	bool res = false;
-	if (elemento_actual > cantidad_total) //termine de ubicarlos!
+	bool termine = false;
+	if (producto_actual > cantidad_total) //termine de ubicarlos!
 	{
 		return true;
 	}	
@@ -126,48 +133,52 @@ bool recursion(int umbral, int desde,  int cantidad_total, int elemento_actual, 
 		int i = 0;
 		while(i <= camiones_actuales)
 		{
-			if (agregar_elemento(ubicaciones[i], umbral, elemento_actual, peligrosidad, cantidad_total))
+			if (agregar_producto_a_un_camion(camiones[i], umbral, producto_actual, peligrosidades, cantidad_total))
 			{
-				res = recursion(umbral, desde, cantidad_total, elemento_actual+1, camiones_actuales, ubicaciones, peligrosidad);	
-				if (res) //si termine res esta en true
+				termine = ubicar_siguientes_productos(umbral, cantidad_total, producto_actual+1, camiones_actuales, camiones, peligrosidades);	
+				if (termine) //si termine termine esta en true
 				{
-					return res; // aviso que termine
+					return termine; // aviso que termine
 				}
 				else //debo quitar el elemento del lugar actual
 				{
-					sacar_producto(ubicaciones[i], elemento_actual, peligrosidad);
-					desde = i;
+					sacar_producto_de_un_camion(camiones[i], producto_actual, peligrosidades);
 				}	
 			} // si no puedo agregar al elemento me fijo en el siguiente camion	
 			i++;
 		}	
-		return res; //supuestamente si salio del while se me terminaron los camiones // y no logre acomdarlos 
+		return termine; //supuestamente si salio del while se me terminaron los camiones // y no logre acomdarlos 
 	}	
 }                     
 
-int ordenar(int umbral, int cantidad, int **peligrosidad)
-{ //ES LA FUNCION PRINCIPAL LA CUAL LLAMA A RECURSION , ESTA ES LA FUNCION QUE VA A PERMITIR 
+int ubicar_producto(int umbral, int cantidad_total, int **peligrosidades)
+{ //ES LA FUNCION PRINCIPAL LA CUAL LLAMA A ubicar_siguientes_productos , ESTA ES LA FUNCION QUE VA A PERMITIR 
 	// CREAR UN NUEVO CAMION Y AVISAR A LOS DEMAS PRODUCTOS QUE SE CUENTA CON UN NUEVO CAMION 
-	vector <std::pair <vector <int>,int> > res;                     
+		clock_t begin = clock();
+
+	vector <std::pair <vector <int>,int> > camiones;                     
 	bool termine = false;
-	int elemento_actual = 1;
-	int camiones_actuales = 0; //en realidad es uno solo que se indexa desde cero
+	int producto_actual = 1;
+	int camiones_disponibles = 0; //en realidad es uno solo que se indexa  cero
 	while(!termine) 
 	{
-		std::pair <vector <int>,int> agregar;
-		agregar.first.push_back(1);
-		agregar.second = 0; // solo hay un producto no hay peligrosidad
-		res.push_back(agregar);
-		termine = recursion(umbral, 0, cantidad, elemento_actual + 1, camiones_actuales, res, peligrosidad );
+		std::pair <vector <int>,int> camion;
+		camion.first.push_back(1);
+		camion.second = 0; // solo hay un producto no hay peligrosidades
+		camiones.push_back(camion);
+		termine = ubicar_siguientes_productos(umbral, cantidad_total, producto_actual + 1, camiones_disponibles, camiones, peligrosidades );
 		if (termine)
 		{
-			mostrar(res);
-			return camiones_actuales++;
+			mostrar_resultado(camiones);
+			clock_t end = clock();
+    		double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC); //en seg
+  		    DarTiempo(elapsed_msecs);
+			return camiones_disponibles++;
 		}
 		else
 		{
-			res[camiones_actuales].first.pop_back();
-			camiones_actuales++; // voy a agregar otro camion pero antes quito el	//producto 1 del camion anterior;
+			camiones[camiones_disponibles].first.pop_back();
+			camiones_disponibles++; // voy a agregar otro camion pero antes quito el	//producto 1 del camion anterior;
 		}	
 	}
 }
