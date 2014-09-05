@@ -18,7 +18,8 @@ void DarTiempo(int n, double t)
 
 void resolverInstancia(vector<int> p, int c)
 {
-	clock_t begin = clock();
+    // para medir los tiempos
+	// clock_t begin = clock();
 	int length = p.size();
     int ultimosano = -1;
     int saltados = 0;
@@ -36,9 +37,10 @@ void resolverInstancia(vector<int> p, int c)
     		if(i - ultimosano > c || ultimosano == -1)
     		{
     			cout<<"no";
-                clock_t end = clock();
-                double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
-                DarTiempo(length, elapsed_msecs);
+                // para medir los tiempos
+                // clock_t end = clock();
+                // double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
+                // DarTiempo(length, elapsed_msecs);
     			return;
     		}
 
@@ -52,29 +54,16 @@ void resolverInstancia(vector<int> p, int c)
     	}   	
     }
 
-    //como los tablones de la solucion se agregan cuando llegue al tablon c + 1 a partir de donde estaba parado, podria pasar que caiga en un tablon sano y termine de recorrer el
-    //puente antes de que saltados llegue a c + 1, entonces en ese caso, el tablon donde estaba parado antes de pasar al final del puente nunca se agregaria.
-    //La manera de chequear esto es ver si desde el ultimo tablon que agregue puedo pasar al final del puente, si puedo quiere decir que lo agregue, si no quiere decir que me falta
-    //agregar el ultimo sano.
-   /* if(s.size() > 0 && p.size() - s.back() > c)
-    {
-    	if(p.size() - ultimosano <= c)
-    	   	s.push_back(ultimosano + 1);
-    	else
-    	{
-    		cout<<"no";
-    		return;
-    	}
-    }*/
     s.push_back(p.size() + 1);
 
-    clock_t end = clock();
-    double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
-    DarTiempo(length, elapsed_msecs);
+    // para medir los tiempos
+    // clock_t end = clock();
+    // double elapsed_msecs = (double(end - begin)/CLOCKS_PER_SEC)*1000;
+    // DarTiempo(length, elapsed_msecs);
 
     list<int>::const_iterator ci;
-    //for(ci=s.begin(); ci!=s.end(); ci++)
-   	//    cout << *ci << " ";
+    for(ci=s.begin(); ci!=s.end(); ci++)
+   	    cout << *ci << " ";
 }
 
 int main()
@@ -100,11 +89,13 @@ int main()
 		int c = v[i][1];
 		v[i].erase(v[i].begin(), v[i].begin()+2);
 		resolverInstancia(v[i], c);
-		//cout<<endl;
+		cout<<endl;
 	}
 
-    ofstream myfile;
-    myfile.open ("tiempos.txt", ios::app);
-    myfile << "_________________________________________________________\n";
-    myfile.close();
+    // para medir los tiempos
+    // ofstream myfile;
+    // myfile.open ("tiempos.txt", ios::app);
+    // myfile << "_________________________________________________________\n";
+    // myfile.close();
 }
+
