@@ -84,23 +84,23 @@ Sea lista: lista(\textit{números}) de longitud \textit{3*n} y \textit{n} la can
         \State $\textit{imprimo el primer punto(comparo.Izq y comparo.Alt)}$
         \For{$(i\gets 1, n-1)$} \textit{$//$voy recorriendo los edificios a partir del segundo}
                 \State $siguiente\gets lista[i]$
-                \If{$(\textit{se intersecan comparo y siguiente\color{red}{*0}})$}
-                        \If{$(\textit{siguiente.Alt $>$ comparo.Alt \color{red}{*1}})$}
+                \If{$(\textit{comparo.Der $>=$ iguiente.Izq(se intersecan)})$}
+                        \If{$(\textit{siguiente.Alt $>$ comparo.Alt})$}
                                 \State $\textit{imprimir cambio de altura(\textit{siguiente.Der, siguiente.Alt})}$
                                 \State$\textit{si la cola está vacia encolar comparo, sino, encolar comparo si el tope no es comparo}$                          
                                         \State $comparo\gets siguiente$
                         \EndIf
-                        \If{$(\textit{siguiente.Alt $==$ comparo.Alt \color{red}{*2}})$}
+                        \If{$(\textit{siguiente.Alt $==$ comparo.Alt})$}
                                 \State$\textit{si la cola está vacia encolar comparo, sino, encolar comparo si el tope no es comparo}$                          
                         \EndIf
-                        \If{$(\textit{siguiente.Alt $<$ comparo.Alt \color{red}{*3}})$}
+                        \If{$(\textit{siguiente.Alt $<$ comparo.Alt})$}
                                 \State $\textit{encolar comparo}$
                         \EndIf
                         
-                \Else \textit{(no se intersecan comparo y siguiente\color{red}{*4})}
+                \Else \textit{(no se intersecan comparo y siguiente)}
                         \If{$(\textit{la cola no está vacía})$}                                                                         
                                 \While{$(\textit{cola no vacía})$}
-                                        \If{$(\textit{topeCola.Der $<$ comparo.Der \color{red}{*5}})$}          
+                                        \If{$(\textit{topeCola.Der $<$ comparo.Der})$}          
                                         \State $\textit{desencolar}$
                                         \Else 
                                         \State $\textit{imprimir intersección entre comparo y topeCola(comparo.Der,topeCola.Alt)}$
@@ -114,7 +114,7 @@ Sea lista: lista(\textit{números}) de longitud \textit{3*n} y \textit{n} la can
                         \State $comparo\gets siguiente$
                         \EndIf
                 \EndIf
-        \EndFor\textit{//terminé de iterar los edificios,puede que hayan quedado cosas en el cola \color{red}{*6}\color{black},uso a comparo que es el último edificio visto con el que haya en el tope de la cola} \newpage
+        \EndFor\textit{//terminé de iterar los edificios,puede que hayan quedado cosas en el cola,uso a comparo que es el último edificio visto con el que haya en el tope de la cola} \newpage
         
         \For{$(\textit{la cola no es vacía}, \textit{desencolar})$}
                 \If{$(\textit{comparo.Der $<=$ topeCola.Der)}$}
@@ -122,7 +122,7 @@ Sea lista: lista(\textit{números}) de longitud \textit{3*n} y \textit{n} la can
                 \EndIf
                 \State $\textit{desencolar}$    
         \EndFor
-        \State $\textit{al último punto no lo imprimo nunca \color{red}{*9})}$
+        \State $\textit{al último punto no lo imprimo nunca)}$
         \State $\textit{$//$lo imprimo acá}$
         \State $\textit{imprimir comparo.Der y 0}$
 \EndProcedure
@@ -133,9 +133,9 @@ Sea lista: lista(\textit{números}) de longitud \textit{3*n} y \textit{n} la can
 Al principio del algoritmo paso la lista de edificios a una lista de tuplas:
 cada \textit{3} números voy a formar una tupla(la cantidad de números totales es \textit{3*n}), el costo de crear una tupla es \textit{c}(de asignaciones y crear cosas que son 1 operación) y de ubicarla en una lista es también 1 operación.\newline
 Entonces recorro \textit{3*n} números y cada \textit{3} creo un edificio, con lo cuál hago \textit{3*n*(c+1)} para convertir a tuplas los edificios.\newline
-Luego de convertirlos a tuplas,ordeno los edificios por Izq(en caso de igual Izq es menor el de mayor Alt), el costo de ordenarlos es \textit{n*log(n)} (porque uso sort de la stl \color{red}{según este link} \color{black}).\newline
+Luego de convertirlos a tuplas,ordeno los edificios por Izq(en caso de igual Izq es menor el de mayor Alt), el costo de ordenarlos es \textit{n*log(n)} (porque uso sort de la stl \textit{http://www.cplusplus.com/reference/algorithm/sort/?kw=sort} ).\newline
 Vamos a ver que la cantidad de veces que encolo es una función de n, y así poder ver que la cantidad de veces que desencolo es también una función de n porque no puedo desencolar más cosas de las que encolo.
-Vemos en el algoritmo que en  \textit{*1} y \textit{*2}, encola si está vacía o si el tope de la cola no es comparo.(\color{red}{falta demostrar que si quiero encolar un elemento 2 veces el que quiero encolar de nuevo está en el tope, la idea la había sacado angel})\color{black} Luego en \textit{*3} encolo. Después a lo largo de todo el algoritmo no hago \textit{nunca} un encolar.\newline
+Vemos en el algoritmo que en  \textit{*1} y \textit{*2}, encola si está vacía o si el tope de la cola no es comparo. Luego en \textit{*3} encolo. Después a lo largo de todo el algoritmo no hago \textit{nunca} un encolar.\newline
 Como todos estos casos son disjuntos (o son $<$,$>$ o $=$ Alt de \textit{comparo} y \textit{siguiente}) entonces hago 1 encolar en cada edificio en peor caso, con lo cual hago \textit{n} encolar. 
 \newline
 Veamos ahora la cantidad de operaciones del \textit{while} dentro del \textit{for}(de recorrer los edificios), en peor caso por cada edificio desencolo todos los edificios, eso da una complejidad \textit{n*(n*(costo de desencolar))}. Pero si analizamos más finamente, nunca podría para cada paso desencolar todos los edificios.\newline
@@ -148,7 +148,7 @@ por cada edificio hago un encolar y una cantidad \textit{x} de desencolar + c(\t
 Por lo visto anteriormente la suma de esos \textit{x} es \textit{n}, entonces el costo del \textit{while} dentro de primer \textit{for} es  \textit{n*(costo de encolar)+ n*(costo de desencolar) +n*c(constante)} operaciones
 \newline
 Para  el segundo \textit{for}, en peor caso tengo todos los edificios que son \textit{n} en la cola, y desencolo hasta que se vacia,entonces hace \textit{n*(costo de desencolar) + c1}(constante de guardas y asignaciones)) operaciones\newline
-En la implementación usamos una priority-queue como cola, el costo de encolar(push) es log(n),desencolar(pop) es log(n) y tope(top) es 1. \color{red}{LINKS} \color{black}
+En la implementación usamos una priority-queue como cola, el costo de encolar(push) es log(n),desencolar(pop) es log(n) y tope(top) es 1. \textit{http://www.cplusplus.com/search.do?q=priority}
 \newline
 Finalmente la complejidad es \newline
 O(\textit{3*n*(c+1) de crear las tuplas}\newline
@@ -168,11 +168,9 @@ Entonces el primer edificio va a ser el de menor \textit{Izq} y el de mayor \tex
 Con lo cual si, el primer punto cumple con esas propiedades.
 \newline
 Voy iterando los edificios mirando el edificio por el que voy(\textit{siguiente}) y un edificio que voy marcando en ciertos casos, \textit{comparo}. \textit{Comparo} no necesariamente es uno menos que \textit{siguiente}.
-Al principio del algoritmo \textit{comparo} es el primer edificio y \textit{siguiente} el segundo en caso de haber.
-Si \textit{comparo} y \textit{siguiente} se intersecan:\newline
-\color{red}{(graficos intersecciones)}\color{black} \newline
+Al principio del algoritmo \textit{comparo} es el primer edificio y \textit{siguiente} el segundo en caso de haber.\newline
+Si \textit{comparo.Der} $>=$ \textit{siguiente.Izq} (se intersecan):\newline
 si \textit{comparo.Alt} $<$ siguiente.Alt \newline
-\color{red}{(grafico A)}\newline \color{black}
                 tengo que poner el punto de cambio de altura, $p$, en la solución\newline
                 Supongamos no tengo que poner a $p$ en la solución:\newline
                         caso existe un edificio, $e$ que cumple: \textit{e.Izq $<$ siguiente.Izq}, \textit{e.Alt $>$ siguiente.Alt} y \textit{e.Der $>=$ siguiente.Der}(este edificio tapa al punto que quiero agregar a la solución):\newline
@@ -181,10 +179,8 @@ si \textit{comparo.Alt} $<$ siguiente.Alt \newline
 Si no se intersecan \textit{comparo} y \textit{siguiente}:\newline
 \color{red}{(grafico no se intersecan)} \color{black} \newline
         voy a tener en la cola los edificios que tienen \textit{Der} mayor a \textit{comparo.Der} porque los fui enconlando, en caso de existir, entre otros.\newline
-\color{red}{ (grafico D)} \color{black} \newline
-        si la cola está vacía quiere decir que no hay nadie que corte a \textit{comparo}(Gráfico cola vacia grafico),entonces el edificio \textit{comparo} sigue hasta su base y tengo que seguir con los demás edificios(en caso de tener más) desde \textit{siguiente}, entonces voy a poner en la solución, el final de comparo y el principio de siguiente.\newline
-\color{red}{(cola vacia grafico)} \color{black} \newline
-\color{red}{falta demo} \color{black} \newline
+        si la cola está vacía quiere decir que no hay nadie que corte a \textit{comparo}(Gráfico cola vacia grafico),entonces el edificio \textit{comparo} sigue hasta su base y tengo que seguir con los demás edificios(en caso de tener más) desde \textit{siguiente}, entonces voy a poner en la solución, el final de comparo (comparo.Der, 0) y el principio de siguiente(siguiente.Izq, siguiente.Alt).\newline
+
         Si la cola no está vacía quiere decir que puede que tenga un edificio que corte a \textit{comparo} por \textit{Der}.
 \color{red}{Grafico que corte a comparo}\color{black} \newline
                 Voy a buscar un edificio que interseque a \textit{comparo} por \textit{Der}(si lo encuentro no busco más),mirando el tope, en este caso no voy a desencolar. Si el tope no es lo que busco desencolo. \newline
@@ -199,9 +195,73 @@ Siempre recorro los edificios mirando \textit{comparo} y \textit{siguiente}, en 
 \color{red}{ejemplos de estados de la cola}\color{black}\newline
 Ahora voy a trabajar con \textit{comparo} y la \textit{cola} (ahora en la cola están mis "siguientes")
 Si hay edificios en la cola:
-Quiere decir que puede que uno de esos edificios interseque en Der a comparo.
-Voy a buscar en la cola ,mirando el tope, un edificio  que interseque a comparo
-Supongo que el punto no es solución blabla llego a absurdo y es punto.
-Ahora comparo es el que me intersecó 
-Este nuevo comparo  
+Quiere decir que uno de esos edificios interseque en Der a comparo.\newline
+Hasta que esté vacía la cola voy a buscar el edificio que interseque a \textit{comparo} por \textit{Der},mirando el tope, si no está el tope desencolo. Si lo encuentro ahora ese es comparo y desencolo. \newline
+                Por como es la cola este que quería encontrar es el que tiene mayor \textit{Alt} de los edificios que tienen menor \textit{Alt} que \textit{comparo}.
+                Entonces este punto,$p$, de intersección lo agrego a la solución.\newline
+                Supongamos que no tengo que agregar a $p$ a la solución.\newline
+                caso existe un edificio,$e$, que cumple que: \textit{e.Izq $<$ comparo.Izq}, \textit{e.Der $>$ comparo.Der} y \newline
+                \textit{comparo.Alt $<=$ e.Alt $<$ topeCola.Alt} \newline
+\color{red}{(grafico E)} \color{black} \newline          
+                 Entonces este si existiera, lo tendría que haber encolado cuando recorría los edificios y tendría que ser el edificio que me daría el tope de la cola Absurdo!. Entonces tengo que agregar a $p$ a la solución.\newline
+
+A lo sumo voy a poner un punto en cada iteración, si pongo ese punto, entonces va a ser entre \textit{comparo} y el edificio \textit{E} de mayor Alt que lo pase por Der. Supongo que ese punto de intersección no es valido, entonces existe otro edificio \textit{E'} de mayor Alt que \textit{E} y que termine después que \textit{comparo} (\textit{E'} tapa al punto de intersección)
+\newline
+Si  \textit{E'.Alt $>$ comparo.Alt}, entonces llegamos a un absurdo ya que \textit{E'} debería ser \textit{comparo} porque solo cambio a \textit{comparo} cuando el que saque de la cola lo pasa por \textit{Der} y tiene mayor Alt, Absurdo!. 
+Si la altura de \textit{E'.Alt} $<=$ comparo.Alt, entonces como la altura de \textit{E'} es mayor que la de \textit{E} (para que tape el punto de intersección), tendría que ser  \textit{E'} el tope de la cola y no \textit{E}, Absurdo.Con lo cual el punto es valido.\newline
+Demostramos que todos los puntos que pone nuestro algoritmo son válidos.\newline
+Ahora tenemos que demostrar que esos puntos son todos los de la solución, osea que no olvidamos ninguno.
+Sea \textit{S} la solución (de puntos ordenados) al problema, quiero ver que todos los puntos de \textit{S} están en la solución que dí. 
+El primer punto sabemos que lo vamos a poner siempre porque está al principio del algoritmo
+El resto de los puntos exceptuando el primero, podemos dividirlos en \textit{ascendentes} (cuando el punto anterior es mas bajo), \textit{descendentes} (cuando el punto anterior es mas alto) y cambios de altura a 0.
+Dado cualquier punto descendente de \textit{S} con altura distinta de 0, quiero ver que está en la solución que devuelve el algoritmo. Como la altura es distinta de cero, entonces el punto debe ser la intersección entre dos edificios \textit{E1} (mayor altura) y \textit{E2} (menor altura). Si podemos probar que eventualmente va a valer \textit{comparo = E1}, entonces estaríamos probando que vamos a poner el punto en la solución ya que vimos que, como en la cola tenemos todos los edificios menores que \textit{comparo} que terminan despues que \textit{comparo} (entre otros más que también pueden estar en la cola), vamos a desencolarlo y agregar el punto a la solución. \newline
+Supongamos que no existe ningun estado del algoritmo en el cual \textit{comparo = E1}, entonces seguro existe un edificio \textit{E'} tal que tapa a \textit{E1} ya que, nuestro algoritmo cambia el valor de \textit{comparo} cuando encuentra un \textit{siguiente} tal que la altura de \textit{siguiente} es mayor a la de \textit{comparo} o, cuando estoy desencolando pero cuando desencolo me quedo con los que terminan despues de \textit{comparo} y, si \textit{E'} tapa totalmente a \textit{E1} entonces \textit{E1} va a ser desencolado pero no va a terminar después que \textit{comparo} y por lo tanto comparo no va a cambiar de valor. Pero, si existe \textit{E'} tal que tapa a \textit{E1}, entonces particularmente va a tapar al punto de interseccion denotado por \textit{E1} y \textit{E2}, entonces ese punto no va a ser solucion y habiamos supuesto que si lo era. Llegamos a un absurdo proveniente de suponer que existe una solucion denotada por dos edificios \textit{E1} y \textit{E2} y que \textit{E1} es distinto a \textit{comparo} para cualquier estado del algoritmo. Por lo tanto, \textit{E1 = comparo} para algun estado del algoritmo y entonces eventualmente vamos a llegar a identificar el punto de intersección cuando desencolemos.
+
+
+Ahora, queremos ver que vamos a agregar todos los cambios de altura a cero.
+Dado que en cada iteración me fijo si el \textit{siguiente} edificio interseca a \textit{comparo} y, en el caso de que no lo interseque y la cola vacía entonces agrego el punto, si pasa esto quiere decir que no existe ningún edifició que termine después de \textit{comparo} y empiece antes de que finalice \textit{comparo}. Por lo tanto \textit{comparo} es el último edificio antes del espacio denotado por el cambio de altura a 0. Entonces el punto es efectivamente una solución. \newline
+Si la cola tiene edificios, quiere decir que pueden existir edificios que terminan después que \textit{comparo} y, como voy a actualizar el valor de \textit{comparo} al edificio más alto de la cola que termine despues que el edificio que contiene "ahora" \textit{comparo}, si efectivamente existía un espacio entre dos edificios (un cambio de altura a 0), entonces lo voy a detectar. ya que voy a repetir este procedimiento por cada edificio que no esté contenido por otro (porque va a ser comparo).
+Luego para los puntos ascendentes:
+Como por cada iteración nos fijamos si la altura de \textit{comparo} es menor a la altura de \textit{siguiente} y, en el caso de que se intersequen, agregamos el punto (\textit{siguiente.Izq, siguiente.Alt}) a la solución.\newline
+ Además, en el caso de que haya un cambió de altura a 0 y existe un edificio \textit{siguiente}, ya demostramos que ese cambio de altura lo agregamos. Además de agregar ese cambio de altura a 0, agregamos el cambio de altura a la altura de \textit{siguiente}, que representa un punto de altura creciente. Ya que vimos que los cambios de altura a 0 los agregamos todos y que el algoritmo verifica siempre si \textit{comparo} tiene altura menor que un edificio \textit{siguiente} que lo interseca, vemos que no puede existir un punto de crecimiento que no lo agreguemos porque estamos viendo los dos casos donde aparece dicho punto.
+ 
+Con lo dicho anteriormente ya quededa demostrado que todos los puntos de la solución los da el algoritmo.
+
+
+
+
+\newpage
+{\noindent \Huge Experimentaci\'on:}
+\newline \newline Se han generado 200 instancias donde la instancia $n_i = n_{i-1} + 1000$ y $n_1 = 1000$. Por cada instancia, vale que para todo edificio $e$ generado, $e.Izq < e.Der$ y, tanto $e.Izq$ como $e.Der$ y $e.Alt$ se han elegido de manera aleatoria en el rango [0, 49]. El rango puede sonar arbitrario y, si bien lo es porque podr\'iamos haber elegido otro, tambi\'en resulta razonable desde el punto de vista que permite que, cuando $n$ es muy grande, entonces los edificios se superpongan m\'as, generandose as\'i m\'as intersecciones entre ellos y haciendo que el algoritmo deba trabajar m\'as para decidir cual intersecci\'on es un punto de la soluci\'on y cual no lo es.
+\newline Se ha corrido el algoritmo 10 veces sobre cada una de las instancias. Luego, se calcul\'o el tiempo m\'inimo, m\'aximo y promedio por cada instancia, a continuaci\'on mostramos los gr\'aficos correspondientes:
+
+\vspace{2cm}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{editiempominimo.jpg}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{editiempomaximo.jpg}
+
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{editiempopromedio.jpg}
+
+\vspace{2cm}
+Dado que nuestro algoritmo va a correr paralelamente con otros procesos, en algunas ejecuciones se va a demorar m\'as que en otras. Tomando el tiempo m\'inimo como el m\'as significativo (es decir, como la ejecuci\'on en la cual fue "menos interrumpido"), si dividimos ese tiempo por $n$, obtenemos el siguiente gr\'afico:
+
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{editiempolog.jpg}
+
+Con los gr\'aficos anteriores no pod\'iamos decir mucho ya que, aparentemente aproximan a una recta, pero como al dividirlos por $n$ obtenemos una funci\'on que creciente y no una constante, efectivamente ten\'iamos (en el gr\'afico de tiempo m\'inimo) una funci\'on perteneciente a $\Omega(n)$.
+\newline Si nuevamente dividimos esta \'ultima funci\'on, esta vez por $log(n)$, obtenemos lo siguiente:
+
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{editiempoconst.jpg}
+
+Vemos que los puntos parecieran tender al valor 0.003. Si recapitulamos, lo que hicimos fue tomar los valores de tiempo m\'inimo, dividirlos por $n$ y a ese valor dividirlo por $log(n)$ y llegamos a valores que tienden a un n\'umero constante $k \simeq 0.003$.
+\newline Si aumentamos a\'un m\'as el $n$ m\'aximo y hacemos este mismo an\'alisis, para instancias de hasta $n = 991000$ obtenemos el siguiente gr\'afico:
+
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio
+]{constanteparangrande.jpg}
+
+en el cual podemos observar que el gr\'afico sigue tendiendo a una constante $\simeq 0.003$.
+\newline Concluimos entonces que los tiempos tomados concuerdan con la complejidad te\'orica calculada $O(n.log(n))$
 \end{document}
