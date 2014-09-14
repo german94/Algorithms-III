@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+
+\begin{document}
+{\noindent \Huge Problema a resolver:}
+\newline \newline  Una empresa transportadora de productos qu\'imicos cuenta con una cantidad finita n de distintos productos, para ser transportados en camiones.  Para cada par de productos $P_{ij}$  con $i\neq j$  y  $1\leq i, j\leq n $ se posee un determinado coeficiente de peligrosidad $\alpha(i,j)$ (la peligrosidad del producto i con j es reciproca a la de j con i) que se activa cuando dichos productos están en un mismo cami\'on, cada producto por si solo no posee ninguna peligrosidad. 
+	Debido a las normas de seguridad vigente, en cada cami\'on la suma total de los coeficientes de peligrosidad  de los pares de productos H(P), siendo P el conjunto de elementos en un cami\'on,  no debe exceder un umbral M entero positivo. Es decir 
+$H(P) = \sum \alpha(i,j) \leq M$
+Teniendo esto en cuenta,  se desea  distribuir los productos en cierta cantidad de camiones de manera que la cantidad utilizada sea la m\'inima. A lo que llamaremos soluci\'on \'optima del problema \newline
+
+
+Ejemplo 1:\newline
+sea n = 1; M = m ;\newline
+	En el caso que la cantidad de productos a transportar sea solamente uno. Como cada par de  producto por si solo no presenta ninguna peligrosidad y siendo P el conjunto que incluye a este \'unico producto entonces $H(P) = 0$ como m es un entero positivo tenemos que $H(P) <= m$. En estos casos sin importar el valor de m; La soluci\'on \'optima es utilizar un \'unico cami\'on.\newline
+
+Ejemplo 2:\newline
+sea $n > 1$; M = m; \newline
+	Si cada para cada par de productos $P_i$ $P_j$ con $i\neq j$, $1\leq i,j\leq n$ y $\alpha(i,j) > M$.
+Entonces sin importar las combinaciones de conjuntos de producto que haga en un camión. Siempre se supera el umbral. Entonces si coloco al producto i en un primer cami\'on, para todos los productos restantes se tendrá el mismo problema, siguiendo esta lógica con los restantes productos  se tendrá que  colocar a cada uno en un cami\'on distinto. Por lo que en conclusión se tendr\'an tantos camiones como productos. Y esa sera la \'unica soluci\'on \'optima.\newline
+
+
+Ejemplo 3:  \newline
+sea $n >1$ ; M=m; \newline
+Sea P el conjunto con los n productos si $H(P)\leq m$ entonces todo los productos pueden ser ubicados en un solo cami\'on. Para estos casos un solo cami\'on es la \'optima soluci\'on. \newline
+
+
+Ejemplo 4 \newline
+n = 4;  M = 12;   \newline
+$\alpha(1, 2) = 4$; $\alpha(1, 3) =  7$; $\alpha(1, 4) = 13$ 
+; $\alpha(2, 3) =  6$; $\alpha(2, 4) = 5$; 
+$\alpha(3, 4) = 1$;
+En este caso debido a que $\alpha(1,4) > M$ se van a necesitar mas de un camión como mínimo ya que si tengo uno solo al momento de ubicar a $P_1$ con $P_4$ se superara el umbral.
+Por lo que por el momento se van a utilizar dos camiones, A y B, donde A contiene a $P_1$ y B a $P_4$ (tambi\'en se podr\'ian cambiar la ubicaci\'on de los productos pero el fin es el mismo). Ahora quedan por ubicar dos productos $P_2$ y $P_3$. Una posible soluci\'on \'optima seria ubicar a $P_2$ en A y $P_3$ en B. De
+esta forma el coeficiente de peligrosidad total en el cami\'on A  quedaría H(1,2) = 4 que es menor estricto a M y en B H(3,4) = 1 tambien menor a M pero, no es la \'unica soluci\'on \'optima posible. Si se ubica a $P_3$ en A quedar\i'a H(1,3) = 7, y en B a $P_2$ con $P_4$ quedar\'ia H(2,4) = 5. Incluso otra posible opci\'on es 
+ubicar en el cami\'on B a los productos $P_2$, $P_3$ junto  con $P_4$ de esta forma quedar\'ia $H(P) = 12 < M$  y en otro cami\'on solo $P_1$;\newline  \newline 
+
+
+
+{\noindent \Huge Resoluci\'on:}
+\newline \newline
+
+Se debe devolver la cantidad de camiones utilizados de manera que sea una \'optima soluci\'on para el problema, e indicando que producto transporta cada uno. Los par\'ametros de entrada constan de un umbral M, un entero n que representa la cantidad de productos a transportar y los coeficientes de peligrosidad entre los pares de elementos. Para poder acceder a estos valores se va a proceder a crear de manera din\'amica un arreglo de arreglos de enteros, es decir una matriz donde cada posici\'on representa el coeficiente de peligrosidad entre pares de  elementos a la que llamaremos \textit{peligrosidades}. Debido a que se indexa desde el valor cero y la cantidad de productos es un entero mayor o igual a uno. Para todo i, j con $0 \leq i,j \leq n$, \textit{peligrosidades[i][j]} representa el coeficiente de peligrosidad entre los productos $P_{i+1}$ y $P_{j+1}$. \newline
+	 Luego se va a proceder a construir un vector de tuplas. La primer componente de cada tupla es un vector de productos y la segunda es un valor entero que representa la suma total de los coeficientes de peligrosidad de los productos presentes en la primer componente. Este vector sera denominado \textit{camiones}, debido a que cada componente, cada tupla, emula un cami\'on indicando los elementos presentes en el mismo y su peligrosidad actual. Como consecuencia el tama\~no del vector \textit{camiones} representara la cantidad de camiones utilizado.  \newline
+	Con el objetivo de obtener la m\'inima cantidad de camiones se empezara agregando al vector \textit{camiones} una tupla que representa el primer cami\'on, y se vera si es posible ubicar todos los productos de manera que la suma total de los coeficientes no se supere el umbral. De no ser posible, se creara una nueva tupla en el vector \textit{camiones}. Representando un nuevo cami\'on disponible, nuevamente se analizara si todos los productos pueden ser distribuidos en la nueva cantidad de camiones disponibles, hasta que todos puedan ser distribuidos y esta sera una de las posibles solucones \'optimas del problema. Para lograr esto en primer lugar se ubicara en la primer componente de la tupla creada a $P_1$ y la segunda componente tendr\'a el valor cero ya que por ahora nuestro cami\'on solo posee un \'unico elemento y la peligrosidad solo se manifiesta de a pares de elementos. Ahora se llamara a otra funci\'on para que siga acomodando los productos restantes, denotada como \textit{ubicar\_siguientes\_productos}.  Dicha funció\'on cuenta con varios par\'ametros de entrada, el valor del umbral, necesario para poder saber que elementos voy a poder meter en un cami\'on; la cantidad total de productos, \textit{cantidad\_total} ; el producto  que ahora tengo que ubicar, \textit{producto\_actual}; la matriz con las peligrosidades, la cantidad de cami\'on disponibles actualmente,\textit{camiones\_disponibles}; y una variable llamada \textit{desde} que indica a partir de que cami\'on tengo que comenzar a intentar a ubicar el siguiente producto( se detallara mas adelante el por que de este par\'ametro). Y el parametro de salida de esta funci\'on sera un valor booleano que indica si termine de ubicar a todos los productos, en este caso el valor sera True, en caso de no terminar sera False. \newline
+	 Luego de llamar a \textit{ubicar\_siguientes\_productos} pueden ocurrir dos cosas: \newline \newline
+1) el valor de \textit{producto\_actual} es menor o igual que el de \textit{producto\_totales} esto significa que aun tengo productos sin ubicar.  Lo que se va a proceder a hacer es mediante una nueva funcion, \textit{agregar\_producto\_a\_un\_camion}, verificar si puede ser ubicado en algunos de los camiones disponibles, para esto se le pasara por parametro las peligrosidades, la tupla de \textit{camiones} en la cual quiero comprobar si puedo agregar a \textit{producto\_actual} y al \textit{producto\_actual}. Para esta comprobaci\'on se comenzara por la primera de las tuplas disponibles. La funci\'on comparara si el coeficiente de peligrosidad del \textit{producto\_actual} con el primero de los presentes en el vector de la tupla pasada como parametro, sumada a la segunda componente excede el umbral. Si no lo hace se procede a realizar el mismo an\'alisis con el siguiente producto del vector pero, en este caso la suma de peligrosidades contempla la peligrosidad de \textit{producto\_actual} con el o los anteriores del vector. Si ya no hay elementos que analizar y la suma total es menor o igual que M. se agrega al elemento en el cami\'on actual. Se actualiza el valor de la segunda componente de la tupla al valor que representa agregar a \textit{producto\_actual} y se lo agrega atr\'as en el vector. Se llama a \textit{ubicar\_siguientes\_productos}. Pero ahora con el siguiente producto. Es decir, incrementando en uno el valor de la variable \textit{producto\_actual}. \newline
+En el caso de que no se pueda agregar a \textit{producto\_actual} en el cami\'on actual se lo intentara ubicar en el pr\'oximo   (si es que existe un siguiente), es decir en el siguiente elemento del vector \textit{camiones}. En el caso de existir un siguiente. Se procede a realizar lo mismo es decir verificar si puedo agregarlo al siguiente cami\'on. Si ya no tengo camiones disponibles y estoy tratando de ubicar a $P_k$ con $n \geq k \geq 2$ entonces se procede a remover al producto anterior es decir a $P_{k-1}$ del  iesimo-camion en el que se encuentra ya que la ubicaci\'on en ese cami\'on no me permite ubicar luego a $P_k$ . En caso de haber un siguiente cami\'on y si es posible (mediante el uso de la funcion \textit{agregar\_producto\_a\_un\_camion} ) se lo ubica ah\'i. Y se procede a intentar ubicar a $P_k$ nuevamente pero, debido a que solo se modifico el i-esimo cami\'on se va a indicar con la variable denotada desde que la ubicaci\'on de $P_k$ se tiene que realizar a partir del i-esimo cami\'on y no desde los anteriores ya que en este se produjo un cambio. En el caso de que para $P_{k-1}$ no tenga un siguiente cami\'on se proceder\'a a remover al producto $P_{k-2}$ y asi hasta que si el producto que debo remover es el  primero ($P_1$) entonces  verificara el valor de verdad de las llamadas recursivas a la funcio\'on \textit{ubicar\_siguientes\_productos} de ser true se procede a mostrar el resultado. Sino, significa que con la cantidad de camiones disponibles actualmente no existe ninguna combinaci\'on que no exceda el umbral por lo que se va a retirar al producto $P_1$ del cami\'on actual para luego crear una nueva tupla que funciona como un nuevo cami\'on. Se agrega a $P_1$ en el nuevo y se volvera a aplicar la misma idea es decir se llamara a  \textit{ubicar\_siguientes\_productos} pero ahora con el valor de la variable \textit{camiones\_disponibles} incrementado en uno. \newline \newline
+2) el valor de \textit{producto\_actual} supera al de \textit{cantidad\_total} de elementos,esto significa que ya ubique a todos por lo que debo devolver los elementos de cada tupla del vector \textit{camiones}. Donde la posicion de los elementos en el vector representa en que camion seran transportados y el tama\~no de \textit{camiones} es la cantidad total de camiones utilizados.
+
+A continuaci\'on, se presenta el pseudoc\'odigo de la idea descripta anteriormente:
+\vspace{0.4cm}
+\begin{algorithmic}[1]
+\Procedure{ubicar\_producto}{$umbral,cantidad\_total, peligrosidades$}
+	\State $producto\_actual \gets 1$
+	\State $camiones\_disponibles \gets 1$
+	\State $termine \gets false$
+	\State $camiones \gets crear Vector(tupla(vector, int))$
+	\While{$(!termine)$}
+		\State $camion \gets crear(tupla(vector, int))$
+		\State $AgreagarAtras(camion.\pi_1,  elemento\_actual)$
+		\State $camion.\pi_2 \gets 0$
+		\State $AgreagarAtras(camiones, camion)$
+		\State $termine \gets ubicar\_siguientes\_productos$
+		\If{$(termine)$}
+			\State $return$ $camiones $
+		\Else 
+			\State{$Sacar(P_1, camiones[camiones\_disponibles])$}
+			\State $camiones\_disponibles++$
+		\EndIf	
+	\EndWhile
+\EndProcedure
+\end{algorithmic}
+
+\vspace{0.4cm}
+\begin{algorithmic}[1]
+\Procedure{ubicar\_siguientes\_productos}{$umbral,donde, cantidad\_total, producto\_actual, camiones_disponibles, camiones, peligrosidades$}
+	\If{($producto\_actual > cantidad\_total$)}
+		\State $return$ $True$
+	\Else
+		\State $termine \gets false$
+		\State $i \gets 0$
+		\While{$(i \leq camiones\_disponibles)$}	
+			\If{$(agrego\_producto(producto\_actual, camiones[i]))$}	
+				\State $termine \gets ubicar\_siguientes\_productos$ 
+				\If{$(termine)$}
+					\State $return$ $termine$
+				\Else
+					\State $sacar(producto\_actual, camiones[i])$
+					\State $desde \gets i$
+				\EndIf
+			\EndIf
+			\State $i++$
+		\EndWhile						
+	\EndIf
+\EndProcedure
+\end{algorithmic}
+
+\end{document}

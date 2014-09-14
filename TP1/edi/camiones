@@ -1,0 +1,46 @@
+minimizar_camiones(productos, camiones)
+	si no hay productos
+		devolver camiones
+	si hay productos
+		solucion_optima = vacia
+		para cada p en productos hacer
+			para cada posible tira de camiones (camiones*) con el nuevo producto agregado hacer
+				solucion_parcial = minimizar_camiones(productos_sin_producto(productos, p), camiones*)
+				si solucion_optima es vacia o solucion_optima es peor que solucion_parcial
+				;  la primera parte siempre es verdad lo pusiste en la linea 5
+				;solucion optima vive afuera de la función ? 
+					solucion_optima = solucion_parcial
+				fin
+			fin
+		devolver solucion_optima
+	fin
+
+____________________________________________________________________________________________________________________________________________________
+
+minimizar_camiones_2(productos_coeficientes, productos)
+	para cada k de 1 a n
+		matriz = kx|productos|
+		respuesta = ubicarproductos(productos_coeficientes, productos, matriz)
+		si respuesta.pudeubicar = true
+			devolver respuesta.matriz 
+
+ubicarproductos(productos_coeficientes, pqfaltan, matriz)
+	si pqfaltan = vacio
+		devuelvo (pudeubicar: true, solucion: matriz)
+	para cada p producto en pqfaltan
+		puedo_ubicar_a_p = false
+		para cada f fila en matriz
+			si puedo meter a p en f
+				puedo_ubicar_a_p = true
+				nuevamatriz = matriz con 1 en la fila f columna p
+				res = ubicarproductos(productos_coeficientes, pqfaltan - p, nuevamatriz)
+				si res.pudeubicar = true
+					devuelvo res
+				fin
+			fin
+		fin
+		si puedo_ubicar_a_p = false
+			devuelvo (pudeubicar: false, solucion: matriznula)
+		fin
+	fin
+	
