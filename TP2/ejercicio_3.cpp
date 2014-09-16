@@ -13,6 +13,13 @@ struct arista
 {
 	int u_;
 	int w_;
+	arista operator = (const arista& otra) const
+	{
+		arista a;
+		a.u_= otra.u_;
+		a.w_= otra.w_;
+		return a;
+	}
 };
 
 struct arista_costo
@@ -22,15 +29,23 @@ struct arista_costo
 	bool operator< (const arista_costo& otra) const
 	{
 			return this->costo_ < otra.costo_;
+
+	}
+	arista_costo operator = (const arista_costo& otra) const
+	{
+		arista_costo a;
+		a.aris_.u_= otra.aris_.u_;
+		a.aris_.w_= otra.aris_.w_;
+		a.costo_= otra.costo_;
+		return a;
 	}
 
 };
 
-struct resAGM
+struct resAGM //lo que retorna el arbol generador mínimo
 {
 	list<int> nodos_;
 	list<arista> aritas_;
-	bool aristaValida_;
 	arista_costo MinGeneraArbol_;
 };
 
@@ -40,7 +55,7 @@ vector<vector<int> > crearMatrizGrafo(int n)
 	vector<vector<int> > grafo(n+1);
 	for (int i = 1; i < n+1; ++i)
 	{	
-		std::vector<int> v;
+		std::vector<int> v(n+1);
 		for (int j = 1; j < n; ++j)
 		{
 			v[j]= -1;
@@ -52,7 +67,7 @@ vector<vector<int> > crearMatrizGrafo(int n)
 
 vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo> valores)
 {	
-	//armo la matriz con todas posiciones sin  aritas
+	//armo el grafo
 	vector<vector<int> > grafo = crearMatrizGrafo(n);
 
 	// ahora voy a ir iterando la lista de valores para completar la matriz
@@ -74,7 +89,7 @@ vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo> valores)
 void guardarAdyacentes(vector<vector<int> > grafo, int j, std::priority_queue< arista_costo > heap, vector<bool> usados)
 {
 	int n = grafo.size();
-	for (int i = 1; i <= n; ++i)
+	for (int i = 1; i < n+1; ++i)
 	{
 		if (grafo[i][j] != -1 && !usados[i]) // hay arista entre i j y no genero ciclos.
 			{	
@@ -90,8 +105,7 @@ void guardarAdyacentes(vector<vector<int> > grafo, int j, std::priority_queue< a
 
 	}
 }
-// voy a utilizar una matriz de aristas
-// la coordenada a,b es el costo de la arista a,b
+
 
 
 resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
@@ -102,8 +116,8 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 
 	//para saber si un nodo está en uso ya, uso 
 	//un vector
-	std::vector<bool> usados(n);
-	for (int i = 0; i < n; ++i)
+	std::vector<bool> usados(n+1);
+	for (int i = 1; i < n+1; ++i)
 	{
 		usados[i]= false;
 	}
@@ -121,7 +135,7 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 	std::list <arista> aristas;
 	int i=1;
 
-	while (i<n)
+	while (i<n+1)
 	{
 		//guardo la nueva arista, que está en el tope del heap
 		aristas.push_back(heap.top().aris_); 
@@ -150,73 +164,107 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 
 	respuesta.nodos_=nodos;	
 	respuesta.aritas_= aristas;
-	respuesta.aristaValida_= heap.empty();
-	// si está vacio quiere decir que era un árbol el dato de entrada y no hay solución
-	if (!heap.empty())
-		respuesta.MinGeneraArbol_= heap.top();
-	else // busco
-	{	
-		arista_costo a;
-		a.costo_= 0;
-		arista aux;
-		aux.u_=0;
-		aux.w_=0;
-		a.aris_= aux;
-		respuesta.MinGeneraArbol_= a;
-	}
-
+	respuesta.MinGeneraArbol_= heap.top();
 	return respuesta;
 }
 
+pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo, vector<int> predecesores)
+{
+	int n = grafo.size();
+
+	vector<int> tienenComoPredeASalida = grafo[salida];
+
+	for (int i = 1; i < n+1; ++i)
+	{
+		if (tienenComoPredeASalida[i] != -1)
+			predecesores[i]= salida;
+	}
+
+	for (int i = 1; i < n+1; ++i)
+	{
+		if (tienenComoPredeASalida[i] != llegada)
+			camino(tienenComoPredeASalida[i],llegada,grafo,predecesores);
+		else 
+			{	// llegué al nodo del  final del camino, tengo que dar el camino.
+				list<arista> aristas;
+				list<int> nodos;
+
+				int it = tienenComoPredeASalida[i]; // es llegada
+				while(predecesores[it]=!0 )// es cuando llegué al primer nodo que que le pedí predecesor
+				{
+					arista a;
+					a.u_=it;
+					a.w_= predecesores[it];
+					aristas.push_back(a);
+					nodos.push_back(it);
+					it= predecesores[it];
+				}
+				 //si terminé me falta agregar el nodo del principio del camino y la arista que cierra el circuido
+				nodos.push_back(it);
+				arista a;
+				a.u_=it;
+				a.w_= llegada;
+				aristas.push_back(a);
+				pair<list<arista>,list<int> > res;
+				res.first = aristas;
+				res.second = nodos;
+				return res;
+
+			}
+	}
+
+
+
+
+}
 
 void anillo( vector< vector<int> > grafo)
 {
 	int n = grafo.size();
 
-	// *_*_*_*_*__*_*_*_*_***_
-	//buscar mínimo de cada uno;
-	for (int i = 0; i < n; ++i)
-	{
-		
-	}
-
 
 	list<int> nodos = arbolGeneradorMinimo(grafo).nodos_;
-	// list<arista> = arbolGeneradorMinimo(grafo).aristas aritas_;
-	bool valida = arbolGeneradorMinimo(grafo).aristaValida_ ;
+	list<arista> aristas = arbolGeneradorMinimo(grafo).aritas_;
 	arista_costo minima = arbolGeneradorMinimo(grafo).MinGeneraArbol_;
 
-	if (!valida)
+	if (nodos.size()!=n)
 		cout << "no";
-	else // agrego la arista para que se forme el árbol.
-	{	
-		int u= minima.aris_.u_;
-		int w= minima.aris_.w_;
-		grafo[u][w]= minima.costo_;
-		grafo[w][u]= minima.costo_; // porque son simétricos
+	else
+	{
+		vector<int> predecesores(n+1);
+		int desde = minima.aris_.u_;
+		int hasta = minima.aris_.w_;
+		predecesores[desde]=0; // para que saber cuando tengo que parar depedir predecesores
 
-		// ahora tengo que buscar el circuito.
+		list<arista> aristasAnillo = camino(desde, hasta, grafo, predecesores).first;
+		list<int> nodosAnillo = camino(desde, hasta, grafo, predecesores).second;
 
-		// list<arista> = buscarRecorridoMinimo(grafo, u,w);
+		// ahora recorro las aristas del árbolGeneradoMinimo, si u y w están en los nodos del anillo entonces esa arista es parate
+		// del anillo y no del resto de las computadoras
 
+		// para saber rápido si pasa esto, meto los nodos del anillo en un vector de bool
+
+		vector<bool> sonDeAnillo(n+1);
+		for (int i = 1; i < n+1; ++i)
+		{
+			sonDeAnillo[i]=false;
+		}
+
+		for (std::list<int>::iterator it=nodosAnillo.begin(); it != nodosAnillo.end(); ++it)
+		{
+			sonDeAnillo[(*it)]=true;
+		}
+
+
+		list<arista> aristaNoDeAnillo; 
+		for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
+		{
+			if (!sonDeAnillo[(*it).u_] && sonDeAnillo[(*it).w_]) // si no son parte del anillo
+				aristaNoDeAnillo.push_back((*it));
+		}
+
+		// falta hacer el cout del resultado.
 	}
-
-	//_*_*_*_*_*_*_*
-	// falta evolver el resultado
-
-
-
-
-	// list<int> nodos = arbolGeneradorMinimo(grafo).first;
-	// list<arista> aristas = arbolGeneradorMinimo(grafo).second;
-
-	// // ahora tengo que ver si el generador usó todos los nodos
-	// if (nodos.size() != n+1)
-	// 	cout << "no":
-	// else
-	// {
-
-	// }
 
 }
 
