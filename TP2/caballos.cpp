@@ -57,21 +57,37 @@ vector<pair<int, int> > FiltrarMarcadas(vector<vector<int> > M, vector<pair<int,
 	return lNoMarcadas;
 }
 
-void LlenarTablero(vector<vector<int> >& M, int n, pair<int, int> pos, int c)
+void LlenarTablero(vector<vector<int> >& M, int n, pair<int, int> pos)
 {
-	vector<pair<int, int> > l = PosicionesASaltar(pos, n);
-	l = FiltrarMarcadas(M, l);
-	int length = l.size();
-	for(int i = 0; i < length; i++)
-		M[l[i].first][l[i].second] = c + 1;
-	for(int j = 0; j < length; j++)
-		LlenarTablero(M, n, l[j], c + 1);
+	int c = 0;
+	vector<pair<int, int> > listaActual;
+	listaActual.push_back(pos);
+
+	while(listaActual.size() > 0)
+	{
+		vector<pair<int, int> > listaNueva;
+		for(int j = 0; j < listaActual.size(); j++)
+		{
+			vector<pair<int, int> > l = PosicionesASaltar(listaActual[j], n);
+			l = FiltrarMarcadas(M, l);
+			listaNueva.insert(listaNueva.end(), l.begin(), l.end());
+		}
+
+		for(int i = 0; i < listaNueva.size(); i++)
+			M[listaNueva[i].first][listaNueva[i].second] = c + 1;
+
+
+		listaActual = listaNueva;
+			
+		c++;
+
+	}
 }
 
 void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, int> > caballos)
 {
 	int length = caballos.size();
-	int n = tableros.size();
+	int n = tableros[0].size();
 	int movsMinimos = -1;
 	pair<int, int> posMinima;
 	for(int i = 0; i < n; i++)
@@ -85,6 +101,7 @@ void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, in
 			{
 				movsMinimos = movs;
 				posMinima = pair<int, int>(i, j);
+
 			}
 		}
 	}
@@ -126,7 +143,7 @@ int main()
 			tablero.push_back(f);
 		}
 		tablero[x][y] = 0;
-		LlenarTablero(tablero, n, pair<int, int>(x, y), 0);
+		LlenarTablero(tablero, n, pair<int, int>(x, y));
 		tableros.push_back(tablero);
 
 		i--;
