@@ -22,22 +22,46 @@ struct arista
 	}
 };
 
+
+
+// struct arista_costo
+// {
+// 	arista aris_;
+// 	int costo_;
+// 	bool operator< (const arista_costo& otra) const
+// 	{
+// 			return this->costo_ < otra.costo_; // es menor cuando el costo es mayor o igual
+
+// 	}
+// 	arista_costo operator = (const arista_costo& otra) const
+// 	{
+// 		arista_costo a;
+// 		a.u_= otra.u_;
+// 		a.w_= otra.w_;
+// 		a.costo_= otra.costo_;
+// 		return a;
+// 	}
+
+// };
+
 struct arista_costo
 {
-	arista aris_;
+	int u_;
+	int w_;
 	int costo_;
 	bool operator< (const arista_costo& otra) const
 	{
-			return this->costo_ < otra.costo_;
-
+			return this->costo_ >= otra.costo_; // es menor cuando el costo es mayor o igual
 	}
-	arista_costo operator = (const arista_costo& otra) const
+
+	bool operator!=(const arista_costo& otra) const
 	{
-		arista_costo a;
-		a.aris_.u_= otra.aris_.u_;
-		a.aris_.w_= otra.aris_.w_;
-		a.costo_= otra.costo_;
-		return a;
+		return this->costo_ != otra.costo_;
+	}
+
+	bool operator==(const arista_costo& otra) const
+	{
+		return this->costo_ == otra.costo_ &&  this->u_ == otra.u_ && this->w_ == otra.w_;
 	}
 
 };
@@ -56,25 +80,27 @@ vector<vector<int> > crearMatrizGrafo(int n)
 	for (int i = 1; i < n+1; ++i)
 	{	
 		std::vector<int> v(n+1);
-		for (int j = 1; j < n; ++j)
+		for (int j = 1; j < n+1; ++j)
 		{
 			v[j]= -1;
 		}
 		grafo[i]=v; 
 	}
+	return grafo;
 }
 
 
 vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo> valores)
 {	
+	
 	//armo el grafo
 	vector<vector<int> > grafo = crearMatrizGrafo(n);
 
 	// ahora voy a ir iterando la lista de valores para completar la matriz
 	for (std::list<arista_costo>::iterator it=valores.begin(); it != valores.end(); ++it)
 	{
-		int i = (*it).aris_.u_;
-		int j = (*it).aris_.w_;
+		int i = (*it).u_;
+		int j = (*it).w_;
 		int costo = (*it).costo_;
 		grafo[i][j]=costo;
 		grafo[j][i]=costo; // pues es simétrico
@@ -86,76 +112,153 @@ vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo> valores)
 }
 
 
-void guardarAdyacentes(vector<vector<int> > grafo, int j, std::priority_queue< arista_costo > heap, vector<bool> usados)
-{
-	int n = grafo.size();
-	for (int i = 1; i < n+1; ++i)
+
+arista_costo buscarMinima(list<arista_costo> aristas, vector<bool> usados)
+{	
+
+	arista_costo min;
+	min.costo_=88888888; //MUCHO RUIDO
+	min.u_=0;
+	min.w_=0;
+
+
+	for (std::list<arista_costo>::iterator i = aristas.begin(); i != aristas.end(); ++i)
 	{
-		if (grafo[i][j] != -1 && !usados[i]) // hay arista entre i j y no genero ciclos.
-			{	
-				arista aux;
-				arista_costo aCosto;
-				aux.u_= i;
-				aux.w_= j;
-				aCosto.costo_= grafo[i][j];
-				aCosto.aris_= aux;
-
-				heap.push(aCosto);
-			}
-
+		if ( (usados[(*i).u_] && !usados[(*i).w_]) || (usados[(*i).w_] && !usados[(*i).u_]) )	
+		{
+			if((*i).costo_ < min.costo_)
+			{
+				min.costo_=(*i).costo_;
+				min.u_= (*i).u_;
+				min.w_=(*i).w_;
+				
+			}	
+	
+		}
 	}
+
+	return min;
+}
+
+arista_costo buscarGeneraCiclo(list<arista_costo> aristasGrafo, list<arista> aristasArbol)
+{	
+
+	arista_costo min;
+	min.costo_=88888888;
+	min.u_=0;
+	min.w_=0;
+
+
+	for (std::list<arista_costo>::iterator i = aristasGrafo.begin(); i != aristasGrafo.end(); ++i)
+	{
+	
+			arista_costo busco;
+				busco.costo_=(*i).costo_;
+				busco.u_= (*i).u_;
+				busco.w_=(*i).w_;
+
+			bool esta = false; 
+
+		for (std::list<arista>::iterator it = aristasArbol.begin(); it != aristasArbol.end(); ++it)
+		{
+			if (busco.u_ == (*it).u_ && busco.w_ == (*it).w_ || busco.w_ == (*it).u_ && busco.u_ == (*it).w_)
+				// tengo que refinar un poco esto, porque es muy borde
+				// tengo que ponerme de acuerdo con que parte de la matriz voy a trabajar porque es simétrica.
+				esta = true;
+		}
+
+
+		if ( !esta )	
+		{
+			if(busco.costo_ < min.costo_)
+			{
+				min.costo_=busco.costo_;
+				min.u_= busco.u_;
+				min.w_=busco.w_;
+			}
+		}
+	}	
+	
+		
+	return min;
 }
 
 
 
 resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 {	
-	std::priority_queue< arista_costo > heap;
+
 
 	int n = grafo.size();
 
-	//para saber si un nodo está en uso ya, uso 
-	//un vector
-	std::vector<bool> usados(n+1);
-	for (int i = 1; i < n+1; ++i)
+	//armar la lista de las aristas
+	list<arista_costo> aristasGrafo;
+
+	for (int i = 1; i < n; ++i)
+	{
+		for (int j = 1; j < n; ++j)
+		{
+			if (grafo[i][j] != -1)
+			{	
+				arista_costo a;
+				a.u_= i;
+				a.w_= j;
+				a.costo_= grafo[i][j];
+				aristasGrafo.push_back(a);
+			}
+		}
+	}
+
+	
+
+	//para saber si un nodo está en uso ya, uso un vector
+	std::vector<bool> usados(n);
+	for (int i = 1; i < n; ++i)
 	{
 		usados[i]= false;
 	}
 
-	// cualquier nodo
 
 	int cualquiera = 1;
-	// encolo sus adyacentes
-	usados[1]= true;
-	guardarAdyacentes(grafo, cualquiera, heap, usados);
+	usados[cualquiera]= true;
 
 	std::list <int> nodos;
 	nodos.push_back(cualquiera);
 
-	std::list <arista> aristas;
-	int i=1;
+	std::list <arista> aristasArbol;
+	int i=2;
 
-	while (i<n+1)
+	while (i<n)
 	{
-		//guardo la nueva arista, que está en el tope del heap
-		aristas.push_back(heap.top().aris_); 
-		// actualizo los nodos usados, si un lado de la arista nueva no está usado tengo que ponerlo como usado
-		// y guardarme los adyacentes
-		if (usados[heap.top().aris_.u_] )
-		{
-			usados[heap.top().aris_.w_] = true;
-			guardarAdyacentes(grafo, heap.top().aris_.w_ , heap, usados);
-			nodos.push_back(heap.top().aris_.w_);
+		
+		int u = buscarMinima(aristasGrafo, usados).u_;
+		int w = buscarMinima(aristasGrafo, usados).w_;
+
+		arista a;
+		a.u_=u;
+		a.w_=w;
+
+		aristasArbol.push_back(a); 
+
+
+		if (usados[u] )
+		{	
+			if (!usados[w])
+			{
+				usados[w] = true;
+				nodos.push_back(w);
+			}	
 		}
-		else 
-		{
-			usados[heap.top().aris_.u_] = true;
-			guardarAdyacentes(grafo, heap.top().aris_.u_ , heap, usados);
-			nodos.push_back(heap.top().aris_.u_);
+
+		if (usados[w])
+		{	
+			if (!usados[u])
+			{	
+				usados[u] = true;
+				nodos.push_back(u);
+			}
 
 		}
-
-	heap.pop();
 	i++;
 
 	}
@@ -163,10 +266,27 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 	resAGM respuesta;
 
 	respuesta.nodos_=nodos;	
-	respuesta.aritas_= aristas;
-	respuesta.MinGeneraArbol_= heap.top();
+	respuesta.aritas_= aristasArbol;
+	
+	respuesta.MinGeneraArbol_.u_=  buscarGeneraCiclo(aristasGrafo,aristasArbol).u_;
+	respuesta.MinGeneraArbol_.w_= buscarGeneraCiclo(aristasGrafo,aristasArbol).w_;
+	respuesta.MinGeneraArbol_.costo_= buscarGeneraCiclo(aristasGrafo,aristasArbol).costo_;
+
+	
+	// 	for (std::list<int>::iterator i = nodos.begin(); i != nodos.end(); ++i)
+	// 	{
+	// 		cout<< (*i)<<endl;
+	// 	}
+	// for (std::list<arista>::iterator i = aristasArbol.begin(); i != aristasArbol.end(); ++i)
+	// {
+	// 	cout<< (*i).u_<<","<<(*i).w_<<endl;
+	// }
+
+// cout<< buscarGeneraCiclo(aristasGrafo,aristasArbol).u_<<","<<buscarGeneraCiclo(aristasGrafo,aristasArbol).w_<<"costo:"<<buscarGeneraCiclo(aristasGrafo,aristasArbol).costo_<<endl;
 	return respuesta;
 }
+
+
 
 pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo, vector<int> predecesores)
 {
@@ -174,13 +294,13 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 
 	vector<int> tienenComoPredeASalida = grafo[salida];
 
-	for (int i = 1; i < n+1; ++i)
+	for (int i = 1; i < n; ++i)
 	{
 		if (tienenComoPredeASalida[i] != -1)
 			predecesores[i]= salida;
 	}
 
-	for (int i = 1; i < n+1; ++i)
+	for (int i = 1; i < n; ++i)
 	{
 		if (tienenComoPredeASalida[i] != llegada)
 			camino(tienenComoPredeASalida[i],llegada,grafo,predecesores);
@@ -190,7 +310,7 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 				list<int> nodos;
 
 				int it = tienenComoPredeASalida[i]; // es llegada
-				while(predecesores[it]=!0 )// es cuando llegué al primer nodo que que le pedí predecesor
+				while(predecesores[it]!=0 )// es cuando llegué al primer nodo que que le pedí predecesor
 				{
 					arista a;
 					a.u_=it;
@@ -206,6 +326,7 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 				a.w_= llegada;
 				aristas.push_back(a);
 				pair<list<arista>,list<int> > res;
+
 				res.first = aristas;
 				res.second = nodos;
 				return res;
@@ -213,28 +334,23 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 			}
 	}
 
-
-
-
 }
 
 void anillo( vector< vector<int> > grafo)
 {
-	int n = grafo.size();
-
+	int n = grafo.size(); // es la cantidad de nodos +1
 
 	list<int> nodos = arbolGeneradorMinimo(grafo).nodos_;
 	list<arista> aristas = arbolGeneradorMinimo(grafo).aritas_;
-	arista_costo minima = arbolGeneradorMinimo(grafo).MinGeneraArbol_;
 
-	if (nodos.size()!=n)
+	if (nodos.size() < n-1 || arbolGeneradorMinimo(grafo).MinGeneraArbol_.costo_ == -1) // si no usó todos los nodo o recibió basura en el mínimo, no hay solución 
 		cout << "no";
 	else
 	{
-		vector<int> predecesores(n+1);
-		int desde = minima.aris_.u_;
-		int hasta = minima.aris_.w_;
-		predecesores[desde]=0; // para que saber cuando tengo que parar depedir predecesores
+		vector<int> predecesores(n);
+		int desde = arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_;
+		int hasta = arbolGeneradorMinimo(grafo).MinGeneraArbol_.w_;
+		predecesores[desde]=0; // para que saber cuando tengo que parar de pedir predecesores
 
 		list<arista> aristasAnillo = camino(desde, hasta, grafo, predecesores).first;
 		list<int> nodosAnillo = camino(desde, hasta, grafo, predecesores).second;
@@ -244,8 +360,8 @@ void anillo( vector< vector<int> > grafo)
 
 		// para saber rápido si pasa esto, meto los nodos del anillo en un vector de bool
 
-		vector<bool> sonDeAnillo(n+1);
-		for (int i = 1; i < n+1; ++i)
+		vector<bool> sonDeAnillo(n);
+		for (int i = 1; i < n; ++i)
 		{
 			sonDeAnillo[i]=false;
 		}
@@ -264,6 +380,37 @@ void anillo( vector< vector<int> > grafo)
 		}
 
 		// falta hacer el cout del resultado.
+
+		//costo de las conexiones
+		int costo;
+		for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
+		{	
+			int u = (*it).u_;
+			int w = (*it).w_;			
+			costo = costo + grafo[u][w];
+		}
+
+		for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
+		{	
+			int u = (*it).u_;
+			int w = (*it).w_;			
+			costo = costo + grafo[u][w];
+		}
+
+		// tengo el costo de todas las conexiones en costo;	
+
+		// cout << costo <<endl;
+
+		// for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
+		// {
+		// 	cout << (*it).u_ <<" "<< (*it).w_<< endl;
+		// }
+
+		// for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
+		// {
+		// 	cout << (*it).u_ <<" "<< (*it).w_<< endl;
+		// }
+
 	}
 
 }
@@ -274,50 +421,108 @@ void anillo( vector< vector<int> > grafo)
 int main()
 {
 
-	string l;
-	std::getline(cin, l);
-	istringstream ss(l);
-	string token;
-	std::getline(ss, token, ' ');
-	int n, m;
-	n = atoi(token.c_str());
-	std::getline(ss, token, ' ');
-	m = atoi(token.c_str());
-	std::getline(cin, l);
+	// string l;
+	// std::getline(cin, l);
+	// istringstream ss(l);
+	// string token;
+	// std::getline(ss, token, ' ');
+	// int n, m;
+	// n = atoi(token.c_str());
+	// std::getline(ss, token, ' ');
+	// m = atoi(token.c_str());
+	// std::getline(cin, l);
+	// getline(cin, l);
+
+
+
+	// list<arista_costo> valores;
+
+	// for (int i = 0; i < m; ++i)		
+	// {
+	// 	istringstream ss(l);
+	// 	string token;
+	// 	std::getline(ss, token, ' ');
+	// 	int u, w, costo;
+	// 	u = atoi(token.c_str());
+	// 	std::getline(ss, token, ' ');
+	// 	w = atoi(token.c_str());
+	// 	std::getline(ss, token, ' ');
+	// 	costo = atoi(token.c_str());
+
+	// 	arista_costo a;
+	// 	a.u_= u;
+	// 	a.w_= w;
+	// 	a.costo_= costo;
+
+	// 	valores.push_back(a);
+
+			
+	// 	getline(cin, l);
+	// }
+	// cout<<"___________________________\n"<<"Solucion" <<endl;
+
+	
+	// vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
+
+	// anillo(grafo);
+
+
+
+	int n=4;
+
+	arista_costo a;
+
+		a.u_= 1;
+		a.w_= 2;
+		a.costo_= 2;
+
+	arista_costo a1;
+		a1.u_= 2;
+		a1.w_= 3;
+		a1.costo_= 3;
+
+	arista_costo a2;
+		a2.u_= 2;
+		a2.w_= 4;
+		a2.costo_= 4;
+
+	arista_costo a3;
+		a3.u_= 1;
+		a3.w_= 3;
+		a3.costo_= 3;
+
+	// arista_costo a4;
+	// 	a4.u_= 6;
+	// 	a4.w_= 7;
+	// 	a4.costo_= 2;
+
+	// arista_costo a5;
+	// 	a5.u_= 7;
+	// 	a5.w_= 8;
+	// 	a5.costo_= 1;
 
 
 	list<arista_costo> valores;
+	valores.push_back(a);
+	valores.push_back(a1);
+	valores.push_back(a2);
+	valores.push_back(a3);
 
-	for (int i = 0; i < m; ++i)		
-	{
-		istringstream ss(l);
-		string token;
-		std::getline(ss, token, ' ');
-		int u, w, costo;
-		u = atoi(token.c_str());
-		std::getline(ss, token, ' ');
-		w = atoi(token.c_str());
-		std::getline(ss, token, ' ');
-		costo = atoi(token.c_str());
+	vector<vector<int> > grafo = ponerPesoAlasAristas(4, valores);
+	// vector<vector<int> > grafo = crearMatrizGrafo(3)
 
-		arista_costo a;
-		a.aris_.u_= u;
-		a.aris_.w_= w;
-		a.costo_= costo;
+	// for (int i = 1; i < grafo.size(); ++i)
+	// {
+	// 	for (int j = 1; j < grafo.size(); ++j)
+	// 	{
 
-		valores.push_back(a);
-
-			
-		getline(cin, l);
-	}
-	cout<<"___________________________\n"<<"Solucion" <<endl;
-
-	
-	vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
+	// 		cout << grafo[i][j]<<"("<<i<<","<<j<<")"<<endl;	
+	// 	}
+	// }
+	arbolGeneradorMinimo(grafo);
 
 	anillo(grafo);
-
-
+ 
 
 	return 0;
 }
