@@ -144,7 +144,7 @@ arista_costo buscarGeneraCiclo(list<arista_costo> aristasGrafo, list<arista> ari
 {	
 
 	arista_costo min;
-	min.costo_=88888888;
+	min.costo_=88888888; //MUCHO RUIDO
 	min.u_=0;
 	min.w_=0;
 
@@ -161,7 +161,7 @@ arista_costo buscarGeneraCiclo(list<arista_costo> aristasGrafo, list<arista> ari
 
 		for (std::list<arista>::iterator it = aristasArbol.begin(); it != aristasArbol.end(); ++it)
 		{
-			if (busco.u_ == (*it).u_ && busco.w_ == (*it).w_ || busco.w_ == (*it).u_ && busco.u_ == (*it).w_)
+			if ((busco.u_ == (*it).u_ && busco.w_ == (*it).w_) || (busco.w_ == (*it).u_ && busco.u_ == (*it).w_))
 				// tengo que refinar un poco esto, porque es muy borde
 				// tengo que ponerme de acuerdo con que parte de la matriz voy a trabajar porque es simétrica.
 				esta = true;
@@ -288,53 +288,73 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 
 
 
-pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo, vector<int> predecesores)
-{
-	int n = grafo.size();
+pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo, vector<int> predecesores, vector<bool> usados)
+{	
 
-	vector<int> tienenComoPredeASalida = grafo[salida];
 
-	for (int i = 1; i < n; ++i)
+	if (llegada == salida)
 	{
-		if (tienenComoPredeASalida[i] != -1)
-			predecesores[i]= salida;
+		list<arista> aristas;
+		list<int> nodos;
+
+		int it = llegada; 
+
+		while(predecesores[it]!=0 )// es cuando llegué al primer nodo y  le pedí predecesor
+		{
+			arista a;
+			a.u_=it;
+			a.w_= predecesores[it];
+			aristas.push_back(a);
+			nodos.push_back(it);
+			it= predecesores[it];
+		}
+		 //si terminé me falta agregar el nodo del principio del camino y la arista que cierra el circuito
+
+		nodos.push_back(it);
+		arista a;
+		a.u_=it;
+		a.w_= llegada;
+		aristas.push_back(a);
+		pair<list<arista>,list<int> > res;
+
+		res.first = aristas;
+		res.second = nodos;
+		return res;
 	}
+	else
+	{	
 
-	for (int i = 1; i < n; ++i)
-	{
-		if (tienenComoPredeASalida[i] != llegada)
-			camino(tienenComoPredeASalida[i],llegada,grafo,predecesores);
-		else 
-			{	// llegué al nodo del  final del camino, tengo que dar el camino.
-				list<arista> aristas;
-				list<int> nodos;
+		int n = grafo.size();
 
-				int it = tienenComoPredeASalida[i]; // es llegada
-				while(predecesores[it]!=0 )// es cuando llegué al primer nodo que que le pedí predecesor
-				{
-					arista a;
-					a.u_=it;
-					a.w_= predecesores[it];
-					aristas.push_back(a);
-					nodos.push_back(it);
-					it= predecesores[it];
-				}
-				 //si terminé me falta agregar el nodo del principio del camino y la arista que cierra el circuido
-				nodos.push_back(it);
-				arista a;
-				a.u_=it;
-				a.w_= llegada;
-				aristas.push_back(a);
-				pair<list<arista>,list<int> > res;
+		// armo los predecesores
+		list<int> tienenComoPredeASalida;
 
-				res.first = aristas;
-				res.second = nodos;
-				return res;
+		for (int i = 1; i < n; ++i)
+		{
+			if (grafo[salida][i] != -1 && i !=llegada)
+				tienenComoPredeASalida.push_back(i);
+		}	
 
-			}
+		// para esa lista que armé su predecesor es salida
+		for (std::list<int>::iterator i = tienenComoPredeASalida.begin(); i != tienenComoPredeASalida.end(); ++i)	
+		{	
+			if ((*i)!=llegada)
+				predecesores[(*i)]= salida;
+		}
+
+		// si no llegué a donde quería aplicar recursión con la lista, hacer cadena de predecesores.
+		for (std::list<int>::iterator i = tienenComoPredeASalida.begin(); i != tienenComoPredeASalida.end(); ++i)	
+		{
+			if (!usados[(*i)]) 
+				usados[(*i)]=true;
+				camino((*i),llegada,grafo,predecesores, usados);
+
+		}
+
 	}
-
 }
+
+
 
 void anillo( vector< vector<int> > grafo)
 {
@@ -351,9 +371,12 @@ void anillo( vector< vector<int> > grafo)
 		int desde = arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_;
 		int hasta = arbolGeneradorMinimo(grafo).MinGeneraArbol_.w_;
 		predecesores[desde]=0; // para que saber cuando tengo que parar de pedir predecesores
+		
+		vector<bool> usados(n);
+		usados[desde] =true; 
 
-		list<arista> aristasAnillo = camino(desde, hasta, grafo, predecesores).first;
-		list<int> nodosAnillo = camino(desde, hasta, grafo, predecesores).second;
+		list<arista> aristasAnillo = camino(desde, hasta, grafo, predecesores, usados).first;
+		list<int> nodosAnillo = camino(desde, hasta, grafo, predecesores, usados).second;
 
 		// ahora recorro las aristas del árbolGeneradoMinimo, si u y w están en los nodos del anillo entonces esa arista es parate
 		// del anillo y no del resto de las computadoras
