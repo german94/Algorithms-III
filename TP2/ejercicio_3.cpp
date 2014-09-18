@@ -56,7 +56,7 @@ struct tuplaPila
 {
 	int prioridad_;
 	int vertice_;
-	std::list<int >::iterator adyacentesAVertice_;
+	list<int > adyacentesAVertice_;
 
 	bool operator< (const tuplaPila& otra) const
 	{
@@ -306,8 +306,7 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 	tuplaPila t;
 	t.vertice_ = salida;
 	t.prioridad_= prioridad;
-	std::list<int>::iterator i= adyacentes.begin();
-	t.adyacentesAVertice_= i;
+	t.adyacentesAVertice_= adyacentes;
 
 	heap.push(t); 
 	usados[salida]= true;
@@ -316,20 +315,19 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 	bool cortarWhile = false;
 	while(!heap.empty() || cortarWhile)
 	{
-		
+		if (heap.top().adyacentesAVertice_.empty()) // si el nodo de la pila no tiene más adyacentes
+		{	
+			heap.pop();
+		}
+		else
+		{	
 			int predecesor= heap.top().vertice_;
 
 			// borro el nodo de la lista de adyacentes
-			std::list<int>::iterator adyacentes = heap.top().adyacentesAVertice_;
-			int agregarNuevosAdyacentes = (*adyacentes);
-			if(adyacentes == adyacentes.end())
-			{
-				heap.pop();
-			}
-			else
-			{	
-				adyacentes++;
-			}
+			// list<int> adyacentes =heap.top().adyacentesAVertice_;
+			int agregarNuevosAdyacentes = (heap.top().adyacentesAVertice_).front();
+			(heap.top().adyacentesAVertice_).pop_front();
+			// heap.top().adyacentesAVertice_=adyacentes;
 
 			if(agregarNuevosAdyacentes != llegada)
 				{
@@ -344,12 +342,10 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 					tuplaPila t;
 					t.vertice_ = agregarNuevosAdyacentes;
 					t.prioridad_= prioridad;
-					std::list<int> adyacentesDelNuevoNodoIT = adyacentesDelNuevoNodo.begin();
-					t.adyacentesAVertice_= adyacentesDelNuevoNodoIT;
+					t.adyacentesAVertice_= adyacentesDelNuevoNodo;
 
 					usados[agregarNuevosAdyacentes]=true;
 					predecesores[agregarNuevosAdyacentes]= predecesor; 
-
 
 				}
 			else
@@ -360,10 +356,6 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 		}
 	}
 
-	for (std::vector<>::iterator i = .begin(); i != .end(); ++i)
-	{
-		
-	}
 
 	// terminé de poner todos los predecesores.
 	// ahora tengo que devolver la lista de nodos y aristas del recorrido con la arista que cierra el ciclo.
