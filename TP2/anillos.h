@@ -279,10 +279,24 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 
 
 
-pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo, vector<int> predecesores, vector<bool> usados)
+pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo)
 {
 
 	int n = grafo.size();
+
+	vector<bool> usados(n);
+	// inicializo las posiciones del vector con false
+	for (int i = 0; i < n; ++i)
+	{
+		usados[i]=false;
+	}
+
+	vector<int> predecesores(n);
+	predecesores[salida]=0; // para que saber cuando tengo que parar de pedir predecesores
+
+
+	int i;
+	int agregarNuevosAdyacentes;
 
 	std::priority_queue< tuplaPila > heap;
 
@@ -291,7 +305,7 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 	//buscar los adyacentes de salida
 
 	list<int> adyacentes ;
-	for (int i = 1; i < n; ++i)
+	for (i = 1; i < n; ++i)
 	{
 		if (grafo[i][salida] != -1)
 			adyacentes.push_back(i);
@@ -308,7 +322,6 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 	usados[salida]= true;
 	predecesores[salida]= 0;
 
-	// bool cortarWhile = true;
 	while(!heap.empty())
 	{
 		if (heap.top().adyacentesAVertice_.empty()) // si el nodo de la pila no tiene más adyacentes
@@ -321,7 +334,7 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 
 			// borro el nodo de la lista de adyacentes
 			list<int> adyacentes =heap.top().adyacentesAVertice_;
-			int agregarNuevosAdyacentes = (heap.top().adyacentesAVertice_).front();
+			agregarNuevosAdyacentes = (heap.top().adyacentesAVertice_).front();
 			adyacentes.pop_front();
 			// como no puedo modificar la tupla porque top es const, tengo que crear una nueva y meter los datos cambiados
 
@@ -331,13 +344,10 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 			t.adyacentesAVertice_= adyacentes;
 			heap.pop();
 			heap.push(t);
-			// heap.top().adyacentesAVertice_=adyacentes;
-
-
 
 			prioridad++; // aumento la prioridad del siguiente vertice(agregarNuevosAdyacentes) que voy a poner sus adyacentes en el heap
 			list<int> adyacentesDelNuevoNodo;
-			for (int i = 1; i < n; ++i)
+			for (i = 1; i < n; ++i)
 			{
 				if (grafo[i][agregarNuevosAdyacentes] != -1 && !usados[i])
 					adyacentesDelNuevoNodo.push_back(i);
@@ -350,10 +360,10 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 			heap.push(t1);
 
 			usados[agregarNuevosAdyacentes]=true;
+
+			// if (agregarNuevosAdyacentes != llegada ||  predecesor != salida )
 			predecesores[agregarNuevosAdyacentes]= predecesor;
 
-			// if(agregarNuevosAdyacentes == llegada && predecesor != salida )
-//                    cortarWhile =false;
 
 
 		}

@@ -8,7 +8,6 @@ void anillo( vector< vector<int> > grafo)
 	list<int> nodos = arbolGeneradorMinimo(grafo).nodos_;
 	list<arista> aristas = arbolGeneradorMinimo(grafo).aritas_;
 
-	// el grafo tiene tamano nodos +1, 
 	if (nodos.size() < n-1 || arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_ == 0 ) 
 	// si no usó todos los nodo o recibió basura, no hay solución
 		cout << "no";
@@ -17,21 +16,25 @@ void anillo( vector< vector<int> > grafo)
 		int desde = arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_;
 		int hasta = arbolGeneradorMinimo(grafo).MinGeneraArbol_.w_;
 
-
-		vector<int> predecesores(n);
-
-		predecesores[desde]=0; // para que saber cuando tengo que parar de pedir predecesores
-
-		vector<bool> usados(n);
-		// inicializo las posiciones del vector con false
-		for (int i = 0; i < n; ++i)
+		//creo un grafo con las aristas del arbol generador minimo
+		// pero ponerPesoAlaAristas toma una lista de arista_costo, voy a poner costo a las aristas del arbol
+		list<arista_costo> arisCostoArbol;
+		for (std::list<arista>::iterator i = aristas.begin(); i != aristas.end(); ++i)
 		{
-			usados[i]=false;
+			arista_costo a;
+			a.u_= (*i).u_;
+			a.w_= (*i).w_;
+			a.costo_= 0;
+			arisCostoArbol.push_back(a);
+
 		}
 
-		list<arista> aristasAnillo = camino(desde, hasta, grafo, predecesores,usados).first;
-		list<int> nodosAnillo = camino(desde, hasta, grafo, predecesores,usados).second;
-		// ahora recorro las aristas del árbolGeneradoMinimo, si u y w están en los nodos del anillo entonces esa arista es parate
+		vector< vector<int> > grafoArbol = ponerPesoAlasAristas(nodos.size(), arisCostoArbol);
+
+		list<arista> aristasAnillo = camino(desde, hasta, grafoArbol).first;
+		list<int> nodosAnillo = camino(desde, hasta, grafoArbol).second;
+
+		// ahora recorro las aristas del árbolGeneradoMinimo, si u y w están en los nodos del anillo entonces esa arista es parte
 		// del anillo y no del resto de las computadoras
 
 		// para saber rápido si pasa esto, meto los nodos del anillo en un vector de bool
@@ -39,19 +42,16 @@ void anillo( vector< vector<int> > grafo)
 		vector<bool> sonDeAnillo(n);
 		// inicializo el vector con todo false
 		for (int i = 1; i < n; ++i)
-		{
 			sonDeAnillo[i]=false;
-		}
+
 		// ahora le pongo true en los nodos que son del anillo
 		for (std::list<int>::iterator it=nodosAnillo.begin(); it != nodosAnillo.end(); ++it)
-		{
 			sonDeAnillo[(*it)]=true;
-		}
 
 		list<arista> aristaNoDeAnillo;
 		for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
 		{
-			if ((!sonDeAnillo[(*it).u_] && sonDeAnillo[(*it).w_]) || (sonDeAnillo[(*it).u_] && !sonDeAnillo[(*it).w_])) // si no son parte del anillo
+			if (!sonDeAnillo[(*it).u_] || !sonDeAnillo[(*it).w_] ) // si no son parte del anillo
 				aristaNoDeAnillo.push_back((*it));
 		}
 
@@ -59,33 +59,20 @@ void anillo( vector< vector<int> > grafo)
 		//costo de las conexiones, es el costo de todas las conexiones, anillo y demas.
 		int costo=0;
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
-		{
-			int u = (*it).u_;
-			int w = (*it).w_;
-			costo = costo + grafo[u][w];
-		}
+			costo = costo + grafo[(*it).u_][(*it).w_];
 
 		for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
-		{
-			int u = (*it).u_;
-			int w = (*it).w_;
-			costo = costo + grafo[u][w];
-		}
-
-		// tengo el costo de todas las conexiones en costo;
+			costo = costo + grafo[(*it).u_][(*it).w_];
 
 		cout << costo <<endl;
 		cout << "anillo:";
 		for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
-		{
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
-		}
+
 		cout<<endl;
 		cout<< "demas:";
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
-		{
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
-		}
 
 	}
 
