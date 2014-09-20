@@ -84,153 +84,142 @@ void anillo( vector< vector<int> > grafo)
 int main()
 {
 
-	// string l;
-	// std::getline(cin, l);
-	// istringstream ss(l);
-	// string token;
-	// std::getline(ss, token, ' ');
-	// int n, m;
-	// n = atoi(token.c_str());
-	// std::getline(ss, token, ' ');
-	// m = atoi(token.c_str());
-	// // std::getline(cin, l);
-	// // getline(cin, l);
-
-
-
-	// list<arista_costo> valores;
-
-	// for (int i = 0; i < m; ++i)
-	// {
-	// 	istringstream ss(l);
-	// 	string token;
-	// 	std::getline(ss, token, ' ');
-	// 	int u, w, costo;
-	// 	u = atoi(token.c_str());
-	// 	std::getline(ss, token, ' ');
-	// 	w = atoi(token.c_str());
-	// 	std::getline(ss, token, ' ');
-	// 	costo = atoi(token.c_str());
-
-	// 	arista_costo a;
-	// 	a.u_= u;
-	// 	a.w_= w;
-	// 	a.costo_= costo;
-
-	// 	valores.push_back(a);
-
-
-	// 	getline(cin, l);
-	// }
-	// cout<<"___________________________\n"<<"Solucion" <<endl;
-
-
-	// vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
-
-	// anillo(grafo);
-
-
-
-	int n=6;
-
-	arista_costo a;
-
-		a.u_= 1;
-		a.w_= 2;
-		a.costo_= 4;
-
-	arista_costo a1;
-		a1.u_= 1;
-		a1.w_= 8;
-		a1.costo_= 8;
-
-	arista_costo a2;
-		a2.u_= 2;
-		a2.w_= 3;
-		a2.costo_= 8;
-
-	arista_costo a3;
-		a3.u_= 3;
-		a3.w_= 4;
-		a3.costo_= 6;
-
-	arista_costo a4;
-		a4.u_= 4;
-		a4.w_= 5;
-		a4.costo_= 9;
-
-	arista_costo a5;
-		a5.u_= 5;
-		a5.w_= 6;
-		a5.costo_= 10;
-	
-	arista_costo a6;
-		a6.u_= 6;
-		a6.w_= 7;
-		a6.costo_= 3;
-
-	arista_costo a7;
-		a7.u_= 7;
-		a7.w_= 8;
-		a7.costo_= 1;	
-
-	arista_costo a8;
-		a8.u_= 8;
-		a8.w_= 9;
-		a8.costo_= 6;	
-
-	arista_costo a9;
-		a9.u_= 2;
-		a9.w_= 8;
-		a9.costo_= 12;	
-
-	arista_costo a10;
-		a10.u_= 3;
-		a10.w_= 9;
-		a10.costo_= 3;	
-
-	arista_costo a11;
-		a11.u_= 9;
-		a11.w_= 7;
-		a11.costo_= 5;	
-
-	arista_costo a12;
-		a12.u_= 3;
-		a12.w_= 6;
-		a12.costo_= 4;	
-
-	arista_costo a13;
-		a13.u_= 4;
-		a13.w_= 6;
-		a13.costo_= 13;
+	string l;
+	std::getline(cin, l);
+	istringstream ss(l);
+	string token;
+	std::getline(ss, token, ' ');
+	int n, m;
+	n = atoi(token.c_str());
+	std::getline(ss, token, ' ');
+	m = atoi(token.c_str());
+	getline(cin, l);
 
 
 
 	list<arista_costo> valores;
-	valores.push_back(a);
-	valores.push_back(a1);
-	valores.push_back(a2);
-	valores.push_back(a3);
-	valores.push_back(a4);
-	valores.push_back(a5);
-	valores.push_back(a6);
-	valores.push_back(a7);
-	valores.push_back(a8);
-	valores.push_back(a9);
-	valores.push_back(a10);
-	valores.push_back(a11);
-	valores.push_back(a12);
-	valores.push_back(a13);
+
+	for (int i = 0; i < m; ++i)
+	{
+		istringstream ss2(l);
+		string token;
+		std::getline(ss2, token, ' ');
+		int u, w, costo;
+		u = atoi(token.c_str());
+		std::getline(ss2, token, ' ');
+		w = atoi(token.c_str());
+		std::getline(ss2, token, ' ');
+		costo = atoi(token.c_str());
+
+		arista_costo a;
+		a.u_= u;
+		a.w_= w;
+		a.costo_= costo;
+
+		valores.push_back(a);
+
+		getline(cin, l);
+	}
+	cout<<"___________________________\n"<<"Solucion" <<endl;
+
+
+	vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
+
+	anillo(grafo);
+
+// int n=9;
+
+// 	arista_costo a;
+
+// 		a.u_= 1;
+// 		a.w_= 2;
+// 		a.costo_= 4;
+
+// 	arista_costo a1;
+// 		a1.u_= 1;
+// 		a1.w_= 8;
+// 		a1.costo_= 8;
+
+// 	arista_costo a2;
+// 		a2.u_= 2;
+// 		a2.w_= 3;
+// 		a2.costo_= 8;
+
+// 	arista_costo a3;
+// 		a3.u_= 3;
+// 		a3.w_= 4;
+// 		a3.costo_= 6;
+
+// 	arista_costo a4;
+// 		a4.u_= 4;
+// 		a4.w_= 5;
+// 		a4.costo_= 9;
+
+// 	arista_costo a5;
+// 		a5.u_= 5;
+// 		a5.w_= 6;
+// 		a5.costo_= 10;
+	
+// 	arista_costo a6;
+// 		a6.u_= 6;
+// 		a6.w_= 7;
+// 		a6.costo_= 3;
+
+// 	arista_costo a7;
+// 		a7.u_= 7;
+// 		a7.w_= 8;
+// 		a7.costo_= 1;	
+
+// 	arista_costo a8;
+// 		a8.u_= 8;
+// 		a8.w_= 9;
+// 		a8.costo_= 6;	
+
+// 	arista_costo a9;
+// 		a9.u_= 2;
+// 		a9.w_= 8;
+// 		a9.costo_= 12;	
+
+// 	arista_costo a10;
+// 		a10.u_= 3;
+// 		a10.w_= 9;
+// 		a10.costo_= 3;	
+
+// 	arista_costo a11;
+// 		a11.u_= 9;
+// 		a11.w_= 7;
+// 		a11.costo_= 5;	
+
+// 	arista_costo a12;
+// 		a12.u_= 3;
+// 		a12.w_= 6;
+// 		a12.costo_= 4;	
+
+// 	arista_costo a13;
+// 		a13.u_= 4;
+// 		a13.w_= 6;
+// 		a13.costo_= 13;
 
 
 
+// 	list<arista_costo> valores;
+// 	valores.push_back(a);
+// 	valores.push_back(a1);
+// 	valores.push_back(a2);
+// 	valores.push_back(a3);
+// 	valores.push_back(a4);
+// 	valores.push_back(a5);
+// 	valores.push_back(a6);
+// 	valores.push_back(a7);
+// 	valores.push_back(a8);
+// 	valores.push_back(a9);
+// 	valores.push_back(a10);
+// 	valores.push_back(a11);
+// 	valores.push_back(a12);
+// 	valores.push_back(a13);
 
-
-	vector<vector<int> > grafo = ponerPesoAlasAristas(9, valores);
-
-	arbolGeneradorMinimo(grafo);
-
-	anillo(grafo);	
+// 	vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
+// 	anillo(grafo);
 
 	return 0;
 }
