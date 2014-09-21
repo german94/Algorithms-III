@@ -81,8 +81,9 @@ bool No_Hay_Camino(vector<std::pair<int, vector<int> > > soluciones)
 std::pair<int, vector<int> > minimo_camino(vector <std::pair<int, vector<int> > > soluciones)
 {
 	int posicion = 0; //se que hay por lo menos un vuelo que llego a "destino"
-	for(int i = 0; i< soluciones.size(); i++)
+	for(int i = 1; i< soluciones.size(); i++)
 	{
+		if(soluciones[posicion].first==-1) posicion = i;
 		if(soluciones[i].first <= soluciones[posicion].first && soluciones[i].first !=-1)
 		{
 			posicion = i;//me guardo la posición donde la primer componente de la tupla es la menor y distinto a -1		
