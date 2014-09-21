@@ -102,18 +102,18 @@ std::pair<int, vector<int> > salida(vector<vuelo> vuelos, int origen, int destin
 std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, bool verifico[], vuelo salida, int posicion_en_vuelos, int destino, vector< vector<int> > donde)
 {
 	std::pair <int , vector<int> > itinerario; 
-	if (salida.lugar_de_llegada == destino)
+	if (verifico[posicion_en_vuelos] == false)//no verifique ese vuelo
 	{
-		vector<int> camino; //acá voy a tener la lista con todos los vuelos que me ayudan 
-		//a llegar a destino
-		camino.push_back(posicion_en_vuelos); 
-		itinerario.first = salida.hora_llegada; //la hora que llego a destino
-		itinerario.second = camino; // los vuelos para llegar
-		verifico[posicion_en_vuelos] = true; //si otro vuelo hace uso de este vuelo ya tengo la información que necesito y no vuelvo a calcularl
-	}
-	else 
-	{
-		if (verifico[posicion_en_vuelos] == false)//no verifique ese vuelo
+		if (salida.lugar_de_llegada == destino)
+		{
+			vector<int> camino; //acá voy a tener la lista con todos los vuelos que me ayudan 
+			//a llegar a destino
+			camino.push_back(posicion_en_vuelos); 
+			itinerario.first = salida.hora_llegada; //la hora que llego a destino
+			itinerario.second = camino; // los vuelos para llegar
+			verifico[posicion_en_vuelos] = true; //si otro vuelo hace uso de este vuelo ya tengo la información que necesito y no vuelvo a calcularl
+		}
+		else 
 		{
 			vector<int> posiciones = donde[salida.lugar_de_llegada];
 			if (posiciones.size() == 0)
@@ -145,11 +145,11 @@ std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, bool verifico[
 				}	
 			}	
 		}
-		else
-		{
-			itinerario.first = -1;//si ya analice este vuelo y sus sgtes no vuelo a analizar
-		}	
-	}	
+	}
+	else
+	{
+		itinerario.first = -1;//si ya analice este vuelo y sus sgtes no vuelo a analizar
+	}		
 	return itinerario;
 }
 
