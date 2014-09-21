@@ -10,7 +10,7 @@ using namespace std;
 
 std::pair<int, vector<int> > salida(vector<vuelo> vuelos, int inicio, int llegada, vector<vector<int> > donde);
 
-std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, std::pair<int, vector<int> > verifico[], vuelo salida, int posicion_de_salida, int llegada, vector<vector<int> > donde);
+std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, bool verifico[], vuelo salida, int posicion_de_salida, int llegada, vector<vector<int> > donde);
 
 int main()
 {
@@ -64,15 +64,10 @@ int main()
 std::pair<int, vector<int> > salida(vector<vuelo> vuelos, int origen, int destino, vector<vector<int> > donde)
 {
 	int n = vuelos.size();
-	std::pair<int, vector<int> > verifico[n];//arreglo donde se dejan caminos prearmados si ya verifique 
-	//ese vuelo. Asi, si otro vuelo utiliza este ya se hacia donde va y si me sirve o no tomar este vuelo para llegar a "destino"
+	bool verifico[n];//arreglo donde indico si ya analice ese vuelo y todos aquellos que puedo analizar siguiendo este vuelo 
 	for (int i = 0; i <n ; i++ )
 	{
-		std::pair<int, vector<int> > resul_parciales;//segun el int se si me sirve tomar ese vuelo o no -2 siginifica que no analice el vuelo
-//-1 que desde ese vuelo no hay ninguna combinación posible que me lleve a "destino", y otro valor representa que si llegue a "destino" y a que hora, 
-// y la otra componente, el vector, son los vuelos que hice para llegar hasta ahí		
-		resul_parciales.first = -2;//el -2 indica que no analice ese vuelo (valor inicial)
-		verifico[i] = resul_parciales ;
+		verifico[i] = false; //inicializo con false indicando que todavia no analice ningun vuelo
 	}
 
 	vector<int> posiciones = donde[origen];
@@ -104,27 +99,27 @@ std::pair<int, vector<int> > salida(vector<vuelo> vuelos, int origen, int destin
 	}
 }			
 
-std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, std::pair<int, vector<int> > verifico[], vuelo salida, int posicion_en_vuelos, int destino, vector< vector<int> > donde)
+std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, bool verifico[], vuelo salida, int posicion_en_vuelos, int destino, vector< vector<int> > donde)
 {
+	std::pair <int , vector<int> > itinerario; 
 	if (salida.lugar_de_llegada == destino)
 	{
 		vector<int> camino; //acá voy a tener la lista con todos los vuelos que me ayudan 
 		//a llegar a destino
 		camino.push_back(posicion_en_vuelos); 
-		std::pair <int , vector<int> > itinerario; // voy a poner la hora de llegada 
-		// y a empezar a construir el camino
 		itinerario.first = salida.hora_llegada; //la hora que llego a destino
 		itinerario.second = camino; // los vuelos para llegar
-		verifico[posicion_en_vuelos] = itinerario; //si otro vuelo hace uso de este vuelo ya tengo la información que necesito y no vuelvo a calcularl
+		verifico[posicion_en_vuelos] = true; //si otro vuelo hace uso de este vuelo ya tengo la información que necesito y no vuelvo a calcularl
 	}
 	else 
 	{
-		if (verifico[posicion_en_vuelos].first == -2)
+		if (verifico[posicion_en_vuelos] == false)//no verifique ese vuelo
 		{
 			vector<int> posiciones = donde[salida.lugar_de_llegada];
 			if (posiciones.size() == 0)
 			{ 
-				verifico[posicion_en_vuelos].first = -1; //no llegue a destino y desde esta ciudad no hay mas vuelos este camino no sirve
+				verifico[posicion_en_vuelos] = true; //no llegue a destino y desde esta ciudad no hay mas vuelos este camino no sirve
+				itinerario.first = -1;
 			}
 			else
 			{
@@ -139,17 +134,22 @@ std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, std::pair<int,
 				}
 				if (No_Hay_Camino(soluciones))
 				{
-					verifico[posicion_en_vuelos].first = -1; //no llegue a destino  y desde esta ciudad y sus sgtes vuelos no sirven
+					verifico[posicion_en_vuelos] = true; //no llegue a destino  y desde esta ciudad y sus sgtes vuelos no sirven
+					itinerario.first = -1;
 				}
 				else
 				{
-					std::pair<int, vector<int> > minimo =  minimo_camino(soluciones);//hay minimo una combinacion de vuelos para llegar  a destino elijo el que llega antes
-					minimo.second.push_back(posicion_en_vuelos); //agrego este vuelo ya que me sirve para llefar a destino
-					verifico[posicion_en_vuelos] = minimo; // actualizo verifico
+					itinerario =  minimo_camino(soluciones);//hay minimo una combinacion de vuelos para llegar  a destino elijo el que llega antes
+					itinerario.second.push_back(posicion_en_vuelos); //agrego este vuelo ya que me sirve para llefar a destino
+					verifico[posicion_en_vuelos] = true; // actualizo verifico
 				}	
 			}	
+		}
+		else
+		{
+			itinerario.first = -1;//si ya analice este vuelo y sus sgtes no vuelo a analizar
 		}	
-	}
-	return verifico[posicion_en_vuelos];	
+	}	
+	return itinerario;
 }
 
