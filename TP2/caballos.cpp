@@ -96,8 +96,15 @@ void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, in
 		{
 			int movs = 0;
 			for(int c = 0; c < length; c++)
+			{
+				if(tableros[c][i][j] == - 1)
+				{
+					movs = -1;
+					break;
+				}
 				movs += tableros[c][i][j];
-			if(movs < movsMinimos || movsMinimos == -1)
+			}
+			if((movs < movsMinimos || movsMinimos == -1) && movs != -1)
 			{
 				movsMinimos = movs;
 				posMinima = pair<int, int>(i, j);
@@ -105,7 +112,10 @@ void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, in
 			}
 		}
 	}
-	cout<<posMinima.first<<" "<<posMinima.second<<" "<<movsMinimos<<endl;
+	if(movsMinimos == -1)
+		cout<<"no"<<endl;
+	else
+		cout<<posMinima.first<<" "<<posMinima.second<<" "<<movsMinimos<<endl;
 }
 
 
@@ -130,9 +140,9 @@ int main()
 		istringstream sse(l);
 		int x, y;
 		std::getline(sse, token, ' ');
-		x = atoi(token.c_str());
+		x = atoi(token.c_str()) - 1;
 		std::getline(sse, token, ' ');
-		y = atoi(token.c_str());
+		y = atoi(token.c_str()) - 1;
 		caballos.push_back(pair<int, int>(x, y));
 		vector<vector<int> > tablero;
 		for(int z=0; z<n; z++)
@@ -148,6 +158,8 @@ int main()
 
 		i--;
 	}
+
+	cout<<"_____________"<<endl;
 
 	ResolverTablero(tableros, caballos);
 
