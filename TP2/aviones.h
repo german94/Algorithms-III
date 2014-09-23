@@ -14,8 +14,8 @@ struct vuelo
 	int hora_llegada;
 };
 
-vector<string> mapear(vector<string> a_mapear) //"mapeados"
-{
+vector<string> mapear(vector<string> a_mapear){ //"mapeados"
+	
 	vector<string> res;
 	for (int i = 0; i < a_mapear.size(); i++)
 	{
@@ -29,16 +29,14 @@ vector<string> mapear(vector<string> a_mapear) //"mapeados"
 	return res;
 }
 
-vector<vuelo> construir_vuelos(vector<string> mapeados, vector<string> a_mapear, vector<int> horas)
-{
+vector<vuelo> construir_vuelos(vector<string> mapeados, vector<string> a_mapear, vector<int> horas){
+	
 	vector<vuelo> vuelos;
-	int i;
-	int j;
+	int i, j;
 	for( i =0, j= 0; i < a_mapear.size(); i=i+2, j=j+2 ) //a_mapear[i] representa la ciudad de origen y a_mapear[i+1] la destino para un vuelo y
 	// horas[j] es la hora de salida. horas[j+1] la hora de llegada para ese vuelo		
 	{
-		int salida;//las ciudades ahora como int
-		int llegada;
+		int salida, llegada;//las ciudades ahora como int
 		for(int buscar = 0; buscar < mapeados.size(); buscar++)
 		{
 			if(mapeados[buscar] == a_mapear[i]) {salida = buscar;}
@@ -53,6 +51,8 @@ vector<vuelo> construir_vuelos(vector<string> mapeados, vector<string> a_mapear,
 	}
 	return vuelos;
 }
+
+bool por_llegada(const vuelo x,const vuelo y){return x.hora_llegada < y.hora_llegada;}
 
 vector<vector<int> > de_donde_salen(vector<vuelo> vuelos, int cantidad_paises) //"donde"
 {
