@@ -5,17 +5,26 @@
 #include <fstream>
 #include <ctime>
 #include <list>
+#include <algorithm>
 
 using namespace std;
+
+void DarTiempo(double t)
+{
+	ofstream myfile;
+	myfile.open ("tiemposCaballos.txt", ios::app);
+	myfile <<t << "\n";
+	myfile.close();
+}
 
 bool esValida(pair<int, int> p, int n)
 {
 	return ((p.first >= 0 && p.first <= n - 1) && (p.second >= 0 && p.second <= n - 1));
 }
 
-vector<pair<int, int> > PosicionesASaltar(pair<int, int> p, int n)
+list<pair<int, int> > PosicionesASaltar(pair<int, int> p, int n)
 {
-	vector<pair<int, int> > aSaltar;
+	list<pair<int, int> > aSaltar;
 
 	if(esValida(pair<int, int>(p.first - 2, p.second - 1), n))
 		aSaltar.push_back(pair<int, int>(p.first - 2, p.second - 1));
@@ -45,13 +54,13 @@ vector<pair<int, int> > PosicionesASaltar(pair<int, int> p, int n)
 	return aSaltar;
 }
 
-vector<pair<int, int> > FiltrarMarcadas(vector<vector<int> > M, vector<pair<int, int> > l)
+list<pair<int, int> > FiltrarMarcadas(vector<vector<int> > M, list<pair<int, int> > l)
 {
-	vector<pair<int, int> > lNoMarcadas;
-	for(int i=0; i<l.size(); i++)
+	list<pair<int, int> > lNoMarcadas;
+	for (std::list<pair<int,int> >::iterator it=l.begin(); it != l.end(); ++it)
 	{
-		if(M[l[i].first][l[i].second] == -1)
-			lNoMarcadas.push_back(l[i]);
+		if(M[(*it).first][(*it).second] == -1)
+			lNoMarcadas.push_back((*it));
 	}
 
 	return lNoMarcadas;
@@ -60,33 +69,36 @@ vector<pair<int, int> > FiltrarMarcadas(vector<vector<int> > M, vector<pair<int,
 void LlenarTablero(vector<vector<int> >& M, int n, pair<int, int> pos)
 {
 	int c = 0;
-	vector<pair<int, int> > listaActual;
+	list<pair<int, int> > listaActual;
 	listaActual.push_back(pos);
 
 	while(listaActual.size() > 0)
 	{
-		vector<pair<int, int> > listaNueva;
-		for(int j = 0; j < listaActual.size(); j++)
+		list<pair<int, int> > listaNueva;
+		
+		for (std::list<pair<int,int> >::iterator it=listaActual.begin(); it != listaActual.end(); ++it)
 		{
-			vector<pair<int, int> > l = PosicionesASaltar(listaActual[j], n);
+			list<pair<int, int> > l = PosicionesASaltar((*it), n);
 			l = FiltrarMarcadas(M, l);
-			listaNueva.insert(listaNueva.end(), l.begin(), l.end());
+			for (std::list<pair<int,int> >::iterator it2=l.begin(); it2!= l.end(); ++it2)
+			{
+				if(M[(*it2).first][(*it2).second] == -1)
+				{
+					M[(*it2).first][(*it2).second] = c + 1;
+					listaNueva.push_back((*it2));
+				}
+			}
 		}
-
-		for(int i = 0; i < listaNueva.size(); i++)
-			M[listaNueva[i].first][listaNueva[i].second] = c + 1;
-
 
 		listaActual = listaNueva;
 			
 		c++;
-
 	}
 }
 
-void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, int> > caballos)
+void ResolverTablero(vector<vector<vector<int> > > tableros)
 {
-	int length = caballos.size();
+	int length = tableros.size();
 	int n = tableros[0].size();
 	int movsMinimos = -1;
 	pair<int, int> posMinima;
@@ -97,7 +109,7 @@ void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, in
 			int movs = 0;
 			for(int c = 0; c < length; c++)
 			{
-				if(tableros[c][i][j] == - 1)
+				if(tableros[c][i][j] == -1)
 				{
 					movs = -1;
 					break;
@@ -115,54 +127,71 @@ void ResolverTablero(vector<vector<vector<int> > > tableros, vector<pair<int, in
 	if(movsMinimos == -1)
 		cout<<"no"<<endl;
 	else
-		cout<<posMinima.first<<" "<<posMinima.second<<" "<<movsMinimos<<endl;
+		cout<<posMinima.first + 1<<" "<<posMinima.second + 1<<" "<<movsMinimos<<endl;
 }
 
 
 int main()
-{
-	vector<vector<vector<int> > > tableros;
-	vector<pair<int, int> > caballos;
+{ 	
 	string l;
 	std::getline(cin, l);
-	istringstream ss(l);
-	string token;
-	std::getline(ss, token, ' ');
-	int k, n;
-	n = atoi(token.c_str());
-	std::getline(ss, token, ' ');
-	k = atoi(token.c_str());
-	int i = k;
+	int instancias = atoi(l.c_str());
 
-	while(i > 0)
+	for(int x=0; x<instancias; x++)
 	{
+		vector<vector<vector<int> > > tableros;
+		vector<pair<int, int> > caballos;
+		string l;
 		std::getline(cin, l);
-		istringstream sse(l);
-		int x, y;
-		std::getline(sse, token, ' ');
-		x = atoi(token.c_str()) - 1;
-		std::getline(sse, token, ' ');
-		y = atoi(token.c_str()) - 1;
-		caballos.push_back(pair<int, int>(x, y));
-		vector<vector<int> > tablero;
-		for(int z=0; z<n; z++)
+		istringstream ss(l);
+		string token;
+		std::getline(ss, token, ' ');
+		int k, n;
+		n = atoi(token.c_str());
+		std::getline(ss, token, ' ');
+		k = atoi(token.c_str());
+		tableros.resize(k);
+		caballos.resize(n);
+		int i = k;
+
+		while(i > 0)
 		{
-			vector<int> f;
-			for(int h=0; h<n; h++)
-				f.push_back(-1);
-			tablero.push_back(f);
+			std::getline(cin, l);
+			istringstream sse(l);
+			int x, y;
+			std::getline(sse, token, ' ');
+			x = atoi(token.c_str()) - 1;
+			std::getline(sse, token, ' ');
+			y = atoi(token.c_str()) - 1;
+			caballos[k - i] = pair<int, int>(x, y);
+
+			i--;
 		}
-		tablero[x][y] = 0;
-		LlenarTablero(tablero, n, pair<int, int>(x, y));
-		tableros.push_back(tablero);
 
-		i--;
+		clock_t begin = clock();
+
+		for(int c = 0; c < k; c++)
+		{
+			vector<vector<int> > tablero;
+			tablero.resize(n);
+			for(int z=0; z<n; z++)
+				tablero[z] = vector<int>(n, -1);
+
+			tablero[caballos[c].first][caballos[c].second] = 0;
+			LlenarTablero(tablero, n, caballos[c]);
+
+			tableros[c] = tablero;
+		}
+		
+
+
+		ResolverTablero(tableros);
+		clock_t end = clock();
+        double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
+        DarTiempo(elapsed_msecs);
+
+
 	}
-
-	cout<<"_____________"<<endl;
-
-	ResolverTablero(tableros, caballos);
-
 
 	return 0;
 }
