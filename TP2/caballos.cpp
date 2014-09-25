@@ -17,76 +17,65 @@ void DarTiempo(double t)
 	myfile.close();
 }
 
-bool esValida(pair<int, int> p, int n)
+bool esValida(pair<int, int> p, vector<vector<int> >& M)
 {
-	return ((p.first >= 0 && p.first <= n - 1) && (p.second >= 0 && p.second <= n - 1));
+	return ((p.first >= 0 && p.first <= M.size() - 1) && (p.second >= 0 && p.second <= M.size() - 1)) && (M[p.first][p.second] == -1);
 }
 
-list<pair<int, int> > PosicionesASaltar(pair<int, int> p, int n)
+void PosicionesASaltar(pair<int, int> p, vector<vector<int> >& M, list<pair<int, int> >& aSaltar)
 {
-	list<pair<int, int> > aSaltar;
-
-	if(esValida(pair<int, int>(p.first - 2, p.second - 1), n))
+	if(esValida(pair<int, int>(p.first - 2, p.second - 1), M))
 		aSaltar.push_back(pair<int, int>(p.first - 2, p.second - 1));
 
-	if(esValida(pair<int, int>(p.first - 1, p.second - 2), n))
+	if(esValida(pair<int, int>(p.first - 1, p.second - 2), M))
 		aSaltar.push_back(pair<int, int>(p.first - 1, p.second - 2));
 
-	if(esValida(pair<int, int>(p.first - 2, p.second + 1), n))
+	if(esValida(pair<int, int>(p.first - 2, p.second + 1), M))
 		aSaltar.push_back(pair<int, int>(p.first - 2, p.second + 1));
 
-	if(esValida(pair<int, int>(p.first - 1, p.second + 2), n))
+	if(esValida(pair<int, int>(p.first - 1, p.second + 2), M))
 		aSaltar.push_back(pair<int, int>(p.first - 1, p.second + 2));
 
-	if(esValida(pair<int, int>(p.first + 2, p.second - 1), n))
+	if(esValida(pair<int, int>(p.first + 2, p.second - 1), M))
 		aSaltar.push_back(pair<int, int>(p.first + 2, p.second - 1));
 
-	if(esValida(pair<int, int>(p.first + 1, p.second - 2), n))
+	if(esValida(pair<int, int>(p.first + 1, p.second - 2), M))
 		aSaltar.push_back(pair<int, int>(p.first + 1, p.second - 2));
 
-	if(esValida(pair<int, int>(p.first + 2, p.second + 1), n))
+	if(esValida(pair<int, int>(p.first + 2, p.second + 1), M))
 		aSaltar.push_back(pair<int, int>(p.first + 2, p.second + 1));
 
-	if(esValida(pair<int, int>(p.first + 1, p.second + 2), n))
+	if(esValida(pair<int, int>(p.first + 1, p.second + 2), M))
 		aSaltar.push_back(pair<int, int>(p.first + 1, p.second + 2));
-
-
-	return aSaltar;
 }
 
-list<pair<int, int> > FiltrarMarcadas(vector<vector<int> > M, list<pair<int, int> > l)
+void FiltrarMarcadas(vector<vector<int> > M, list<pair<int, int> > l, list<pair<int, int> >& lNoMarcadas)
 {
-	list<pair<int, int> > lNoMarcadas;
 	for (std::list<pair<int,int> >::iterator it=l.begin(); it != l.end(); ++it)
 	{
 		if(M[(*it).first][(*it).second] == -1)
 			lNoMarcadas.push_back((*it));
 	}
-
-	return lNoMarcadas;
 }
 
 void LlenarTablero(vector<vector<int> >& M, int n, pair<int, int> pos)
-{
+{ 
 	int c = 0;
 	list<pair<int, int> > listaActual;
 	listaActual.push_back(pos);
 
-	while(listaActual.size() > 0)
+	while(!listaActual.empty())
 	{
 		list<pair<int, int> > listaNueva;
 		
 		for (std::list<pair<int,int> >::iterator it=listaActual.begin(); it != listaActual.end(); ++it)
 		{
-			list<pair<int, int> > l = PosicionesASaltar((*it), n);
-			l = FiltrarMarcadas(M, l);
+			list<pair<int, int> > l;
+			PosicionesASaltar((*it), M, l);
 			for (std::list<pair<int,int> >::iterator it2=l.begin(); it2!= l.end(); ++it2)
 			{
-				if(M[(*it2).first][(*it2).second] == -1)
-				{
-					M[(*it2).first][(*it2).second] = c + 1;
-					listaNueva.push_back((*it2));
-				}
+				M[(*it2).first][(*it2).second] = c + 1;
+				listaNueva.push_back((*it2));
 			}
 		}
 
@@ -141,7 +130,6 @@ int main()
 	{
 		vector<vector<vector<int> > > tableros;
 		vector<pair<int, int> > caballos;
-		string l;
 		std::getline(cin, l);
 		istringstream ss(l);
 		string token;
@@ -151,7 +139,7 @@ int main()
 		std::getline(ss, token, ' ');
 		k = atoi(token.c_str());
 		tableros.resize(k);
-		caballos.resize(n);
+		caballos.resize(k);
 		int i = k;
 
 		while(i > 0)
@@ -164,7 +152,6 @@ int main()
 			std::getline(sse, token, ' ');
 			y = atoi(token.c_str()) - 1;
 			caballos[k - i] = pair<int, int>(x, y);
-
 			i--;
 		}
 
