@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <algorithm>
+#include <sstream>
 #include "aviones.h" 
 using namespace std;
 
@@ -13,50 +14,65 @@ std::pair<int, vector<int> > Buscar_Llegada(vector<vuelo> vuelos, int vuelos_dis
 
 int main()
 {
-	vector<string> a_mapear; //va a contener las ciudades de los vuelos
-	vector<int> horas; // va a contener los horarios de los vuelos
-	int cantidad; //CANTIDAD DE VUELOS DISPONIBLES
-	string origen; // CIUDAD ORIGEN DE LA INSTANCIA
-	string destino;// CIUDAD DESTINO DE LA INSTANCIA
-	cin >> origen >> destino >> cantidad;
-
-	for(int i = 0; i < cantidad; i++)
+	string l;
+	std::getline(cin, l);
+	int cantInstancias = atoi(l.c_str());
+	for(int j = 0; j < cantInstancias; j++)
 	{
-		string lu_salida;
-		cin >> lu_salida;
-		a_mapear.push_back(lu_salida); //voy armando un vector con la ciudad origen y destino de cada vuelo
-		string lu_llegada;
-		cin >> lu_llegada;
-		a_mapear.push_back(lu_llegada); // armo otro vector con la hora de salida y llegada de cada vuelo
-		int ho_salida;
-		cin >> ho_salida;
-		horas.push_back(ho_salida);
-		int ho_llegada;
-		cin >> ho_llegada;
-		horas.push_back(ho_llegada);
+		vector<string> a_mapear; //va a contener las ciudades de los vuelos
+		vector<int> horas; // va a contener los horarios de los vuelos
+		int cantidad; //CANTIDAD DE VUELOS DISPONIBLES
+		string origen; // CIUDAD ORIGEN DE LA INSTANCIA
+		string destino;// CIUDAD DESTINO DE LA INSTANCIA
+		std::getline(cin, l);
+		istringstream ss(l);
+		std::getline(ss, origen, ' ');
+		std::getline(ss, destino, ' ');
+		std::getline(ss, l, ' ');
+		cantidad = atoi(l.c_str());
+
+		for(int i = 0; i < cantidad; i++)
+		{
+			std::getline(cin, l);
+			istringstream sse(l);
+			string lu_salida;
+			std::getline(sse, lu_salida, ' ');
+			string lu_llegada;
+			std::getline(sse, lu_llegada, ' ');
+			string c;
+			std::getline(sse, c, ' ');
+			int ho_salida = atoi(c.c_str());
+			std::getline(sse, c, ' ');
+			int ho_llegada = atoi(c.c_str());
+
+			a_mapear.push_back(lu_salida);
+			a_mapear.push_back(lu_llegada);
+			horas.push_back(ho_salida);
+			horas.push_back(ho_llegada);
+		}
+
+		vector<string> mapeados =mapear(a_mapear); //cada ciudad distinta recibe un numero, la numeración va de
+		//0 .. n-1 (siendo n la cantidad de ciudades distintas)
+		vector<vuelo> vuelos = construir_vuelos(mapeados, a_mapear, horas); //construyo un vector de vuelos
+		// cada vuelo es <ori, des, ini, fin> solo que ori y des no son del tipo string sino int segun la funcion mapear 
+		std::sort (vuelos.begin(), vuelos.end(), por_llegada);//ordeno por menor costo
+
+		vector<vector<int> > donde = de_donde_salen(vuelos, mapeados.size()); //cada posicion de "donde"
+		//representa una ciudad, mapeada a un int, y en cada una esta la posición donde esa ciudad es una ciudad de origen en el vector "vuelos"
+		int origen_mapeado, destino_mapeado;
+		bool existe = false; //si la ciudad origen no esta en ningun vuelo no hay solución
+		for(int i = 0; i < mapeados.size(); i++)
+		{
+			if(mapeados[i] == origen) {origen_mapeado = i; existe = true;}
+			if(mapeados[i] == destino) {destino_mapeado = i;}
+		}//busco a la ciudad de ORIGEN y DESTINO de la instancia y devuelvo su equivalente en int
+		if(!existe) cout << "no" <<endl;
+		else
+		{	
+			std::pair<int, vector<int> > resul = salida(vuelos, origen_mapeado, destino_mapeado, donde);//funcion principal
+			mostrar (resul); // muestro el resultado
+	   	}
 	}
-
-	vector<string> mapeados =mapear(a_mapear); //cada ciudad distinta recibe un numero, la numeración va de
-	//0 .. n-1 (siendo n la cantidad de ciudades distintas)
-	vector<vuelo> vuelos = construir_vuelos(mapeados, a_mapear, horas); //construyo un vector de vuelos
-	// cada vuelo es <ori, des, ini, fin> solo que ori y des no son del tipo string sino int segun la funcion mapear 
-	std::sort (vuelos.begin(), vuelos.end(), por_llegada);//ordeno por menor costo
-
-	vector<vector<int> > donde = de_donde_salen(vuelos, mapeados.size()); //cada posicion de "donde"
-	//representa una ciudad, mapeada a un int, y en cada una esta la posición donde esa ciudad es una ciudad de origen en el vector "vuelos"
-	int origen_mapeado, destino_mapeado;
-	bool existe = false; //si la ciudad origen no esta en ningun vuelo no hay solución
-	for(int i = 0; i < mapeados.size(); i++)
-	{
-		if(mapeados[i] == origen) {origen_mapeado = i; existe = true;}
-		if(mapeados[i] == destino) {destino_mapeado = i;}
-	}//busco a la ciudad de ORIGEN y DESTINO de la instancia y devuelvo su equivalente en int
-	if(!existe) cout << "no" <<endl;
-	else
-	{	
-		std::pair<int, vector<int> > resul = salida(vuelos, origen_mapeado, destino_mapeado, donde);//funcion principal
-		mostrar (resul); // muestro el resultado
-   	}
     return 0;
 }
 
