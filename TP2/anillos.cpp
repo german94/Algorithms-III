@@ -1,12 +1,11 @@
 #include "anillos.h"
 
-
 void anillo( vector< vector<int> > grafo)
 {
 	int n = grafo.size(); // es la cantidad de nodos +1
 
 	list<int> nodos = arbolGeneradorMinimo(grafo).nodos_;
-	list<arista> aristas = arbolGeneradorMinimo(grafo).aritas_;
+	list<arista> aristas = arbolGeneradorMinimo(grafo).aristas_;
 
 	if (nodos.size() < n-1 || arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_ == 0 ) 
 	// si no usó todos los nodo o recibió basura, no hay solución
@@ -22,11 +21,8 @@ void anillo( vector< vector<int> > grafo)
 		for (std::list<arista>::iterator i = aristas.begin(); i != aristas.end(); ++i)
 		{
 			arista_costo a;
-			a.u_= (*i).u_;
-			a.w_= (*i).w_;
-			a.costo_= 0;
+			a.u_= (*i).u_; a.w_= (*i).w_; a.costo_= 0;
 			arisCostoArbol.push_back(a);
-
 		}
 
 		vector< vector<int> > grafoArbol = ponerPesoAlasAristas(nodos.size(), arisCostoArbol);
@@ -38,10 +34,10 @@ void anillo( vector< vector<int> > grafo)
 		// del anillo y no del resto de las computadoras
 
 		// para saber rápido si pasa esto, meto los nodos del anillo en un vector de bool
-
-		vector<bool> sonDeAnillo(n);
+		int cantNodosAnillo = nodosAnillo.size();
+		vector<bool> sonDeAnillo(cantNodosAnillo);
 		// inicializo el vector con todo false
-		for (int i = 1; i < n; ++i)
+		for (int i = 1; i < cantNodosAnillo; ++i)
 			sonDeAnillo[i]=false;
 
 		// ahora le pongo true en los nodos que son del anillo
@@ -54,8 +50,6 @@ void anillo( vector< vector<int> > grafo)
 			if (!sonDeAnillo[(*it).u_] || !sonDeAnillo[(*it).w_] ) // si no son parte del anillo
 				aristaNoDeAnillo.push_back((*it));
 		}
-
-
 		//costo de las conexiones, es el costo de todas las conexiones, anillo y demas.
 		int costo=0;
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
@@ -64,8 +58,8 @@ void anillo( vector< vector<int> > grafo)
 		for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
 			costo = costo + grafo[(*it).u_][(*it).w_];
 
-		cout << costo <<endl;
-		cout << "anillo:";
+		cout << "costo:"<<costo <<endl;
+		cout << "anillo:"<<endl;
 		for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
 
@@ -73,17 +67,12 @@ void anillo( vector< vector<int> > grafo)
 		cout<< "demas:";
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
-
 	}
 
 }
 
-
-
-
 int main()
 {
-
 	string l;
 	std::getline(cin, l);
 	istringstream ss(l);
@@ -95,11 +84,9 @@ int main()
 	m = atoi(token.c_str());
 	getline(cin, l);
 
-
-
 	list<arista_costo> valores;
 
-	for (int i = 0; i < m; ++i)
+	for (int i = 0; i < m; ++i) //por qué tengo que poner m-1?
 	{
 		istringstream ss2(l);
 		string token;
@@ -112,21 +99,17 @@ int main()
 		costo = atoi(token.c_str());
 
 		arista_costo a;
-		a.u_= u;
-		a.w_= w;
-		a.costo_= costo;
-
+		a.u_= u; a.w_= w; a.costo_= costo;
 		valores.push_back(a);
-
 		getline(cin, l);
 	}
 	cout<<"___________________________\n"<<"Solucion" <<endl;
 
-
 	vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
-
 	anillo(grafo);
 
+	return 0;
+}
 // int n=9;
 
 // 	arista_costo a;
@@ -221,8 +204,6 @@ int main()
 // 	vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
 // 	anillo(grafo);
 
-	return 0;
-}
 //_*_*_*_*_*_*_*_*_*_*_*
 //pseuso:
 
