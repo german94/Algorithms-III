@@ -7,6 +7,9 @@
 #include <list>
 #include <queue>
 
+#include <algorithm>
+
+
 using namespace std;
 
 struct arista{int u_; int w_;};
@@ -27,6 +30,14 @@ struct tuplaPila
 		{return this->prioridad_ >= otra.prioridad_;} // es menor cuando el costo es mayor o igual, para que el heap sea un minheap
 };
 
+void DarTiempo(float t)
+{
+	ofstream myfile;
+	myfile.open ("tiempos.txt", ios::app);
+	myfile<<t<< "\n";
+	myfile.close();
+}
+
 vector<vector<int> > crearMatrizGrafo(int n)
 {
 	vector<vector<int> > grafo(n+1); // es n+1 porque las computadoras están numeradas de 1 a n, y la indexación del vector es de 0 a n-1
@@ -41,7 +52,7 @@ vector<vector<int> > crearMatrizGrafo(int n)
 	return grafo;
 }
 
-vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo> valores)
+vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo>& valores)
 {
 	vector<vector<int> > grafo = crearMatrizGrafo(n);
 	for (std::list<arista_costo>::iterator it=valores.begin(); it != valores.end(); ++it)
@@ -52,17 +63,20 @@ vector<vector<int> >  ponerPesoAlasAristas(int n, list<arista_costo> valores)
 	return grafo;
 }
 
-arista_costo buscarGeneraCiclo(vector <vector<int> > grafo, list<arista> aristasArbol)
+arista_costo buscarGeneraCiclo(vector <vector<int> >& grafo, list<arista>& aristasArbol)
 {
-	int n= grafo.size();
+	int n= grafo.size(); // n es la cantidad de nodos +1
 	vector<vector<int> > arbol = crearMatrizGrafo(n);
-	int acum =0;
 	for (std::list<arista>::iterator it=aristasArbol.begin(); it != aristasArbol.end(); ++it)
 	{
 		int i = (*it).u_; int j = (*it).w_; int costo = grafo[(*it).u_][(*it).w_];
 		arbol[i][j]=costo; arbol[j][i]=costo; // pues es simétrico
-		acum = acum + costo;
 	}
+
+	int acum =0;
+	for (int i = 1; i < n; ++i)
+		for (int j = 1; j <n; ++j)
+			acum = acum+ grafo[i][j];
 
 	arista_costo min;
 	min.costo_=acum+1;  min.u_=0; min.w_=0;
@@ -86,7 +100,7 @@ arista_costo buscarGeneraCiclo(vector <vector<int> > grafo, list<arista> aristas
 	return min;
 }
 
-resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
+resAGM arbolGeneradorMinimo(vector<vector<int> >& grafo)
 {
 	int n = grafo.size();
 
@@ -149,7 +163,7 @@ resAGM arbolGeneradorMinimo(vector<vector<int> > grafo)
 	return res;
 }
 
-pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> > grafo)
+pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> >& grafo)
 {
 	int n = grafo.size();
 	vector<bool> usados(n);

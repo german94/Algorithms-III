@@ -1,19 +1,23 @@
 #include "anillos.h"
+#include "time.h"
+void comunidadDelAnillo( int cantNodos, list<arista_costo>& valores)
+{	
+	clock_t begin = clock();
+	vector<vector<int> > grafo = ponerPesoAlasAristas(cantNodos, valores);
 
-void anillo( vector< vector<int> > grafo)
-{
 	int n = grafo.size(); // es la cantidad de nodos +1
 
-	list<int> nodos = arbolGeneradorMinimo(grafo).nodos_;
-	list<arista> aristas = arbolGeneradorMinimo(grafo).aristas_;
+	resAGM res = arbolGeneradorMinimo(grafo);
+	 list<int> nodos = res.nodos_;
+	list<arista> aristas = res.aristas_;
+	int desde = res.MinGeneraArbol_.u_;
+	int hasta = res.MinGeneraArbol_.w_;
 
-	if (nodos.size() < n-1 || arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_ == 0 ) 
+	if (nodos.size() < n-1 ||  hasta== 0 ) 
 	// si no usó todos los nodo o recibió basura, no hay solución
 		cout << "no";
 	else
 	{
-		int desde = arbolGeneradorMinimo(grafo).MinGeneraArbol_.u_;
-		int hasta = arbolGeneradorMinimo(grafo).MinGeneraArbol_.w_;
 
 		//creo un grafo con las aristas del arbol generador minimo
 		// pero ponerPesoAlaAristas toma una lista de arista_costo, voy a poner costo a las aristas del arbol
@@ -34,23 +38,27 @@ void anillo( vector< vector<int> > grafo)
 		// del anillo y no del resto de las computadoras
 
 		// para saber rápido si pasa esto, meto los nodos del anillo en un vector de bool
-		int cantNodosAnillo = nodosAnillo.size();
-		vector<bool> sonDeAnillo(cantNodosAnillo);
+		// int cantNodosAnillo = nodosAnillo.size();
+		vector<bool> sonDeAnillo(n);
 		// inicializo el vector con todo false
-		for (int i = 1; i < cantNodosAnillo; ++i)
+		for (int i = 0; i < n; ++i)
 			sonDeAnillo[i]=false;
 
+		
 		// ahora le pongo true en los nodos que son del anillo
-		for (std::list<int>::iterator it=nodosAnillo.begin(); it != nodosAnillo.end(); ++it)
-			sonDeAnillo[(*it)]=true;
+		 for (std::list<int>::iterator it=nodosAnillo.begin(); it != nodosAnillo.end(); ++it)
+		 {
+		 	// cout<<*it<<" "<<sonDeAnillo.size()<<endl;
+		 	sonDeAnillo[(*it)]=true;
 
+}
 		list<arista> aristaNoDeAnillo;
-		for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
-		{
-			if (!sonDeAnillo[(*it).u_] || !sonDeAnillo[(*it).w_] ) // si no son parte del anillo
+		 for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
+		 {
+		 	if (!sonDeAnillo[(*it).u_] || !sonDeAnillo[(*it).w_] ) // si no son parte del anillo
 				aristaNoDeAnillo.push_back((*it));
-		}
-		//costo de las conexiones, es el costo de todas las conexiones, anillo y demas.
+		 }
+		// costo de las conexiones, es el costo de todas las conexiones, anillo y demas.
 		int costo=0;
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
 			costo = costo + grafo[(*it).u_][(*it).w_];
@@ -69,44 +77,77 @@ void anillo( vector< vector<int> > grafo)
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
 	}
 
+	clock_t end = clock();
+    float elapsed_msecs = (float(end - begin) / CLOCKS_PER_SEC) * 1000;
+    DarTiempo(elapsed_msecs);
+
 }
+
+void generadorDeInsatancias (int cantPC, int r)
+{	
+	srand (time (NULL));
+	list<arista_costo> valores;
+
+	for (int i = 1; i < cantPC; ++i)
+	{
+		for (int j = i+1; j <= cantPC; ++j)
+				{
+					arista_costo a;
+					a.u_= i; a.w_= j; a.costo_= rand() %r;
+					valores.push_back(a);
+				}		
+	}
+	// for (std::list<arista_costo>::iterator i = valores.begin(); i != valores.end(); ++i)
+	// {
+	// 		cout<< "("<<(*i).u_<< "," << (*i).w_ << "," << (*i).costo_ << ")" << endl;
+	// }
+
+	comunidadDelAnillo(cantPC, valores);
+
+}
+
 
 int main()
 {
-	string l;
-	std::getline(cin, l);
-	istringstream ss(l);
-	string token;
-	std::getline(ss, token, ' ');
-	int n, m;
-	n = atoi(token.c_str());
-	std::getline(ss, token, ' ');
-	m = atoi(token.c_str());
-	getline(cin, l);
+	// string l;
+	// std::getline(cin, l);
+	// istringstream ss(l);
+	// string token;
+	// std::getline(ss, token, ' ');
+	// int n, m;
+	// n = atoi(token.c_str());
+	// std::getline(ss, token, ' ');
+	// m = atoi(token.c_str());
+	// getline(cin, l);
 
-	list<arista_costo> valores;
+	// list<arista_costo> valores;
 
-	for (int i = 0; i < m; ++i) //por qué tengo que poner m-1?
-	{
-		istringstream ss2(l);
-		string token;
-		std::getline(ss2, token, ' ');
-		int u, w, costo;
-		u = atoi(token.c_str());
-		std::getline(ss2, token, ' ');
-		w = atoi(token.c_str());
-		std::getline(ss2, token, ' ');
-		costo = atoi(token.c_str());
+	// for (int i = 0; i < m; ++i) //por qué tengo que poner m-1?
+	// {
+	// 	istringstream ss2(l);
+	// 	string token;
+	// 	std::getline(ss2, token, ' ');
+	// 	int u, w, costo;
+	// 	u = atoi(token.c_str());
+	// 	std::getline(ss2, token, ' ');
+	// 	w = atoi(token.c_str());
+	// 	std::getline(ss2, token, ' ');
+	// 	costo = atoi(token.c_str()); 
 
-		arista_costo a;
-		a.u_= u; a.w_= w; a.costo_= costo;
-		valores.push_back(a);
-		getline(cin, l);
-	}
-	cout<<"___________________________\n"<<"Solucion" <<endl;
+	// 	arista_costo a;
+	// 	a.u_= u; a.w_= w; a.costo_= costo;
+	// 	valores.push_back(a);
+	// 	getline(cin, l);
+	// }
+	// cout<<"___________________________\n"<<"Solucion" <<endl;
 
-	vector<vector<int> > grafo = ponerPesoAlasAristas(n, valores);
-	anillo(grafo);
+	
+	// comunidadDelAnillo(n,valores);
+	// for (int i = 1; i < 10000; ++i)
+	// {
+		generadorDeInsatancias(3, 50);
+		/* code */
+	// }
 
 	return 0;
 }
