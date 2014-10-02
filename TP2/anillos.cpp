@@ -131,13 +131,24 @@ int main()
 	// cout<<"___________________________\n"<<"Solucion" <<endl;
 
 	
-	comunidadDelAnillo(n,valores);
-	for (int i = 1; i < 200; ++i)
+	// comunidadDelAnillo(n,valores);
+	for (int i = 1; i < 10000; ++i)
 	{
 		generadorDeInsatancias(i, 5000000);
 		/* code */
 	}
 
+	ofstream myfile;
+	myfile.open ("tiempos.txt", ios::app);
+	myfile<< "\n";
+	myfile<< "\n";
+	myfile<< "\n";
+	myfile<< "\n";
+	myfile<< "constatar constante";
+	myfile.close();
+
+
+	generadorDeInsatancias(5000, 5000000);
 
 	return 0;
 }
