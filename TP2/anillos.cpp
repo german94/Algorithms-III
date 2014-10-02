@@ -84,6 +84,8 @@ void generadorDeInsatancias (int cantPC, int r)
 					valores.push_back(a);
 				}		
 	}
+
+
 	// for (std::list<arista_costo>::iterator i = valores.begin(); i != valores.end(); ++i)
 	// {
 	// 		cout<< "("<<(*i).u_<< "," << (*i).w_ << "," << (*i).costo_ << ")" << endl;
@@ -129,12 +131,13 @@ int main()
 	// cout<<"___________________________\n"<<"Solucion" <<endl;
 
 	
-	// comunidadDelAnillo(n,valores);
-	// for (int i = 1; i < 10000; ++i)
-	// {
-		generadorDeInsatancias(5, 5000000);
+	comunidadDelAnillo(n,valores);
+	for (int i = 1; i < 200; ++i)
+	{
+		generadorDeInsatancias(i, 5000000);
 		/* code */
-	// }
+	}
+
 
 	return 0;
 }
