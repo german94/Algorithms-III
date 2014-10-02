@@ -1,5 +1,6 @@
 #include "anillos.h"
 #include "time.h"
+
 void comunidadDelAnillo( int cantNodos, list<arista_costo>& valores)
 {	
 	clock_t begin = clock();
@@ -8,57 +9,44 @@ void comunidadDelAnillo( int cantNodos, list<arista_costo>& valores)
 	int n = grafo.size(); // es la cantidad de nodos +1
 
 	resAGM res = arbolGeneradorMinimo(grafo);
-	 list<int> nodos = res.nodos_;
-	list<arista> aristas = res.aristas_;
+	 list<int> nodosArbol = res.nodos_;
+	list<arista> aristasArbol = res.aristas_;
 	int desde = res.MinGeneraArbol_.u_;
 	int hasta = res.MinGeneraArbol_.w_;
 
-	if (nodos.size() < n-1 ||  hasta== 0 ) 
-	// si no usó todos los nodo o recibió basura, no hay solución
+	if (nodosArbol.size() < n-1 ||  hasta== 0 ) // si no usó todos los nodo o recibió basura, no hay solución
 		cout << "no";
 	else
 	{
-
-		//creo un grafo con las aristas del arbol generador minimo
-		// pero ponerPesoAlaAristas toma una lista de arista_costo, voy a poner costo a las aristas del arbol
+		//creo un grafo con las aristas del arbol generador minimo,pero ponerPesoAlaAristas toma una lista de arista_costo, voy a poner costo a las aristas del arbol
 		list<arista_costo> arisCostoArbol;
-		for (std::list<arista>::iterator i = aristas.begin(); i != aristas.end(); ++i)
+		for (std::list<arista>::iterator i = aristasArbol.begin(); i != aristasArbol.end(); ++i)
 		{
 			arista_costo a;
 			a.u_= (*i).u_; a.w_= (*i).w_; a.costo_= 0;
 			arisCostoArbol.push_back(a);
 		}
 
-		vector< vector<int> > grafoArbol = ponerPesoAlasAristas(nodos.size(), arisCostoArbol);
+		vector< vector<int> > grafoArbol = ponerPesoAlasAristas(nodosArbol.size(), arisCostoArbol);
 
-		list<arista> aristasAnillo = camino(desde, hasta, grafoArbol).first;
-		list<int> nodosAnillo = camino(desde, hasta, grafoArbol).second;
+		pair<list<arista>, list<int> > anillo = camino(desde, hasta, grafoArbol);
+		list<arista> aristasAnillo = anillo.first;
+		list<int> nodosAnillo = anillo.second;
 
-		// ahora recorro las aristas del árbolGeneradoMinimo, si u y w están en los nodos del anillo entonces esa arista es parte
-		// del anillo y no del resto de las computadoras
-
-		// para saber rápido si pasa esto, meto los nodos del anillo en un vector de bool
-		// int cantNodosAnillo = nodosAnillo.size();
 		vector<bool> sonDeAnillo(n);
-		// inicializo el vector con todo false
-		for (int i = 0; i < n; ++i)
+		for (int i = 0; i < n; ++i) // inicializo el vector con todo false
 			sonDeAnillo[i]=false;
-
 		
-		// ahora le pongo true en los nodos que son del anillo
 		 for (std::list<int>::iterator it=nodosAnillo.begin(); it != nodosAnillo.end(); ++it)
-		 {
-		 	// cout<<*it<<" "<<sonDeAnillo.size()<<endl;
 		 	sonDeAnillo[(*it)]=true;
 
-}
 		list<arista> aristaNoDeAnillo;
-		 for (std::list<arista>::iterator it=aristas.begin(); it != aristas.end(); ++it)
+		 for (std::list<arista>::iterator it=aristasArbol.begin(); it != aristasArbol.end(); ++it)
 		 {
-		 	if (!sonDeAnillo[(*it).u_] || !sonDeAnillo[(*it).w_] ) // si no son parte del anillo
+		 	if (!sonDeAnillo[(*it).u_] || !sonDeAnillo[(*it).w_] ) // si no son parte del anillo, es cuando ambas aristas no están en el anillo
 				aristaNoDeAnillo.push_back((*it));
 		 }
-		// costo de las conexiones, es el costo de todas las conexiones, anillo y demas.
+
 		int costo=0;
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
 			costo = costo + grafo[(*it).u_][(*it).w_];
@@ -71,7 +59,6 @@ void comunidadDelAnillo( int cantNodos, list<arista_costo>& valores)
 		for (std::list<arista>::iterator it=aristasAnillo.begin(); it != aristasAnillo.end(); ++it)
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
 
-		cout<<endl;
 		cout<< "demas:";
 		for (std::list<arista>::iterator it=aristaNoDeAnillo.begin(); it != aristaNoDeAnillo.end(); ++it)
 			cout << (*it).u_ <<" "<< (*it).w_<< endl;
@@ -145,7 +132,7 @@ int main()
 	// comunidadDelAnillo(n,valores);
 	// for (int i = 1; i < 10000; ++i)
 	// {
-		generadorDeInsatancias(3, 50);
+		generadorDeInsatancias(5, 5000000);
 		/* code */
 	// }
 

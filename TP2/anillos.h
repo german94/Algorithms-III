@@ -21,8 +21,8 @@ struct arista_costo
 };
 
 struct resAGM //lo que retorna el arbol generador mínimo
-{list<int> nodos_;	list<arista> aristas_; arista_costo MinGeneraArbol_; // es la arista que genera el ciclo, de costo mínimo entre las aristas no usadas
-};
+{list<int> nodos_;	list<arista> aristas_; arista_costo MinGeneraArbol_;}; // es la arista que genera el ciclo, de costo mínimo entre las aristas no usadas
+
 
 struct tuplaPila
 {int prioridad_; int vertice_; list<int > adyacentesAVertice_;
@@ -85,15 +85,8 @@ arista_costo buscarGeneraCiclo(vector <vector<int> >& grafo, list<arista>& arist
 	{
 		for (int j = 1; j < n; ++j)
 		{
-			if (grafo[i][j] !=-1)
-			{	// si no están ambos nodos usados y el costo es más chico que el actual, cambio 
-				if ( arbol[i][j]==-1 && grafo[i][j] < min.costo_)
-					{
-						min.costo_=grafo[i][j]; 
-						min.u_=i;
-						min.w_=j;
-					}
-			}
+			if (grafo[i][j] !=-1 && arbol[i][j]==-1 && grafo[i][j] < min.costo_ ) //si está definido, si no está en el árbol usados y el costo es más chico que el actual, cambio 	
+			{min.costo_=grafo[i][j]; min.u_=i; min.w_=j;}
 		}
 	}
 	//si nunca cambió min.u_ y quedó en 0, no hay solución.
@@ -103,31 +96,26 @@ arista_costo buscarGeneraCiclo(vector <vector<int> >& grafo, list<arista>& arist
 resAGM arbolGeneradorMinimo(vector<vector<int> >& grafo)
 {
 	int n = grafo.size();
+	std::priority_queue<arista_costo> siguienteArista;
+	list<int> nodos;
+	list<arista> aristas;
 
 	std::vector<bool> usados(n);
 	for (int i = 0; i < n; ++i) // inicializo todos en false
 		usados[i]= false;
 
-	std::priority_queue<arista_costo> siguienteArista;
-
-	int nodo = 1;
-	for (int i = 1; i < n; ++i)
+	for (int i = 1; i < n; ++i) // empiezo con un nodo cualquiera, en este caso 1.
 	{
-		if (grafo[i][nodo] != -1)
+		if (grafo[i][1] != -1)
 		{	
-			arista_costo a; a.u_=nodo; a.w_=i; a.costo_= grafo[i][nodo]; 
+			arista_costo a; a.u_=1; a.w_=i; a.costo_= grafo[i][1]; 
 			siguienteArista.push(a);
 		}
 	} // ya tengo encolados los adyacentes a 1.
-	usados[nodo] = true;
+	usados[1] = true;
+	nodos.push_back(1);	
 
-	list<int> nodos;
-	list<arista> aristas;
-	int cantNodos = 0;
-	nodos.push_back(nodo);
-	cantNodos++;	
-
-	while(!siguienteArista.empty() && cantNodos !=n-1)
+	while(!siguienteArista.empty() )
 	{
 		int nodo = siguienteArista.top().w_;
 		int adyacenteANodo = siguienteArista.top().u_;
@@ -136,13 +124,12 @@ resAGM arbolGeneradorMinimo(vector<vector<int> >& grafo)
 		{
 				usados[nodo]= true;
 				nodos.push_back(nodo);
-				cantNodos++;
-				arista a; a.u_=nodo; a.w_= adyacenteANodo;
+				arista a; a.w_=nodo; a.u_= adyacenteANodo;
 				aristas.push_back(a);
 
 			for (int i = 1; i < n; ++i)
 			{
-				if (grafo[i][nodo] != -1 && !usados[i]) // para que no vuelva a encolar cosas usadas.
+				if (grafo[i][nodo] != -1 && !usados[i]) // para que no vuelva a encolar nodos usados.
 				{	
 					arista_costo a; a.u_=nodo; a.w_=i; a.costo_= grafo[i][nodo]; 
 					siguienteArista.push(a);
@@ -155,88 +142,75 @@ resAGM arbolGeneradorMinimo(vector<vector<int> >& grafo)
 	resAGM res;
 	res.aristas_=aristas;
 	res.nodos_=nodos;
-
-	res.MinGeneraArbol_.u_= buscarGeneraCiclo(grafo,aristas).u_;
-	res.MinGeneraArbol_.w_= buscarGeneraCiclo(grafo,aristas).w_;
-	res.MinGeneraArbol_.costo_= buscarGeneraCiclo(grafo,aristas).costo_;
+	res.MinGeneraArbol_= buscarGeneraCiclo(grafo,aristas);
 
 	return res;
 }
 
 pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int> >& grafo)
 {
-	int n = grafo.size();
+	int n = grafo.size(); // n es la cantidad de nodos +1
+	std::priority_queue< tuplaPila > heap;
+	int prioridad=1;
+
 	vector<bool> usados(n);
-	// inicializo las posiciones del vector con false
-	for (int i = 0; i < n; ++i)
+	for (int i = 0; i < n; ++i)	// inicializo las posiciones del vector con false
 		usados[i]=false;
 
 	vector<int> predecesores(n);
-	predecesores[salida]=0; // para que saber cuando tengo que parar de pedir predecesores
 
-	std::priority_queue< tuplaPila > heap;
-
-	int prioridad=1;
-	//buscar los adyacentes de salida
-	list<int> adyacentes ;
+	list<int> adyacentes ;	//buscar los adyacentes de salida
 	for (int i = 1; i < n; ++i)
 		if (grafo[i][salida] != -1)
 			adyacentes.push_back(i);
 
-	tuplaPila t;
-	t.vertice_ = salida; t.prioridad_= prioridad; t.adyacentesAVertice_= adyacentes;
-
+	tuplaPila t; t.vertice_ = salida; t.prioridad_= prioridad; t.adyacentesAVertice_= adyacentes;
 	heap.push(t);
 	usados[salida]= true;
-	predecesores[salida]= 0; // para saber cuando tengo que dejar de pedir predecesores
 
 	while(!heap.empty())
 	{
 		if (heap.top().adyacentesAVertice_.empty()) // si el vertice del tope de la pila no tiene más adyacentes
-		{heap.pop();}
+			heap.pop();
 		else
 		{
 			int predecesor= heap.top().vertice_;
 
-			// borro el nodo de la lista de adyacentes
 			list<int> adyacentes =heap.top().adyacentesAVertice_;
-			int agregarNuevosAdyacentes = (heap.top().adyacentesAVertice_).front();
-			adyacentes.pop_front();
+			int nodoParaAgregarNuevosAdyacentes = (heap.top().adyacentesAVertice_).front();
+			adyacentes.pop_front();	// borro el primer nodo de la lista de adyacentes
 			// como no puedo modificar la tupla porque top es const, tengo que crear una nueva tupla y meter los datos cambiados
 
-			tuplaPila t;
-			t.vertice_ = heap.top().vertice_;
-			t.prioridad_= heap.top().prioridad_;
-			t.adyacentesAVertice_= adyacentes;
+			tuplaPila modificada;
+			modificada.vertice_ = heap.top().vertice_;
+			modificada.prioridad_= heap.top().prioridad_;
+			modificada.adyacentesAVertice_= adyacentes;
 			heap.pop(); 
-			heap.push(t);
+			heap.push(modificada);
 
 			list<int> adyacentesDelNuevoNodo;
 			for (int i = 1; i < n; ++i)
-				if (grafo[i][agregarNuevosAdyacentes] != -1 && !usados[i])
+				if (grafo[i][nodoParaAgregarNuevosAdyacentes] != -1 && !usados[i])
 					adyacentesDelNuevoNodo.push_back(i);
 
-			tuplaPila t1;
-			t1.vertice_ = agregarNuevosAdyacentes;
-			t1.prioridad_= prioridad;
-			t1.adyacentesAVertice_= adyacentesDelNuevoNodo;
+			tuplaPila primeroDeAdyacentes;
+			primeroDeAdyacentes.vertice_ = nodoParaAgregarNuevosAdyacentes;
 			prioridad++; 
-			heap.push(t1);
+			primeroDeAdyacentes.prioridad_= prioridad;
+			primeroDeAdyacentes.adyacentesAVertice_= adyacentesDelNuevoNodo;
+			heap.push(primeroDeAdyacentes);
 
-			usados[agregarNuevosAdyacentes]=true;
-			predecesores[agregarNuevosAdyacentes]= predecesor;
+			usados[nodoParaAgregarNuevosAdyacentes]=true;
+			predecesores[nodoParaAgregarNuevosAdyacentes]= predecesor;
 		}
 	}
-
-	// terminé de poner todos los predecesores.
-	// ahora tengo que devolver la lista de nodos y aristas del recorrido con la arista que cierra el ciclo.
 
 		list<arista> aristas;
 		list<int> nodos;
 
 		int it = llegada;
 
-		while(predecesores[it]!=0 )// es cuando llegué a salida y  le pedí predecesor
+		while(it!=salida )
 		{
 			arista a; a.u_=it; a.w_= predecesores[it];
 			aristas.push_back(a);
