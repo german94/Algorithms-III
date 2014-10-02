@@ -183,5 +183,41 @@ Y como O($8n^2 + 1$) es O($n^2$), concluimos que la complejidad de LlenarTablero
 \newline Teniendo en cuenta las aclaraciones que hicimos al principio sobre algunas complejidades, junto con que pedirle el tamaño a un vector es constante (http://en.cppreference.com/w/cpp/container/vector/size), es fácil ver que la complejidad del algoritmo ResolverTablero es O($kn^2$), ya que son tres ciclos anidados, dos de ellos iteran desde 1 hasta n y otro itera desde 1 hasta k.
 \newline La complejidad de algoritmo entero es O($kn^2$) + O($n^2$) = O($kn^2$).
 
+\subsection{Experimentación}
+En el análisis de complejidad demostramos que nuestro algoritmo es O($kn^2$). Como la función ResolverTablero va a recorrer siempre la matriz $M$ entera, entonces podemos afirmar que nuestro algoritmo es en realidad $\theta(kn^2)$. Por lo cual no tiene mucho sentido pensar instancias de peor caso o mejor caso, porque el costo del algoritmo está dominado por la complejidad de una función que siempre tarda lo mismo. Es por eso que las instancias generadas no se pueden clasificar en peor caso o mejor caso, son simplemente instancias.
+\newline
+\newline Aclarado lo anterior, pasamos a explicar como realizamos la experimentación y generación de instancias.
+\newline Generamos dos conjuntos de 200 instancias. Las instancias van desde $n = 1$ hasta $n = 200$. La diferencia es que para un conjunto (A), el $k$ está fijo (son siempre 30 caballos) y para el otro (B), varía igual que el $n$ (la instancia $i$ tiene $n = i = k$). En ambos conjuntos, la posición en el tablero que puede tomar cada caballo es aleatoria.
+\newline Durante las mediciones de performance, el tiempo fue tomado en milisegundos. El algoritmo fue corrido varias veces (5 para el conjunto A, 3 para el conjunto B) y se calculo el tiempo mínimo, máximo y promedio. Posteriormente se efectuaron algunas divisiones sobre los tiempos calculados para corroborar que la complejidad teórica se vea reflejada en los gráficos.
+\newline
+\newline Presentamos primero, los gráficos correspondientes al conjunto A:
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{conjAcurva.jpg}\caption{Podemos ver como la curva roja que representa el tiempo máximo, sobresale por encima de la azul, que representa el mínimo, en varias partes del gráfico. La curva que representa el tiempo promedio esta entre las otras dos, por lo cual no se puede ver. Notemos que el gráfico es una curva, que podría o no ser $kn^2$ por alguna constante.}
+\end{figure}
+\pagebreak
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{conjAlinea.jpg}\caption{Este gráfico lo hicimos para corroborar que, el gráfico anterior era efectivamente una curva del tipo $kn^2$ por una constante. Lo que hicimos fue dividir los tiempos obtenidos por la cantidad de filas/columnas (el n) de cada instancias, para ver si nos quedaba algo de la forma $nk$. Como estamos en el conjunto en el cual $k$ es una constante, lo que nos queda es $n$ por una constante que es una recta.}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{conjAconst.jpg}\caption{Finalmente, para asegurarnos de que las mediciones estén reflejando la complejidad, efectuamos otra división. Esta vez dividimos los tiempos por $n^2$, y vemos como el gráfico tiende a una constante $\simeq 0.020$, verificando así que el gráfico anterior es lineal. Como nuestro objetivo es ver como son los tiempos a medida que el $n$ aumenta, hemos descartado los primeros 11 valores ya que eran muy distintos a los demás y lo que queremos evaluar es el comportamiento asintótico.}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{conjBcurva.jpg}\caption{Vemos que el gráfico es una curva también, pero esta vez alcanza valores mucho más grandes. Esto es muy razonable ya que antes, para $n = 170$ por ejemplo, teníamos 30 caballos, ahora para $n = 170$ vamos a tener 170 caballos. Si esta curva refleja la complejidad teórica, debería ser el gráfico de $kn^2$ y, como $k$ varia igual que $n$, quedaría $n^3$ por alguna constante. Veamos que tanto nos podemos asegurar de que esto es así con los siguientes gráficos.}
+\centering
+\includegraphics[width=\textwidth]{conjBlinea.jpg}\caption{Al igual que hicimos anteriormente, dividimos los tiempos obtenidos. La diferencia es que ahora por $nk$, ya que si solo dividimos por $n$ nos quedaría $kn$ y como $k$ varía igual que $n$ nos quedaría una curva y no es lo que queremos. Nuevamente podemos ver como el tiempo máximo supera al mínimo y el gráfico se asemeja mucho a una recta.}
+\end{figure}
+\pagebreak
+\newpage
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{conjBconst13.jpg}\caption{Para asegurarnos aún más que el gráfico anterior era una recta, hicimos lo mismo que antes: dividimos el tiempo obtenido una vez más pero ahora por $k.n.n$. Al igual que antes, decidimos en este caso, no tomar algunos valores del principio y gráficar a partir de $n = 13$. Podemos apreciar que el gráfico tiende a una constante $\simeq 0.00068$.}
+\end{figure}
+
+
 
 \end{document}

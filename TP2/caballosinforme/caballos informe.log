@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.18)  2 OCT 2014 13:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.18)  2 OCT 2014 20:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -515,33 +515,94 @@ Underfull \hbox (badness 10000) in paragraph at lines 179--185
 
  []
 
-[7] [8] (./caballos informe.aux) ) 
+[7] <conjAcurva.jpg, id=45, 586.19pt x 321.2pt>
+File: conjAcurva.jpg Graphic file (type jpg)
+ <use conjAcurva.jpg>
+Package pdftex.def Info: conjAcurva.jpg used on input line 196.
+(pdftex.def)             Requested size: 469.47046pt x 257.23972pt.
+
+<conjAlinea.jpg, id=46, 608.2725pt x 332.24126pt>
+File: conjAlinea.jpg Graphic file (type jpg)
+ <use conjAlinea.jpg>
+Package pdftex.def Info: conjAlinea.jpg used on input line 201.
+(pdftex.def)             Requested size: 469.47046pt x 256.43489pt.
+
+<conjAconst.jpg, id=47, 670.505pt x 341.275pt>
+File: conjAconst.jpg Graphic file (type jpg)
+ <use conjAconst.jpg>
+Package pdftex.def Info: conjAconst.jpg used on input line 205.
+(pdftex.def)             Requested size: 469.47046pt x 238.94814pt.
+
+Overfull \hbox (1.69708pt too wide) in paragraph at lines 187--207
+\OT1/cmr/m/n/10 En el an^^Salisis de com-ple-ji-dad de-mostramos que nue-stro a
+l-go-ritmo es O($\OML/cmm/m/it/10 kn[]$\OT1/cmr/m/n/10 ). Como la funci^^Son Re
+-solverTablero
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--207
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--207
+
+ []
+
+[8 <./conjAcurva.jpg>] <conjBcurva.jpg, id=51, 607.26875pt x 341.275pt>
+File: conjBcurva.jpg Graphic file (type jpg)
+
+<use conjBcurva.jpg>
+Package pdftex.def Info: conjBcurva.jpg used on input line 210.
+(pdftex.def)             Requested size: 469.47046pt x 263.83966pt.
+ <conjBlinea.jpg, id=52, 607.26875pt x 341.275pt>
+File: conjBlinea.jpg Graphic file (type jpg)
+
+<use conjBlinea.jpg>
+Package pdftex.def Info: conjBlinea.jpg used on input line 212.
+(pdftex.def)             Requested size: 469.47046pt x 263.83966pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[9 <./conjAlinea.jpg> <./conjAconst.jpg>]
+<conjBconst13.jpg, id=56, 691.58376pt x 341.275pt>
+File: conjBconst13.jpg Graphic file (type jpg)
+ <use conjBconst13.jpg>
+Package pdftex.def Info: conjBconst13.jpg used on input line 218.
+(pdftex.def)             Requested size: 469.47046pt x 231.67336pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[10 <./conjBcurva.jpg> <./conjBlinea.jpg>] [11 <./conjBconst13.jpg>]
+(./caballos informe.aux) ) 
 Here is how much of TeX's memory you used:
- 2389 strings out of 493304
- 33086 string characters out of 6139871
+ 2419 strings out of 493304
+ 33630 string characters out of 6139871
  110471 words of memory out of 5000000
- 5820 multiletter control sequences out of 15000+600000
+ 5844 multiletter control sequences out of 15000+600000
  6463 words of font info for 23 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  37i,7n,23p,2944b,246s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmti10.pfb>
-Output written on "caballos informe.pdf" (8 pages, 278900 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+xti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmti10.pfb>
+Output written on "caballos informe.pdf" (11 pages, 407064 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
- 62 compressed objects within 1 object stream
+ 108 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
