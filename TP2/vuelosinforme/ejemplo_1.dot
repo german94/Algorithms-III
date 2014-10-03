@@ -1,0 +1,18 @@
+digraph A { 
+X -> A [color=red, label="1 - 10"];
+A -> C [color=red, label="15 - 20"];
+C -> D [color=red, label="22 - 30"];
+D -> Y [color=red, label="34 - 40"];
+D -> E [color=red, label="32 - 36"];
+E -> Y [color=red, label="38 - 40"];
+X -> T [color=red, label="2 - 5"];
+T -> U [color=red, label="7 - 15"];
+U -> V [color=red, label="21 - 25"];
+U -> D [color=red, label="20 - 28"];
+V -> W [color=red, label="27 - 30"];
+W -> Z [color=red, label="32 - 35"];
+Z -> Y [color=red, label="38 - 40"];
+Z -> S [label="37 - 41"];
+
+X [style=bold]; Y [style=bold]; 
+    }
