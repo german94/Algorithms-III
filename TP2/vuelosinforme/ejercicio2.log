@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.7)  2 OCT 2014 23:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.7)  2 OCT 2014 23:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -76,15 +76,13 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+(/usr/share/texlive/texmf-dist/tex/latex/vmargin/vmargin.sty
+Package: vmargin 2004/07/15 V2.5 set document margins (VK)
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
-File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
-)
-Package color Info: Driver file: pdftex.def on input line 130.
-)
-(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: vmargin 2004/07/15 V2.5 set document margins (VK)
+\PaperWidth=\dimen105
+\PaperHeight=\dimen106
+) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2008/03/30 v1.1d Input encoding file
 \inpenc@prehook=\toks15
 \inpenc@posthook=\toks16
@@ -300,32 +298,36 @@ Now handling font encoding U ...
    defining Unicode char U+2026 (decimal 8230)
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
-)) (./ejercicio2.aux)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/mdwtools/mdwlist.sty
+Package: mdwlist 1996/05/02 1.1 Various list-related things
+)
+(./ejercicio2.aux)
 \openout1 = `ejercicio2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count95
-\scratchdimen=\dimen105
+\scratchdimen=\dimen107
 \scratchbox=\box26
 \nofMPsegments=\count96
 \nofMParguments=\count97
 \everyMPshowfont=\toks17
 \MPscratchCnt=\count98
-\MPscratchDim=\dimen106
+\MPscratchDim=\dimen108
 \MPnumerator=\count99
 \makeMPintoPDFobject=\count100
 \everyMPtoPDFconversion=\toks18
@@ -377,215 +379,193 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 12--15
+Underfull \hbox (badness 10000) in paragraph at lines 22--25
 
  []
 
 <ejemplo1.png, id=1, 256.96pt x 59.22125pt>
 File: ejemplo1.png Graphic file (type png)
  <use ejemplo1.png>
-Package pdftex.def Info: ejemplo1.png used on input line 23.
+Package pdftex.def Info: ejemplo1.png used on input line 33.
 (pdftex.def)             Requested size: 156.79242pt x 36.13573pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 18--25
+Underfull \hbox (badness 10000) in paragraph at lines 28--35
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 26--27
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 26--27
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
 
  []
 
 <ejemplo2.png, id=3, 430.60875pt x 59.22125pt>
 File: ejemplo2.png Graphic file (type png)
  <use ejemplo2.png>
-Package pdftex.def Info: ejemplo2.png used on input line 35.
+Package pdftex.def Info: ejemplo2.png used on input line 45.
 (pdftex.def)             Requested size: 262.74979pt x 36.13573pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 31--36
+Underfull \hbox (badness 10000) in paragraph at lines 41--46
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
 
  []
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./ejemplo1.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 37--38
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 37--38
-
- []
-
-<ejemplo3.png, id=13, 759.83875pt x 139.52126pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./ejemplo1.png> <./ejemplo
+2.png>] <ejemplo3.png, id=14, 759.83875pt x 139.52126pt>
 File: ejemplo3.png Graphic file (type png)
  <use ejemplo3.png>
-Package pdftex.def Info: ejemplo3.png used on input line 46.
-(pdftex.def)             Requested size: 345.00833pt x 63.35027pt.
+Package pdftex.def Info: ejemplo3.png used on input line 56.
+(pdftex.def)             Requested size: 469.48355pt x 86.20634pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--47
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 49--51
+Underfull \hbox (badness 10000) in paragraph at lines 51--57
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--51
+Underfull \hbox (badness 10000) in paragraph at lines 59--61
 
  []
 
-<ejemplo4.png, id=14, 1137.24875pt x 175.65625pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--61
+
+ []
+
+<ejemplo4.png, id=15, 1137.24875pt x 175.65625pt>
 File: ejemplo4.png Graphic file (type png)
  <use ejemplo4.png>
-Package pdftex.def Info: ejemplo4.png used on input line 60.
-(pdftex.def)             Requested size: 344.99492pt x 53.28694pt.
+Package pdftex.def Info: ejemplo4.png used on input line 70.
+(pdftex.def)             Requested size: 469.46796pt x 72.5127pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--61
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 62--63
+Underfull \hbox (badness 10000) in paragraph at lines 65--71
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--63
-
- []
-
-[2 <./ejemplo2.png> <./ejemplo3.png> <./ejemplo4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 68--69
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--69
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 71.
+(Font)              <7> on input line 81.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 71.
-
-Overfull \hbox (11.29723pt too wide) in paragraph at lines 71--74
-\OT1/cmr/m/n/10 donde cada vuelo esta con-sti-tu-ido por dos string $\OML/cmm/m
-/it/10 lugar[]de[]salida$\OT1/cmr/m/n/10 , $\OML/cmm/m/it/10 lugar[]de[]llegada
-$\OT1/cmr/m/n/10 .
+(Font)              <5> on input line 81.
+[2 <./ejemplo3.png> <./ejemplo4.png>]
+Overfull \hbox (84.9314pt too wide) in paragraph at lines 91--92
+[] $\OML/cmm/m/it/10 vector < vuelo >$ $vuelos \OMS/cmsy/m/n/10  $ \OT1/cmr/m/i
+t/10 crear vue-los asig-nando a cada ciu-dad su posi-cion en mapeados($\OML/cmm
+/m/it/10 mapeados; ciudades; horarios$\OT1/cmr/m/it/10 ) 
  []
 
-[3]
-Overfull \hbox (49.1954pt too wide) in paragraph at lines 80--81
-[] $\OML/cmm/m/it/10 vector < string >$ $mapeados \OMS/cmsy/m/n/10  $ $[]$ 
- []
-
-[4]
-Overfull \hbox (47.76382pt too wide) in paragraph at lines 98--99
-[] \OT1/cmr/bx/n/10 for \OT1/cmr/m/n/10 ($\OML/cmm/m/it/10 iterador$ $it \OMS/c
-msy/m/n/10   \OML/cmm/m/it/10 vuelo[]desde[]destino:begin\OT1/cmr/m/n/10 ()$ to
- $\OML/cmm/m/it/10 vuelo[]desde[]destino:end\OT1/cmr/m/n/10 ()$
- []
-
-
-Overfull \hbox (1.94678pt too wide) in paragraph at lines 99--100
-[] $\OML/cmm/m/it/10 posible[]solucion \OMS/cmsy/m/n/10  $ \OT1/cmr/m/n/10 bus-
-car[]llegada($\OML/cmm/m/it/10 vuelos$\OT1/cmr/m/n/10 , $\OML/cmm/m/it/10 vuelo
-s[]disponibles$\OT1/cmr/m/n/10 ,
- []
-
-
-Overfull \hbox (25.16542pt too wide) in paragraph at lines 115--116
-[]\OT1/cmr/bx/n/10 pro-ce-dure \OT1/cmr/m/sc/10 Bus-car[]llegada\OT1/cmr/m/n/10
- ($\OML/cmm/m/it/10 vector < vuelo >$ $vuelos$\OT1/cmr/m/n/10 , $\OML/cmm/m/it/
-10 int$ $vuelos[]disponibles\OT1/cmr/m/n/10 []$,
- []
-
-
-Overfull \hbox (72.69286pt too wide) in paragraph at lines 119--120
-[] \OT1/cmr/m/n/10 re-turn $\OML/cmm/m/it/10 tupla < vuelo[]actual:hora[]de[]ll
-egada; camino:push[]back\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 numero[]de[]vuelo\OT1
-/cmr/m/n/10 ) \OML/cmm/m/it/10 >$ 
- []
-
-
-Overfull \hbox (71.57936pt too wide) in paragraph at lines 123--124
-[] $\OML/cmm/m/it/10 list < int > vuelos[]desde[]nuevo[]destino \OMS/cmsy/m/n/1
-0   \OML/cmm/m/it/10 donde\OT1/cmr/m/n/10 [\OML/cmm/m/it/10 vuelo[]actual:lugar
-[]de[]llegada\OT1/cmr/m/n/10 ]$ 
- []
-
-
-Overfull \hbox (92.71179pt too wide) in paragraph at lines 124--125
-[] \OT1/cmr/bx/n/10 for \OT1/cmr/m/n/10 (it-er-ador it vue-los[]desde[]nuevo[]d
-estino.begin() to vue-los[]desde[]nuevo[]destino.end()
- []
-
-
-Overfull \hbox (1.32141pt too wide) in paragraph at lines 125--126
-[] \OT1/cmr/bx/n/10 if \OT1/cmr/m/n/10 (vue-los[*it].hora[]salida - vuelo[]actu
-al.hora[]llegada $\OML/cmm/m/it/10 >\OT1/cmr/m/n/10 =$ 2 $&&$
- []
-
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 147--149
+[3] [4]
+Underfull \hbox (badness 10000) in paragraph at lines 157--159
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 147--149
+Underfull \hbox (badness 10000) in paragraph at lines 157--159
 
  []
 
-[6] [7] [8]
-Underfull \hbox (badness 10000) in paragraph at lines 171--174
+[5] [6]
+Underfull \hbox (badness 10000) in paragraph at lines 181--183
 
  []
 
-[9] (./ejercicio2.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 181--183
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 186.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 186.
+
+Overfull \hbox (51.30838pt too wide) in paragraph at lines 191--192
+\OT1/cmr/m/n/10 (http://en.cppreference.com/w/cpp/container/list/begin, http://
+en.cppreference.com/w/cpp/container/list/end).
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--197
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--197
+
+ []
+
+[7] (./ejercicio2.aux) ) 
 Here is how much of TeX's memory you used:
- 2283 strings out of 493304
- 31640 string characters out of 6139872
- 111010 words of memory out of 5000000
- 5724 multiletter control sequences out of 15000+600000
- 5193 words of font info for 19 fonts, out of 8000000 for 9000
+ 2373 strings out of 493304
+ 32728 string characters out of 6139872
+ 106471 words of memory out of 5000000
+ 5806 multiletter control sequences out of 15000+600000
+ 5798 words of font info for 21 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,5n,23p,4158b,258s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,5n,23p,4158b,243s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmti10.pfb>
-Output written on ejercicio2.pdf (9 pages, 219771 bytes).
+/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmti10.pfb>
+Output written on ejercicio2.pdf (7 pages, 229522 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 59 compressed objects within 1 object stream
+ 89 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,9 +1,19 @@
-\documentclass{article}
+\documentclass[a4paper]{article}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{graphicx}
-\usepackage{color}
+\usepackage{vmargin}
 \usepackage[utf8]{inputenc}
+\usepackage{mdwlist}
+\setpapersize{A4}
+\setmargins{2.5cm}       % margen izquierdo
+{1.5cm}                        % margen superior
+{16.5cm}                      % anchura del texto
+{23.42cm}                    % altura del texto
+{10pt}                           % altura de los encabezados
+{1cm}                           % espacio entre el texto y los encabezados
+{0pt}                             % altura del pie de página
+{2cm}  
 
 
 \begin{document}
@@ -35,7 +45,7 @@ vuelos:
 ]{ejemplo2.png}\newline
 
 En este caso el objetivo es llegar de X a Y con los dos vuelos disponibles. El primero  se realiza desde la ciudad X a la A . Luego, el otro parte desde A hasta C, el destino de este vuelo es la ciudad C. Como este fue el último de los disponibles, y  no llegue a Y. No hay solución.\newline \newline
-
+\newpage
 Ejemplo 3:
 
 X Y 8
@@ -143,7 +153,7 @@ Finalmente al analizar todos los vuelos que salgan desde $destino$ (terminan las
 \EndProcedure
 \end{algorithmic}
 
-\vspace{0.2cm}
+\newpage
 {\noindent \Huge Complejidad:}
 \newline \newline
 
@@ -170,5 +180,19 @@ juntando las complejidades de los casos 1-9 tenemos que la complejidad total es:
 
 $O(n^{2})$ + $O(n^{2})$ + $O(2*n)$ + $O(n*log(n))$ + $O(2*n)$ + $O(n)$ + $O(2*n)$ + $O(1)$ + $O(1)$ +$O(n^{2})$ + $O(n^{2})$ + $O(n)$  = $O(4*n^{2})$ + $O(2*n)$ + $O(2)$ + $O(n*log(n))$ + $(3*2*n)$ = $O(n^{2})$ + $O(n*log(n))$ =  $O(n^{2})$
 \newline\newline
-{\noindent \Huge Experimentaci\'on:}
+
+\subsection{Recursos utilizados:}
+\begin{itemize}
+\item Crear una lista vacía tiene complejidad constante \newline (http://en.cppreference.com/w/cpp/container/list/list caso 1)
+\item AgregarAtras a una lista tiene complejidad constante 
+\newline (http://en.cppreference.com/w/cpp/container/list/push\_back)
+\item Asignar, incrementar y comparar enteros tiene complejidad constante
+\item Preguntar si una lista es vacía tiene complejidad constante \newline (http://en.cppreference.com/w/cpp/container/list/empty)
+\item Pedir el iterador al inicio de una lista y al final tienen complejidad constante \newline (http://en.cppreference.com/w/cpp/container/list/begin, http://en.cppreference.com/w/cpp/container/list/end). Avanzarlos y crearlos también ya que son punteros a nodos de la lista. 
+\item Asignar a una lista $l1$, otra lista $l2$ tiene complejidad lineal a $|l2|$ \newline (http://en.cppreference.com/w/cpp/container/list/operator\%3D)
+\end{itemize}
+
+{\noindent \Huge Experimentación:}
+\newline \newline
+
 \end{document}
