@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.18)  3 OCT 2014 00:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.18)  3 OCT 2014 13:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -416,13 +416,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 45--50
  []
 
 [2 <./instancia3.jpg> <./instsinsol.jpg>]
-<las8.jpg, id=21, 215.80624pt x 215.80624pt>
+<las8.jpg, id=22, 215.80624pt x 215.80624pt>
 File: las8.jpg Graphic file (type jpg)
  <use las8.jpg>
 Package pdftex.def Info: las8.jpg used on input line 53.
 (pdftex.def)             Requested size: 107.90285pt x 107.90285pt.
 
-<las8repetidas.jpg, id=22, 1156.32pt x 356.33125pt>
+<las8repetidas.jpg, id=23, 1156.32pt x 356.33125pt>
 File: las8repetidas.jpg Graphic file (type jpg)
  <use las8repetidas.jpg>
 Package pdftex.def Info: las8repetidas.jpg used on input line 61.
@@ -595,7 +595,7 @@ fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
 exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "caballos informe.pdf" (11 pages, 407069 bytes).
+Output written on "caballos informe.pdf" (11 pages, 407162 bytes).
 PDF statistics:
  108 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream
