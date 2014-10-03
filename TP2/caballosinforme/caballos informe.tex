@@ -14,7 +14,9 @@
 {1cm}                           % espacio entre el texto y los encabezados
 {0pt}                             % altura del pie de página
 {2cm}                           % espacio entre el texto y el pie de página
-
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
 \begin{document}
 \section{Caballos salvajes}
 \subsection{Problema a resolver}
@@ -211,9 +213,7 @@ En el análisis de complejidad demostramos que nuestro algoritmo es O($kn^2$). C
 \centering
 \includegraphics[width=\textwidth]{conjBlinea.jpg}\caption{Al igual que hicimos anteriormente, dividimos los tiempos obtenidos. La diferencia es que ahora por $nk$, ya que si solo dividimos por $n$ nos quedaría $kn$ y como $k$ varía igual que $n$ nos quedaría una curva y no es lo que queremos. Nuevamente podemos ver como el tiempo máximo supera al mínimo y el gráfico se asemeja mucho a una recta.}
 \end{figure}
-\pagebreak
-\newpage
-\begin{figure}[h!]
+\begin{figure}[t!]
 \centering
 \includegraphics[width=\textwidth]{conjBconst13.jpg}\caption{Para asegurarnos aún más que el gráfico anterior era una recta, hicimos lo mismo que antes: dividimos el tiempo obtenido una vez más pero ahora por $k.n.n$. Al igual que antes, decidimos en este caso, no tomar algunos valores del principio y gráficar a partir de $n = 13$. Podemos apreciar que el gráfico tiende a una constante $\simeq 0.00068$.}
 \end{figure}

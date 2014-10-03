@@ -126,57 +126,40 @@ void generadorDeAnillos (int cantPC, int r)
 
 int main()
 {
-	// string l;
-	// std::getline(cin, l);
-	// istringstream ss(l);
-	// string token;
-	// std::getline(ss, token, ' ');
-	// int n, m;
-	// n = atoi(token.c_str());
-	// std::getline(ss, token, ' ');
-	// m = atoi(token.c_str());
-	// getline(cin, l);
+	string l;
+	std::getline(cin, l);
+	istringstream ss(l);
+	string token;
+	std::getline(ss, token, ' ');
+	int n, m;
+	n = atoi(token.c_str());
+	std::getline(ss, token, ' ');
+	m = atoi(token.c_str());
 
-	// list<arista_costo> valores;
+	list<arista_costo> valores;
 
-	// for (int i = 0; i < m; ++i) //por qué tengo que poner m-1?
-	// {
-	// 	istringstream ss2(l);
-	// 	string token;
-	// 	std::getline(ss2, token, ' ');
-	// 	int u, w, costo;
-	// 	u = atoi(token.c_str());
-	// 	std::getline(ss2, token, ' ');
-	// 	w = atoi(token.c_str());
-	// 	std::getline(ss2, token, ' ');
-	// 	costo = atoi(token.c_str()); 
+	for (int i = 0; i < m; ++i) //por qué tengo que poner m-1?
+	{
+		getline(cin, l);
+		istringstream ss2(l);
+		std::getline(ss2, token, ' ');
+		int u, w, costo;
+		u = atoi(token.c_str());
+		std::getline(ss2, token, ' ');
+		w = atoi(token.c_str());
+		std::getline(ss2, token, ' ');
+		costo = atoi(token.c_str()); 
 
-	// 	arista_costo a;
-	// 	a.u_= u; a.w_= w; a.costo_= costo;
-	// 	valores.push_back(a);
-	// 	getline(cin, l);
-	// }
-	// cout<<"___________________________\n"<<"Solucion" <<endl;
+		arista_costo a;
+		a.u_= u; a.w_= w; a.costo_= costo;
+		valores.push_back(a);
+		
+	}
+	cout<<"___________________________\n"<<"Solucion" <<endl;
 
 	
-	// comunidadDelAnillo(n,valores);
-	for (int i = 1; i < 200; ++i)
-	{
-		generadorDeAnillos(200, 1);
-		/* code */
-	}
+	 comunidadDelAnillo(n,valores);
 
-	// ofstream myfile;
-	// myfile.open ("tiempos.txt", ios::app);
-	// myfile<< "\n";
-	// myfile<< "\n";
-	// myfile<< "\n";
-	// myfile<< "\n";
-	// myfile<< "constatar constante";
-	// myfile.close();
-
-
-	// generadorDeInsatancias(5000, 5000000);
 
 	return 0;
 }
