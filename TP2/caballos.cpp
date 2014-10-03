@@ -82,7 +82,7 @@ void LlenarTablero(vector<vector<int> >& M, int n, pair<int, int> pos)
 		listaActual = listaNueva;
 			
 		c++;
-	}
+	}	
 }
 
 void ResolverTablero(vector<vector<vector<int> > > tableros)
