@@ -72,7 +72,7 @@ void comunidadDelAnillo( int cantNodos, list<arista_costo>& valores)
 
 void generadorDeInsatancias (int cantPC, int r)
 {	
-	srand (time (NULL));
+	// srand (time (NULL));
 	list<arista_costo> valores;
 
 	for (int i = 1; i < cantPC; ++i)
@@ -94,6 +94,34 @@ void generadorDeInsatancias (int cantPC, int r)
 	comunidadDelAnillo(cantPC, valores);
 
 }
+
+void generadorDeAnillos (int cantPC, int r)
+{	
+	 srand (time (NULL));
+	list<arista_costo> valores;
+	int i = 1;
+	for (i = 1; i < cantPC; ++i)
+	{
+					arista_costo a;
+					a.u_= i; a.w_= i+1; a.costo_= rand() %r;
+					valores.push_back(a);
+		
+	}
+
+	arista_costo a;
+	a.u_= i; a.w_= 1; a.costo_= rand() %r;
+	valores.push_back(a);
+
+	for (std::list<arista_costo>::iterator i = valores.begin(); i != valores.end(); ++i)
+	{
+			cout<< "("<<(*i).u_<< "," << (*i).w_ << "," << (*i).costo_ << ")" << endl;
+	}
+
+	comunidadDelAnillo(cantPC, valores);
+
+}
+
+
 
 
 int main()
@@ -134,7 +162,7 @@ int main()
 	// comunidadDelAnillo(n,valores);
 	for (int i = 1; i < 200; ++i)
 	{
-		generadorDeInsatancias(i, 5000000);
+		generadorDeAnillos(200, 1);
 		/* code */
 	}
 

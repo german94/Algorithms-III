@@ -76,16 +76,19 @@ arista_costo buscarGeneraCiclo(vector <vector<int> >& grafo, list<arista>& arist
 	int acum =0;
 	for (int i = 1; i < n; ++i)
 		for (int j = 1; j <n; ++j)
-			acum = acum+ grafo[i][j];
+			{	
+				if(grafo[i][j]!=-1)
+					acum = acum+ grafo[i][j];
+			}
 
 	arista_costo min;
-	min.costo_=acum+1;  min.u_=0; min.w_=0;
+	min.costo_=acum;  min.u_=0; min.w_=0;
 
 	for (int i = 1; i < n; ++i)
 	{
 		for (int j = 1; j < n; ++j)
 		{
-			if (grafo[i][j] !=-1 && arbol[i][j]==-1 && grafo[i][j] < min.costo_ ) //si está definido, si no está en el árbol usados y el costo es más chico que el actual, cambio 	
+			if (grafo[i][j] !=-1 && arbol[i][j]==-1 && grafo[i][j] <= min.costo_ ) //si está definido, si no está en el árbol usados y el costo es más chico que el actual, cambio 	
 			{min.costo_=grafo[i][j]; min.u_=i; min.w_=j;}
 		}
 	}
@@ -158,6 +161,7 @@ pair<list<arista>,list<int> > camino(int salida, int llegada, vector< vector<int
 		usados[i]=false;
 
 	vector<int> predecesores(n);
+	predecesores[salida] = 0;
 
 	list<int> adyacentes ;	//buscar los adyacentes de salida
 	for (int i = 1; i < n; ++i)
