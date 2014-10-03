@@ -94,30 +94,12 @@ std::pair<int, list<int> > minimo_camino(list <std::pair<int, list<int> > >& sol
 	return *it_comparador; //devuelo la tupla minima
 }
 
-list<int> buscar_pos(std::pair<int, list<int> >& v, vector<vuelo>& sin_ord, vector<vuelo>& ord){
-	list<int> result;
-	for(std::list<int>::iterator it = v.second.begin(); it != v.second.end(); ++it)
-	{
-		for(int j= 0; j < sin_ord.size(); j++)
-		{
-			if(sin_ord[j].lugar_de_llegada == ord[*it].lugar_de_llegada && sin_ord[j].lugar_de_salida == ord[*it].lugar_de_salida &&  sin_ord[j].hora_llegada == ord[*it].hora_llegada &&  sin_ord[j].hora_salida == ord[*it].hora_salida )
-			{		
-				result.push_back(j+1);	
-				j = sin_ord.size();				
-			}
-		}
-	}
-	result.push_front(v.first); //dejo la hora en primer lugar
-	return result;
-	}
-
-void mostrar(list<int>& v){
-	if (v.empty()) cout << "no" << endl;// no hay solución si tiene -1	
+void mostrar(std::pair<int, list<int> > v){
+	if (v.first == -1) cout << "no";// no hay solución si tiene -1	
 	else
 	{	
-		std::list<int>::iterator it = v.begin();
-		cout << *it << " " << v.size() -1 << endl;
-		v.pop_front();
-		for(std::list<int>::reverse_iterator it = v.rbegin();  it != v.rend(); ++it) {cout << *it << endl;}
-	}	
+		cout << v.first << " " << v.second.size() << " ";
+		for(std::list<int>::reverse_iterator it = v.second.rbegin();  it != v.second.rend(); ++it) {cout << *it +1 << " ";}
+	}
+	cout << endl;	
 }

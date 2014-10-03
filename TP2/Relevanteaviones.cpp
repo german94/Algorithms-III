@@ -1,77 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <stdlib.h>
-#include <algorithm>
-#include "aviones.h" 
-#include <list>
-#include <ctime>
-#include <sstream>
-#include <fstream>
-
-using namespace std;
-
-std::pair<int, list<int> > desde_origen(vector<string> ciudades, vector<int> horarios, string desde, string hasta);
-
-std::pair<int, list<int> > Buscar_Llegada(vector<vuelo>& vuelos, int vuelos_disponibles[], vuelo vuelo_actual, int posicion_de_salida, int llegada, vector<list<int> >& donde, bool ya_lo_use[]);
-
-void DarTiempo(double t)
-{
-	ofstream myfile;
-	myfile.open ("tiempos.txt", ios::app);
-	myfile <<t << "\n";
-	myfile.close();
-}
-
-int main()
-{
-	vector<string> ciudades; //va a contener las ciudades de los vuelos
-	vector<int> horarios; // va a contener los horarios de los vuelos
-	int cantidad; //CANTIDAD DE VUELOS DISPONIBLES
-	string origen; // CIUDAD ORIGEN DE LA INSTANCIA
-	string destino;// CIUDAD DESTINO DE LA INSTANCIA
-	cin >> origen >> destino >> cantidad;
-
-	ciudades.resize(cantidad*2);
-	horarios.resize(cantidad*2);
-
-	for(int i = 0; i < cantidad*2; i= i+2)
-	{
-		string lu_salida;
-		cin >> lu_salida;
-		ciudades[i] = lu_salida; //voy armando un vector con la ciudad origen y destino de cada vuelo
-		string lu_llegada;
-		cin >> lu_llegada;
-		ciudades[i+1] = lu_llegada; // armo otro vector con la hora de salida y llegada de cada vuelo
-		int ho_salida;
-		cin >> ho_salida;
-		horarios[i] = ho_salida;
-		int ho_llegada;
-		cin >> ho_llegada;
-		horarios[i+1] = ho_llegada;
-	}
-
-		clock_t begin = clock();
-
-		std::pair<int, list<int> > resul = desde_origen(ciudades, horarios, origen, destino);//funcion principal recibe los paises, los horarios y desde donde hasta donde quiero ir
-		
-		clock_t end = clock();
-    	double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) *1000;
-        DarTiempo(elapsed_msecs);
-
-		mostrar (resul); // muestro el resultado
-   	
-    return 0;
-}
-
 std::pair<int, list<int> > desde_origen(vector<string> ciudades, vector<int> horarios, string desde, string hasta){
 
 	list<string> mapeados = mapear(ciudades); //cada ciudad distinta recibe un numero, la numeración va de
-	//0 .. n-1 (siendo n la cantidad de ciudades distintas)
+	//0 .. 2n-1 (siendo 2n a lo sumala cantidad de ciudades distintas)
 	vector<vuelo> vuelos = construir_vuelos(mapeados, ciudades, horarios); //construyo un vector de vuelos
 	// cada vuelo es <ori, des, ini, fin> solo que ori y des no son del tipo string sino int segun la funcion mapear 
 	int origen, destino;
-	bool existe_origen = false; //si la ciudad origen no esta en ningun vuelo no hay solución
+	bool existe_origen = false; //si la ciudad origen o destino no esta en ningun vuelo no hay solución
 	bool existe_destino = false;
 	std::pair<int, list<int> > resultado;  
 	int i = 0;
@@ -80,7 +14,7 @@ std::pair<int, list<int> > desde_origen(vector<string> ciudades, vector<int> hor
 		if(*it == desde) {origen = i; existe_origen = true;}
 		if(*it == hasta) {destino = i; existe_destino = true;}
 	}//busco a la ciudad de ORIGEN y DESTINO de la instancia y devuelvo su equivalente en int
-	if(!existe_origen || !existe_destino) {resultado.first = -1; return resultado;} // lo devuelvo vacio
+	if(!existe_origen || !existe_destino) {resultado.first = -1; return resultado;} // devuelvo -1
 	else
 	{	
 		vector<list<int> > donde = de_donde_salen(vuelos, mapeados.size()); //cada posicion de "donde"
@@ -94,7 +28,6 @@ std::pair<int, list<int> > desde_origen(vector<string> ciudades, vector<int> hor
 		{
 			vuelos_disponibles[vuelos[i].lugar_de_salida]++; //indico cuantos vuelos de salida hay hacia esa ciudad;
 		}
-		
 		list<int> posiciones = donde[origen];
 		if (posiciones.empty()) { resultado.first = -1; return resultado; }
 		else
@@ -144,7 +77,7 @@ std::pair<int, list<int> > Buscar_Llegada(vector<vuelo>& vuelos, int vuelos_disp
 			else
 			{
 				itinerario =  minimo_camino(soluciones);//hay minimo una combinacion de vuelos para llegar  a destino elijo el que llega antes
-				itinerario.second.push_back(posicion_en_vuelos); //agrego este vuelo ya que me sirve para llefar a destino
+				itinerario.second.push_back(posicion_en_vuelos); //agrego este vuelo ya que me sirve para llegar a destino
 			}	
 		}
 		else { itinerario.first = -1;}
