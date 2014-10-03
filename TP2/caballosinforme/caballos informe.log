@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.18)  2 OCT 2014 20:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.18)  3 OCT 2014 00:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -305,18 +305,18 @@ Package: mdwlist 1996/05/02 1.1 Various list-related things
 (./caballos informe.aux)
 \openout1 = `"caballos informe.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -380,26 +380,26 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 21.
+(Font)              <7> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 21.
+(Font)              <5> on input line 23.
 
 <instancia1.jpg, id=1, 578.16pt x 192.72pt>
 File: instancia1.jpg Graphic file (type jpg)
  <use instancia1.jpg>
-Package pdftex.def Info: instancia1.jpg used on input line 26.
+Package pdftex.def Info: instancia1.jpg used on input line 28.
 (pdftex.def)             Requested size: 404.70924pt x 134.90306pt.
 
 <instancia2.jpg, id=2, 578.16pt x 385.44pt>
 File: instancia2.jpg Graphic file (type jpg)
  <use instancia2.jpg>
-Package pdftex.def Info: instancia2.jpg used on input line 29.
+Package pdftex.def Info: instancia2.jpg used on input line 31.
 (pdftex.def)             Requested size: 404.70924pt x 269.80615pt.
 
 <instancia3.jpg, id=3, 433.62pt x 144.54pt>
 File: instancia3.jpg Graphic file (type jpg)
  <use instancia3.jpg>
-Package pdftex.def Info: instancia3.jpg used on input line 34.
+Package pdftex.def Info: instancia3.jpg used on input line 36.
 (pdftex.def)             Requested size: 303.53192pt x 101.17729pt.
  [1
 
@@ -408,10 +408,10 @@ ncia2.jpg>]
 <instsinsol.jpg, id=14, 385.44pt x 192.72pt>
 File: instsinsol.jpg Graphic file (type jpg)
  <use instsinsol.jpg>
-Package pdftex.def Info: instsinsol.jpg used on input line 39.
+Package pdftex.def Info: instsinsol.jpg used on input line 41.
 (pdftex.def)             Requested size: 269.80615pt x 134.90306pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--48
+Underfull \hbox (badness 10000) in paragraph at lines 45--50
 
  []
 
@@ -419,32 +419,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 43--48
 <las8.jpg, id=21, 215.80624pt x 215.80624pt>
 File: las8.jpg Graphic file (type jpg)
  <use las8.jpg>
-Package pdftex.def Info: las8.jpg used on input line 51.
+Package pdftex.def Info: las8.jpg used on input line 53.
 (pdftex.def)             Requested size: 107.90285pt x 107.90285pt.
 
 <las8repetidas.jpg, id=22, 1156.32pt x 356.33125pt>
 File: las8repetidas.jpg Graphic file (type jpg)
  <use las8repetidas.jpg>
-Package pdftex.def Info: las8repetidas.jpg used on input line 59.
+Package pdftex.def Info: las8repetidas.jpg used on input line 61.
 (pdftex.def)             Requested size: 462.5198pt x 142.52997pt.
 
 [3 <./las8.jpg> <./las8repetidas.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 70--72
+Underfull \hbox (badness 10000) in paragraph at lines 72--74
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 73--75
+Underfull \hbox (badness 10000) in paragraph at lines 75--77
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--78
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 81--83
+Underfull \hbox (badness 10000) in paragraph at lines 78--80
 
  []
 
@@ -454,37 +449,42 @@ Underfull \hbox (badness 10000) in paragraph at lines 83--85
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 87--89
+Underfull \hbox (badness 10000) in paragraph at lines 85--87
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--104
+Underfull \hbox (badness 10000) in paragraph at lines 89--91
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 104--106
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 119--121
+Underfull \hbox (badness 10000) in paragraph at lines 121--123
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--127
+Underfull \hbox (badness 10000) in paragraph at lines 127--129
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 131--135
+Underfull \hbox (badness 10000) in paragraph at lines 133--137
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--146
+Underfull \hbox (badness 10000) in paragraph at lines 139--148
 
  []
 
 
-Overfull \hbox (5.92068pt too wide) in paragraph at lines 137--146
+Overfull \hbox (5.92068pt too wide) in paragraph at lines 139--148
 \OT1/cmr/m/n/10 Si ex-iste una soluci^^Son, va a es-tar dada por una posici^^So
 n del tablero ($\OML/cmm/m/it/10 posM$\OT1/cmr/m/n/10 ^^S^^P$\OML/cmm/m/it/10 n
 ima$\OT1/cmr/m/n/10 ) y un nu-mero ($\OML/cmm/m/it/10 movsM$\OT1/cmr/m/n/10 ^^S
@@ -492,60 +492,60 @@ ima$\OT1/cmr/m/n/10 ) y un nu-mero ($\OML/cmm/m/it/10 movsM$\OT1/cmr/m/n/10 ^^S
  []
 
 [5]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 151.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 153.
 
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 151.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 153.
  [6]
-Overfull \hbox (51.30838pt too wide) in paragraph at lines 157--158
+Overfull \hbox (51.30838pt too wide) in paragraph at lines 159--160
 \OT1/cmr/m/n/10 (http://en.cppreference.com/w/cpp/container/list/begin, http://
 en.cppreference.com/w/cpp/container/list/end).
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--168
+Underfull \hbox (badness 10000) in paragraph at lines 165--170
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 179--185
+Underfull \hbox (badness 10000) in paragraph at lines 181--187
 
  []
 
 [7] <conjAcurva.jpg, id=45, 586.19pt x 321.2pt>
 File: conjAcurva.jpg Graphic file (type jpg)
  <use conjAcurva.jpg>
-Package pdftex.def Info: conjAcurva.jpg used on input line 196.
+Package pdftex.def Info: conjAcurva.jpg used on input line 198.
 (pdftex.def)             Requested size: 469.47046pt x 257.23972pt.
 
 <conjAlinea.jpg, id=46, 608.2725pt x 332.24126pt>
 File: conjAlinea.jpg Graphic file (type jpg)
  <use conjAlinea.jpg>
-Package pdftex.def Info: conjAlinea.jpg used on input line 201.
+Package pdftex.def Info: conjAlinea.jpg used on input line 203.
 (pdftex.def)             Requested size: 469.47046pt x 256.43489pt.
 
 <conjAconst.jpg, id=47, 670.505pt x 341.275pt>
 File: conjAconst.jpg Graphic file (type jpg)
  <use conjAconst.jpg>
-Package pdftex.def Info: conjAconst.jpg used on input line 205.
+Package pdftex.def Info: conjAconst.jpg used on input line 207.
 (pdftex.def)             Requested size: 469.47046pt x 238.94814pt.
 
-Overfull \hbox (1.69708pt too wide) in paragraph at lines 187--207
+Overfull \hbox (1.69708pt too wide) in paragraph at lines 189--209
 \OT1/cmr/m/n/10 En el an^^Salisis de com-ple-ji-dad de-mostramos que nue-stro a
 l-go-ritmo es O($\OML/cmm/m/it/10 kn[]$\OT1/cmr/m/n/10 ). Como la funci^^Son Re
 -solverTablero
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 187--207
+Underfull \hbox (badness 10000) in paragraph at lines 189--209
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 187--207
+Underfull \hbox (badness 10000) in paragraph at lines 189--209
 
  []
 
@@ -553,13 +553,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 187--207
 File: conjBcurva.jpg Graphic file (type jpg)
 
 <use conjBcurva.jpg>
-Package pdftex.def Info: conjBcurva.jpg used on input line 210.
+Package pdftex.def Info: conjBcurva.jpg used on input line 212.
 (pdftex.def)             Requested size: 469.47046pt x 263.83966pt.
  <conjBlinea.jpg, id=52, 607.26875pt x 341.275pt>
 File: conjBlinea.jpg Graphic file (type jpg)
 
 <use conjBlinea.jpg>
-Package pdftex.def Info: conjBlinea.jpg used on input line 212.
+Package pdftex.def Info: conjBlinea.jpg used on input line 214.
 (pdftex.def)             Requested size: 469.47046pt x 263.83966pt.
 
 
@@ -568,11 +568,8 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 <conjBconst13.jpg, id=53, 691.58376pt x 341.275pt>
 File: conjBconst13.jpg Graphic file (type jpg)
  <use conjBconst13.jpg>
-Package pdftex.def Info: conjBconst13.jpg used on input line 217.
+Package pdftex.def Info: conjBconst13.jpg used on input line 218.
 (pdftex.def)             Requested size: 469.47046pt x 231.67336pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [9 <./conjAlinea.jpg> <./conjAconst.jpg>] [10 <./conjBcurva.jpg> <./conjBlinea.
 jpg>] [11 <./conjBconst13.jpg>] (./caballos informe.aux) ) 
@@ -598,7 +595,7 @@ fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
 exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on "caballos informe.pdf" (11 pages, 407065 bytes).
+Output written on "caballos informe.pdf" (11 pages, 407069 bytes).
 PDF statistics:
  108 PDF objects out of 1000 (max. 8388607)
  68 compressed objects within 1 object stream

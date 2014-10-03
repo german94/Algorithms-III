@@ -123,24 +123,23 @@ void ResolverTablero(vector<vector<vector<int> > > tableros)
 int main()
 { 	
 	string l;
+	vector<vector<vector<int> > > tableros;
+	vector<pair<int, int> > caballos;
 	std::getline(cin, l);
-	int instancias = atoi(l.c_str());
-
-	for(int x=0; x<instancias; x++)
+	istringstream ss(l);
+	string token;
+	std::getline(ss, token, ' ');
+	int k, n;
+	n = atoi(token.c_str());
+	std::getline(ss, token, ' ');
+	k = atoi(token.c_str());
+	tableros.resize(k);
+	caballos.resize(k);
+	int i = k;
+	if(k == 0 || n == 0)
+		cout<< "no"<<endl;
+	else
 	{
-		vector<vector<vector<int> > > tableros;
-		vector<pair<int, int> > caballos;
-		std::getline(cin, l);
-		istringstream ss(l);
-		string token;
-		std::getline(ss, token, ' ');
-		int k, n;
-		n = atoi(token.c_str());
-		std::getline(ss, token, ' ');
-		k = atoi(token.c_str());
-		tableros.resize(k);
-		caballos.resize(k);
-		int i = k;
 
 		while(i > 0)
 		{
@@ -155,7 +154,7 @@ int main()
 			i--;
 		}
 
-		clock_t begin = clock();
+		//clock_t begin = clock();
 
 		for(int c = 0; c < k; c++)
 		{
@@ -170,15 +169,13 @@ int main()
 			tableros[c] = tablero;
 		}
 		
-
-
 		ResolverTablero(tableros);
-		clock_t end = clock();
-        double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
-        DarTiempo(elapsed_msecs);
 
-
+	// clock_t end = clock();
+//       double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
+//       DarTiempo(elapsed_msecs);
 	}
+
 
 	return 0;
 }
