@@ -1,0 +1,33 @@
+\documentclass[a4paper]{article}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{vmargin}
+\usepackage[utf8]{inputenc}
+\usepackage{mdwlist}
+\setpapersize{A4}
+\setmargins{2.5cm}       % margen izquierdo
+{1.5cm}                        % margen superior
+{16.5cm}                      % anchura del texto
+{23.42cm}                    % altura del texto
+{10pt}                           % altura de los encabezados
+{1cm}                           % espacio entre el texto y los encabezados
+{0pt}                             % altura del pie de página
+{2cm}                           % espacio entre el texto y el pie de página
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\begin{document}
+
+\section{Ejercicio 1}
+\subsection{Relación entre k-pmp y el problema biohazard}
+Empecemos por ver de qué manera podríamos modelar biohazard utilizando grafos. Podemos armar un grafo $G$ de manera tal que, cada vértice de $G$, representa un producto químico. Para cada par de vértices $p_1$ y $p_2$, determinamos su coeficiente de peligrosidad en base al peso de la arista que los une. Podemos decidir modelar el problema con grafos completos, entonces si el coeficiente de peligrosidad entre $p_1$ y $p_2$ es 0, el peso de la arista que los une es 0. O bien podemos decidir no modelarlo con grafos completos y si el coeficiente de peligrosidad es 0 entonces $p_1$ y $p_2$ no son adyacentes.
+\newline Ahora que sabemos de que manera podríamos modelar el problema utilizando grafos (optamos por la segunda opción, es decir, no utilizar grafos completos), podemos ver que, un cierto gafo de entrada $G$ al problema k-pmp puede ser tranquilamente un input a biohazard y viceversa. Más aún, tanto k-pmp como biohazard buscan una determinada partición (no necesariamente única) de los vértices de $G$ que cumpla con ciertas condiciones. La diferencia entre ambos problemas entonces, radica en que cosas restringe cada uno y permite el otro.
+\newline Vemos que el objetivo de biohazard es encontrar una partición del grafo de entrada, de manera tal que se cumpla una misma condición (no superar un umbral dado) sobre cada conjunto perteneciente a ella, y que la cantidad de conjuntos de dicha partición sea la mínima. Es decir, parte del problema es encontrar la cardinalidad de la partición. Las imposiciones son sobre cada una de sus partes y no interesa cuanto pueden afectar estas imposiciones a aspectos de la partición entera. En cambio en k-pmp, lo que interesa es que la partición entera cumpla determinada condición, sin importar (siempre y cuando la condición se cumpla) lo que tiene cada conjunto, visto de manera independiente o individual. Además, la cardinalidad de la partición ya se sabe, o por lo menos, se conoce una cota superior. Si bien esto último también vale para biohazard (ya que la cota superior sería $n$ conjuntos, uno para cada camión), el problema es minimizar la cardinalidad, en cambio k-pmp simplemente pide que la cantidad de conjuntos no vacíos sea menor o igual a $k$ y mientras eso se cumpla, no importa si existe una partición cuyo cardinal es estrictamente menor y también es solución al problema.
+\newline Con lo que dijimos hasta ahora, podemos afirmar que, si tenemos un algortimo que soluciona biohazard, seguramente va a ir probando las distintas combinaciones posibles resultantes de meter vértices en conjuntos Como la idea en biohazard es minimizar la cantidad de conjuntos, es razonable pensar que el algoritmo empezaría probando con un conjunto e iría subiendo la cantidad a medida que agota las combinaciones. Cuando el algoritmo decide aumentar la cantidad actual de conjuntos $c$ que tiene, es porque ya probó todas las maneras de ubicar los vértices en $c$ conjuntos y no existe ninguna combinación que cumpla que ningún conjunto de esos $c$ supere el umbral establecido. Para que esto suceda, el algoritmo a medida que va armando cada combinación debe ir chequeando también que se cumpla la condición que pide biohazard. Si en lugar de chequear que se cumpla esa condición, pudiera saber si la combinación que está analizando puede llegar a ser una solución a k-pmp, entonces como dijimos que se exploran todas las soluciones y se empieza con un conjunto, vemos que podríamos dar una solución a k-pmp. Para poder lograr esto, solo basta con ir guardando cierta información (de ser necesario) de cada combinación a la cual se llega y, cuando llegamos a una combinación distinta, la comparamos con la que teníamos y vemos si es mejor o no, reemplazando lo guardado en el caso de que lo sea. Al terminar de explorar todas las combinaciones, claramente nos habremos quedado con la mejor. 
+
+\end{document}
+
+
+
+\end{document}
