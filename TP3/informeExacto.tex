@@ -13,86 +13,75 @@
 {1cm}                           % espacio entre el texto y los encabezados
 {0pt}                             % altura del pie de p\'agina
 {2cm}  
-
 \begin{document}
-
 \subsection{Resoluci\'on}
-
-Para la resoluci\'on se cuenta inicialmente con una cantidad de v\'ertices n, aristas m, particiones k, y una matriz $pesos$ que indica el peso entre los pares de conjuntos. Adem\'as se creara un vector de vectores de enteros $solucion$, en el cual los conjuntos son representados por la posici\'on del vector mas externo. Y los vectores dentro de cada posici\'on a los elementos dentro de los conjuntos. Para determinar la k-partici\'on de peso m\'inimo se empezara utilizando un conjunto. Se realizaran todas las combinaciones que existen para esa cantidad de conjuntos, guard\'andonos aquella cuya suma de pesos sea m\'inima $suma\_solucion$ y asign\'andole a $solucion$ la combinaci\'on que me permiti\'o obtener a la misma. Se incrementara en uno a $conjuntos\_disponibles$ y se procedera a buscar si existe una mejor combinaci\'on. En caso de haberla, a  $suma\_solucion$ se le asigna la nueva suma m\'inima de pesos y se reemplaza la combinaci\'on de $solucion$. Esto se realizara hasta que exista alguna combinaci\'on donde la suma de todos los conjuntos sea cero (ya que es la m\'inima suma de pesos que puede haber). O cuando se terminaron de realizar las combinaciones para  k conjuntos. Ya que entonces, habremos visto todas las combinaciones posibles para el maximo de conjuntos que disponemos. Obteniendo una de las posibles soluciones \'optimas.\newline
-Para realizar todas la combinaciones es necesario contar con una estructura a la que denominaremos $k\_particion$. La misma es una tupla, la segunda componente es similar a $solucion$ ya que ac\'a se iran realizandos las combinaciones. Y la primer componente representa el peso de esa combinaci\'on. Comenzaremos metiendo todos los v\'ertices a un solo conjunto (una posici\'on del vector de $k\_particion$). Esta combinaci\'on sera la soluci\'on inicial, y $suma\_minima$ el peso del conjunto. Como ya se mencion\'o, se  incrementar\'a en uno a $conjuntos\_disponibles$ y se ubicar\'a al v\'ertice 1 en este \'ultimo conjunto. Luego, se procede a ubicar al siguiente v\'ertice en el primero de los conjuntos de manera que no exceda a $suma\_solucion$  (empezando desde el primer conjunto). Una vez ubicado continuamos con el siguiente v\'ertice, siguiendo la misma l\'ogica. 
-En el caso de que para alg\'un v\'ertice t no sea posible ubicarlo en ninguno de los conjuntos disponibles hasta el momento. Significa que la combinaci\'on que se tiene con los v\'ertices 1 - t-1 no es \'util para avanzar. Por lo que se procede  a remover a t-1 al pr\'oximo conjunto posible (desde la posici\'on que ocupa actualmente). Si se lo ubico, procedemos a tratar de ubicar nuevamente  a t (empezando desde el primero de los conjuntos disponibles actualmente) y sino volvemos a retroceder. Pudiendo caer en dos casos: 
-Se ubicaron a los n v\'ertices, entonces encontr\'e una combinaci\'on mejor que la que tenia representada en $solucion$. Actualizo a $suma\_solucion$ y a $solucion$. Removemos el ultimo v\'ertice para \'ubicarlo en el siguiente conjunto posible. Y continuar realizando las combinaciones.
-Caso contrario retroced\'i hasta llegar al v\'ertice 1. Esto significa que termine de observar todas las combinaciones posibles para los conjuntos disponibles actualmente. Por lo que voy a agregar un nuevo conjunto, ubicar al v\'ertice 1 en este ultimo y proceder a realizar las nuevas combinaciones. Hasta que el valor de $conjuntos\_disponibles$ supere k.
-
+Para la resoluci\'on se cuenta inicialmente con una cantidad de v\'ertices n, aristas m, particiones k, y los pesos entre los pares de v\'ertices. Para determinar la k-partici\'on de peso m\'inimo se empezara utilizando un solo conjunto, $conjunto\_1$. Se realizaran todas las combinaciones que existen para esa cantidad de conjuntos, la cual es solamente una (todos los v\'ertices juntos). Y nos guardaremos el peso de esta combinaci\'on en una variable, $suma\_solucion$. Si esta suma es cero, dado que los pesos son mayores o iguales a cero, entonces es la m\'inima que se puede obtener. Esta combinaci\'on es una soluci\'on \'optima. \newline Sino creamos un nuevo conjunto y procedemos a buscar si existe una combinaci\'on, con esta cantidad, cuyo peso sea menor a $suma\_solucion$. Si existe, se actualiza esta variable y esta combinaci\'on reemplazara a la que se tenia como posible soluci\' on. En caso de no existir, se agrega un nuevo conjunto y se proceden a formar nuevas combinaciones. Esto se realizara hasta que exista alguna combinaci\'on donde la suma de todos los conjuntos sea cero. O cuando se terminaron de realizar las combinaciones para k conjuntos. Ya que entonces, habremos visto todas las combinaciones posibles para el m\'aximo de conjuntos que disponemos. Obteniendo una de las posibles soluciones \'optimas.\newline
+Para lograr las combinaciones con mas de un conjunto. Se ubicar\'a al v\'ertice 1 en el \'ultimo conjunto que haya. Luego, se procede a ubicar al siguiente v\'ertice en el primero, si es que no exceda a $suma\_solucion$. Una vez ubicado continuamos con el siguiente v\'ertice, siguiendo la misma l\'ogica. Si no es posible ubicar a alguno en un conjunto, se prueba meti\'endolo en el siguiente. En el caso de que un v\'ertice t, 1 $<$ t $<=$ n, no pueda ser ubicado en ninguno de los conjuntos disponibles hasta el momento. Significa que la combinaci\'on que se tiene con los v\'ertices 1 a t-1 no es \'util para avanzar. Por lo que se procede  a remover a t-1 al pr\'oximo conjunto posible (desde la posici\'on que ocupa t-1 actualmente). Si se lo ubic\'o, procedemos a tratar de ubicar nuevamente  a t (empezando desde el primer conjunto) y sino, volvemos a retroceder. Pudiendo caer en dos casos: \newline
+Se ubicaron a los n v\'ertices, entonces encontr\'e una combinaci\'on mejor que la que tenia representada en $solucion$, nos guardamos este nuevo peso y la combinaci\'on. Removemos el ultimo v\'ertice para \'ubicarlo en el siguiente conjunto posible. Para asi continuar realizando nuevas combinaciones.\newline
+Caso contrario, retroced\'i hasta llegar al v\'ertice 1. Esto significa que termine de observar todas las combinaciones posibles para los conjuntos disponibles actualmente. Por lo que voy a agregar un nuevo conjunto, ubicar al v\'ertice 1 en este ultimo, y proceder con las combinaciones. 
 \vspace{0.4cm}
 \begin{algorithmic}[1]
-\Procedure{ubicar\_vertice}{$vertices, aristas, particiones, pesos$}
-	\State $tupla <float, vector <vector <int> > > k\_particion$
-	\State $vector< vector <int> > solucion$
-	\State \textit{ubicar todos los vertices en solucion[0]}
-	\State $suma\_solucion \gets$  $peso$ $total$ $de$ $solucion[0]$
-	\State $vector <int> conjunto$
-	\State $k\_particion.second.push\_back(conjunto)$
-	\State $vertice\_actual \gets 1$
-	\For{($conjuntos\_disponibles$ = 1; $conjuntos\_disponibles$ $<$ particiones; $conjuntos\_disponibles_{++}$)}
-		\If{$(suma\_solucion == 0)$}
-			\State \textit{Return $solucion$}
-		\EndIf		
-		\State $vector <int> conjunto$
-		\State \textit{agregar atras($conjunto$, $vertice\_actual$)}
-		\State \textit{agregar atras($k\_particion$, $conjunto$)}		
-		\State $ubicar\_siguientes\_vertices$ $(....,vertice\_actual_{++},....)$
-		\State $Sacar(vertice\_actual, k\_particion.second[camiones\_disponibles])$
-	\EndFor	
-	\State Return solucion
+\Procedure{ubicar\_vertice}{}
+        \State $conjunto\_1 \gets \textit{agregar todos los v\'ertices}$        
+        \State $suma\_solucion \gets \textit{sumar el peso del conjunto\_1}$
+        \State $solucion \gets conjunto\_1$
+        \State $Nuevo\_conjunto \gets \textit{crear un nuevo conjunto }$ 
+        \State $k\_particion \gets \textit {agregar el Nuevo\_conjunto}$        
+        \State $vertice\_actual \gets 1$
+        \For{ i= 1,...,$total$ $de$ $particiones$}
+                \If{$(suma\_solucion == 0)$}
+                        \State \textit{Return $solucion$}
+                \EndIf          
+                \State $Nuevo\_conjunto \gets \textit{crear un nuevo conjunto y agregar el vertice\_actual}$
+                \State $k\_particion \gets \textit{agregar el Nuevo\_conjunto}$         
+                \State $ubicar\_siguientes\_vertices$ $(....i, vertice\_actual_{++},solucion,k\_particion....)$
+                \State $\textit{Sacar vertice\_actual del Nuevo\_conjunto}$
+        \EndFor 
+        \State Return solucion
 \EndProcedure
 \end{algorithmic}
 \newpage
 \vspace{0.4cm}
 \begin{algorithmic}[1]
-\Procedure{ubicar\_siguientes\_vertices}{$solucion, vertices, aristas, particiones, vertice\_actual,$ \newline $conjuntos\_disponibles, k\_particion, pesos, suma\_solucion$}
-	\For {(i $=$ 1; i $<$ $conjuntos\_disponibles$; $i_{++}$)}
-		\If {$(suma\_solucion$ $==$ 0.0)}
-		\State $return$ $solucion$
-		\EndIf
-		\If {\textit{(puedo agregar vertice\_actual a k\_particion.second[i])}}
-			\State agrego el vertice\_actual	a k\_particion.second[i] y actualizo k\_particion.first
-			\If {$(vertice\_actual$ $==$ $vertices)$}		
-				\State $suma\_solucion \gets k\_particion.first$
-				\State $solucion \gets k\_particion.second$
-			\Else
-				\State $ubicar\_siguientes\_vertices(..., vertice\_actual + 1,..)$
-			\EndIf	 
-			\State sacar vertice\_actual de k\_particion.second[i] y actualizar k\_particion.first
-		\EndIf
-	 \EndFor	
+\Procedure{ubicar\_siguientes\_vertices}{$..,conjuntos\_disponibles,    vertice\_actual, solucion, k\_particion..$}
+        \For {i = 1...$total\_conjuntos$}
+                \If {$(suma\_solucion$ $==$ 0)}
+                \State $return$ $solucion$
+                \EndIf
+                \If {\textit{(agregar vertice\_actual al conjunto\_i no excede suma\_solucion)}}
+                        \State agrego el vertice\_actual        al conjunto\_i 
+                        \If {$(\textit{agregue el \'ultimo v\'ertice)}$}                
+                                \State $suma\_solucion \gets \textit{suma de los pesos de cada conjunto en k\_particion}$
+                                \State $solucion \gets k\_particion$
+                        \Else
+                                \State $ubicar\_siguientes\_vertices$ $(....conjuntos\_disponibles, vertice\_actual_{++},solucion,k\_particion....)$
+                        \EndIf   
+                        \State sacar vertice\_actual del conjunto\_i 
+                \EndIf
+         \EndFor        
 \EndProcedure
 \end{algorithmic}
-
 \subsection{Complejidad}
-
+$k\_particion$ es un conjunto de conjuntos de v\'ertices (en él se van realizando las combinaciones). El mismo se representa con un vector de vectores de enteros. Pero, para un r\'apido acceso a la suma total de los pesos de los conjuntos. Se tendr\'a una tupla, la primer componente es la suma y la segunda el vector.
 Para calcular la complejidad total vamos a analizar por partes nuestro algoritmo.\newline
-
 A) Complejidad de la funci\'on $ubicar\_vertice$:\newline
-1) Crear el vector $solucion$ y la tupla $k\_particion$, en principio solo se los crea O(1).\newline
-2) Calcular el valor inicial de $suma\_solucion$. Que va a ser el peso de tener a todas los v\'ertices en un solo conjunto. Es decir tengo que calcular la suma de las m aristas. O(m)\newline
-3) Ubicar a todos los v\'ertices en una \'unica posici\'on del conjunto $solucion$. Se realizan n $push\_back$ en $solucion[0]$. O(n).\newline 
-4) Se crea un primer vector $conjunto$ y se lo agrega atr\'as en la segunda componente de $k_particion$ O(1).\newline
-5) Se proceden a realizar las combinaciones, para esto se ejecuta un for que va desde 1 hasta k. En \'el, se van a realizar todas las combinaciones para los i-esimos camiones, 1 $<=$ i $<=k$. Y se van a ir agregando los nuevos conjuntos. En cada iteraci\'on se crea uno, se agrega al v\'ertice 1 en el mismo y se ubica al conjunto atr\'as, en el vector de  $k\_particion$ O(1). Luego, se procede a llamar a la funci\'on $ubicar\_siguientes\_vertices$ (mas adelante se analiza la complejidad de esta funci\'on). Y por \'ultimo se retira al v\'ertice (que se encuentra en la ultima posici\'on del i-esimo conjunto) para comenzar una nueva iteraci\'on. \newline
-Por lo que se puede observar, exceptuando a la funci\'on $ubicar\_siguientes\_vertices$, en cada iteraci\'on el costo es O(1) \newline \newline
+1) Calcular el valor inicial de $suma\_solucion$ (que va a ser el peso de tener a todas los v\'ertices en un solo conjunto). Es decir, sumar m aristas. O(m)\newline
+2) Ubicar a todos los v\'ertices en un \'unico posici\'on conjunto que va a ser $solucion$. Se realizan n $push\_back$ en $solucion[0]$. O(n).\newline 
+3) Se crea un primer vector $conjunto$ y se lo agrega atr\'as en la segunda componente de $k\_particion$  O(1).\newline
+4) Se proceden a realizar las combinaciones, para esto se ejecuta un for que va desde 1 hasta k. En \'el, se van a realizar todas las combinaciones para los i-esimos camiones, 1 $<=$ i $<=k$. Y se van a ir agregando los nuevos conjuntos. En cada iteraci\'on se crea uno, se agrega al v\'ertice 1 en el mismo y se ubica al conjunto atr\'as, en el vector de  $k\_particion$, costo total O(1)(por iteraci\'on). Luego, se procede a llamar a la funci\'on $ubicar\_siguientes\_vertices$ (mas adelante se analiza la complejidad de esta funci\'on). Y por \'ultimo se retira al v\'ertice, pop\_back.
+ \newline \newline
 B) Complejidad de $ubicar\_siguientes\_vertices$:\newline
 Se trata de una funci\'on recursiva, primero vamos a comenzar por analizar que se hace en cada llamada y luego cuantas se hacen en total.\newline
-1) En cada llamada se trata ubicar a un v\'ertice, entre los conjuntos disponibles actualmente. Para esto se realiza un for que va desde 1 hasta el valor de $conjuntos\_disponibles$. En cada iteraci\'on, al comenzar se eval\'ua si el valor de $suma\_solucion$ es cero. En caso de serlo se interrumpe el ciclo y por ende finaliza la llamada. Ya que si lo es, no necesito seguir ubicando v\'ertices  encontr\'e una soluci\'on \'optima inmejorable. Costo O(1).\newline
-2) Si la $suma\_solucion$ no es cero, se procede a  verificar, y de ser posible, a agregar el $vertice\_actual$ al i-esimo conjunto, 1 $<=$ i $<=$ $conjuntos\_disponibles$. Para esto se va a proceder a sumarle a la primer componente de $k\_particion$ el peso que se adiciona el agregar el $vertice\_actual$ a dicho conjunto. Todos los v\'ertices van a estar distribuidos entre los actuales $conjuntos\_disponibles$. Si estoy tratando de ubicar al v\'ertice t, 1 $<$ t $<=$ n,  entonces voy a tener t-1 v\'ertices distribuidos. Pero por cada iteraci\'on solo realizo tantas sumas como v\'ertices haya en el i-esimo conjunto. Es decir que al realizar las $conjuntos\_disponibles$ iteraciones estoy realizando la suma de aristas para t-1 vertices. En el caso de que estos t-1 v\'ertices formen un subgrafo completo tengo (t-1)*(t-2)/2 aristas, que fueron sumadas. .\newline
-3) Si no se pudo agregar el v\'ertice, se procede a realizar una nueva iteraci\'on. En caso contrario agreg\'o al $vertice\_actual$ atr\'as, en el conjunto correspondiente. Y se va a proceder a verificar si el v\'ertice que agregue es el ultimo es decir, el n\'umero n. En caso de no serlo se realiza una nueva llamada recursiva de la funci\'on pero ahora para ubicar al $vertice\_actual_{++}$. Finalizada la llamada se retira al $vertice\_actual$ del i-esimo conjunto para ser ubicado en otro y continuar con las combinaciones. Si el v\'ertice es el \'ultimo, y como estoy en el caso de que pude ubicarlo. Encontr\'e una combinaci\'on mejor de la que tenia. Se actualiza el valor de $solucion\_suma$ a la de la primer componente de $k\_particion$, O(1). Pero, adem\'as ahora es necesario guardarme la combinaci\'on de los elementos, para esto se copia el vector de la segunda componente a $solucion$. Este vector consta de tantas posiciones como $conjuntos\_disponibles$ haya hasta entonces. Con n v\'ertices distribuidos en total. Costo de la copia O(n).
-Luego, se retira al último v\'ertice, para ser ubicado, si es posible, en alguno de los siguientes conjuntos. \newline
+En cada llamada se trata ubicar a un v\'ertice, entre los conjuntos disponibles actualmente. Para esto se realiza un for que va desde 1 hasta el valor de $conjuntos\_disponibles$. \newline
+1)En cada iteraci\'on, al comenzar se eval\'ua si el valor de $suma\_solucion$ es cero, O(1). Si no, se procede a  verificar, y de ser posible, a agregar el $vertice\_actual$ al i-esimo conjunto, 1 $<=$ i $<=$ $conjuntos\_disponibles$. Para esto, se le suma a la primer componente de $k\_particion$ el peso que se adiciona el agregar el $vertice\_actual$ a dicho conjunto. Todos los v\'ertices van a estar distribuidos entre los actuales $conjuntos\_disponibles$. Si estoy tratando de ubicar al v\'ertice t, 1 $<$ t $<=$ n,  entonces voy a tener t-1 v\'ertices distribuidos. Pero por cada iteraci\'on solo realizo tantas sumas como v\'ertices haya en el i-esimo conjunto. Es decir que al realizar las $conjuntos\_disponibles$ iteraciones estoy realizando la suma de aristas para t-1 v\'ertices. En el caso de que estos t-1 v\'ertices formen un subgrafo completo tengo (t-1)*(t-2)/2 aristas, que fueron sumadas. \newline
+2) Si no se pudo agregar el v\'ertice, se procede a realizar una nueva iteraci\'on. En caso contrario agrego al $vertice\_actual$ atr\'as, en el conjunto correspondiente, push\_back. Si agregue el v\'ertice n, el \'ultimo, se actualiza el valor de $solucion\_suma$ a la de la primer componente de $k\_particion$, O(1). Pero, adem\'as se copia el vector de la segunda componente a $solucion$. Este vector consta de tantas posiciones como $conjuntos\_disponibles$ haya hasta entonces. Con n v\'ertices distribuidos en total. Costo de la copia O(n). \newline En caso de no serlo se realiza una nueva llamada recursiva de la funci\'on pero ahora para ubicar al $vertice\_actual_{++}$. Finalizada la llamada se retira al $vertice\_actual$ del i-esimo conjunto, pop\_back, y se realiza otra iteraci\'on.
 Como se detall\'o a lo sumo en cada llamada los costos son O((t-1)*(t-2)/2 + n ), como t esta entre 1 $<=$ t $<=n$ acotamos por n, obteniendo O($n^{2} +n$) = O($n^{2}$).\newline
-4) Por \'ultimo calculamos cuantas veces realizamos esta tarea. Cada llamada recursiva va a ubicar a un \'unico v\'ertice. Como queremos ubicar a n v\'ertices son n llamadas. Pero, cada vez que se agrega un nuevo conjunto. Se eval\'ua nuevamente ubicar a los n v\'ertices. Y cada vez que se agrega se vuelven a ejecutar los for's de las funciones recursivas pero, ahora hasta una iteracion mas que la llamada anterior.  Como se comienza ubicando al primer v\'ertice en el \'ultimo conjunto creado, y al siguiente desde el primero de los disponibles. Cada vez que el elemento es ubicado en un nuevo conjunto posibilita a lo sumo k $conjuntos\_disponibles$ para el siguiente v\'ertice. Pero lo mismo ocurre con el v\'ertice siguiente a este. As\'i hasta tener los n v\'ertices. En conclusi\'on tenemos las siguientes combinaciones:   
+3) Por \'ultimo calculamos cuantas veces realizamos esta tarea. Cada llamada recursiva va a ubicar a un \'unico v\'ertice. Cada vez que se agrega un nuevo conjunto. Se eval\'ua ubicar nuevamente a los n v\'ertices. Y se vuelven a ejecutar los for's de las funciones recursivas pero, ahora hasta una iteraci\'on m\'as que la llamada anterior.  Como se comienza ubicando al primer v\'ertice en el \'ultimo conjunto creado, y al siguiente desde el primero de los disponibles. Cada vez que un v\'ertice es ubicado en un nuevo conjunto posibilita a lo sumo k conjuntos para el siguiente. Pero lo mismo ocurre con el siguiente a este, as\'i hasta tener los n v\'ertices. En conclusi\'on tenemos las siguientes combinaciones:   
 \[
 \sum_{V_n=1}^{k}\sum_{V_{n-1}=1}^{k}...... \sum_{V_1=1}^{k}1 = k^{n}
 \]
 \textit{ Donde V\_s, 1$<=$ s $<=$ n, representa al v\'ertice n\'umero s.}\newline
-Y  cada una asociada a los costos mencionados en los \'item 1-3 de la secci\'on B.\newline
+Y  cada una asociada a los costos mencionados en los \'item 1-2 de la secci\'on B.\newline
 El costo total, de ambas secciones seria:
 O($m$) + O($n^{2}$)*O($k^{n}$) = O($m$) + O($n^{2}*k^{n}$)\newline 
 acotando m por $n*(n-1)/2$, que es el n\'umero m\'aximo de aristas que puede haber para n v\'ertices, tenemos:\newline
