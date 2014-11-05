@@ -9,6 +9,26 @@
 #include <list>
 using namespace std;
 
+int dameAlgunoQueFalte(const vector<bool>& marcados)
+{
+	for(int i = 0; i < marcados.size(); i++)
+	{
+		if(!marcados[i])
+			return i;
+	}
+}
+
+bool faltanAgregar(const vector<bool>& marcados)
+{
+	for(int i = 0; i < marcados.size(); i++)
+	{
+		if(!marcados[i])
+			return true;
+	}
+
+	return false;
+}
+
 int dameAdyacenteNoMarcado(int vertice, int n, float* const * mAdy, vector<bool>& yaAgregados)
 {
 	for(int i = 0; i < n; i++)

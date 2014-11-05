@@ -21,7 +21,15 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 		return;
 	}
 
-	//si k = 1 entonces directamente no llamamos a esta funcion y metemos todo en ese conjunto
+	//si k = 1 entonces metemos todo en el mismo conjunto y terminamos (k <= 0 no tendria sentido)
+	if(particion.size() == 1)
+	{
+		for(int i = 0; i < n; i++)
+			particion[0].push_back(i);
+
+		return;
+	}
+
 	particion[0].push_back(a);
 	particion[1].push_back(b);
 	marcados[a] = true;
@@ -30,11 +38,11 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 
 	nodoActual = b;
 
-	while(!cola.empty() || nodoActual != -1)
+	while(!cola.empty() || faltanAgregar(marcados))
 	{	
-		int adyacente;
+		int adyacente = -1;
 
-		if(tieneAdyacenteNoAgregado(nodoActual, n, mAdy, marcados))
+		if(nodoActual != -1 && tieneAdyacenteNoAgregado(nodoActual, n, mAdy, marcados))
 		{
 			adyacente = dameAdyacenteNoMarcado(nodoActual, n, mAdy, marcados);
 			marcados[adyacente] = true;
@@ -42,14 +50,14 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 		}
 		else
 		{
-			while(marcados[adyacente] && !cola.empty())
+			while((adyacente == -1 || marcados[adyacente]) && !cola.empty())
 			{
 				adyacente = cola.front();
 				cola.pop_front();
 			}
 
-			if(marcados[adyacente] && cola.empty())
-				return;
+			if((adyacente == -1 || marcados[adyacente]) && cola.empty())
+				adyacente = dameAlgunoQueFalte(marcados);
 		}
 
 		
@@ -60,7 +68,6 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 		if(par != -1)
 		{
 			meterParDeVerticesEnParticion(adyacente, par, mAdy, particion);
-			marcados[adyacente] = true;
 			marcados[par] = true;
 			encolarAdyacentesNoAgregados(adyacente, n, mAdy, marcados, cola, encolados);
 			nodoActual = par;
@@ -72,6 +79,8 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 			if(!cola.empty())
 				nodoActual = cola.front();
 		}
+
+		marcados[adyacente] = true;
 
 		cout<<"_______________"<<endl;
 	}
