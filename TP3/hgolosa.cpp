@@ -7,6 +7,7 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 	int a;
 	int b;
 	int nodoActual;
+	int agregados;
 	vector<bool> marcados(n, false);		//aca voy a tener como true a los nodos que ya puse en algun conjunto de la particion
 	vector<bool> encolados(n, false);		//aca voy a tener como true a los nodos que estan encolados o alguna vez fueron encolados
 	pesoMax = aristaDePesoMaximo(n, mAdy, a, b);		//tomo la arista cuyo peso es maximo sobre todas las demas, y guardo sus vertices en a y b
@@ -36,9 +37,10 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 	marcados[b] = true;
 	encolarAdyacentesNoAgregados(a, n, mAdy, marcados, cola, encolados);
 
+	agregados = 2;
 	nodoActual = b;
 
-	while(!cola.empty() || faltanAgregar(marcados))
+	while(agregados < n)
 	{	
 		int adyacente = -1;
 
@@ -60,16 +62,13 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 				adyacente = dameAlgunoQueFalte(marcados);
 		}
 
-		
-		int par = -1;
 		if(tieneAdyacenteNoAgregado(adyacente, n, mAdy, marcados))
-			par = dameParNoMarcado(adyacente, n, mAdy, marcados);
-
-		if(par != -1)
 		{
+			int par = dameParNoMarcado(adyacente, n, mAdy, marcados);
 			meterParDeVerticesEnParticion(adyacente, par, mAdy, particion);
 			marcados[par] = true;
 			encolarAdyacentesNoAgregados(adyacente, n, mAdy, marcados, cola, encolados);
+			agregados += 2;
 			nodoActual = par;
 		}
 		else
@@ -78,11 +77,10 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 			nodoActual = -1;
 			if(!cola.empty())
 				nodoActual = cola.front();
+			agregados++;
 		}
 
 		marcados[adyacente] = true;
-
-		cout<<"_______________"<<endl;
 	}
 }
 
