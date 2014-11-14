@@ -14,14 +14,13 @@ vector<vector<int> > crear_vecino( int indice, vector<vector<int> > &solucion, i
 float suma_conjunto(const vector<int> &conjunto_actual, float **pesos)
 {
 	float suma = 0;
-	int A= 0; //suma todos los vertices de un conjunto determinado
-	while(A < conjunto_actual.size())
+	//suma todos los vertices de un conjunto determinado
+	for(int A= 0; A < conjunto_actual.size(); A++)
 	{
 		for(int B = A +1; B < conjunto_actual.size() ; B++ )
 		{
 			if(pesos[conjunto_actual[A] -1][conjunto_actual[B] -1] != -1) {suma = suma + pesos[conjunto_actual[A] -1][conjunto_actual[B] -1];}
 		} 
-		A++;
 	}
 	return suma;
 }
@@ -79,23 +78,4 @@ void sacar(vector<int> &conjunto, int separo_A, int separo_B)
 		if(conjunto[i] != separo_A && conjunto[i] != separo_B) {nuevo.push_back(conjunto[i]);}
 	}
 	conjunto = nuevo;
-}
-
-bool puedo_agregarlos(vector<int> &para_A, vector<int> &para_B, int A, int B, float &suma_minima, float **pesos)
-{
-	bool res = false;
-	para_A.push_back(A); // se fija si al agregar dos nodos el costo es menor que algun anterior
-	para_B.push_back(B);
-	float agregado_A =suma_conjunto(para_A, pesos);
-	float agregado_B =suma_conjunto(para_B, pesos);
-
-	if(suma_minima > agregado_B + agregado_A)
-	{
-		suma_minima = agregado_A + agregado_B;
-		res = true;
-	}
-	para_A.pop_back();
-	para_B.pop_back();
-
-	return res;
 }

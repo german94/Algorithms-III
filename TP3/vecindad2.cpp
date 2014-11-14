@@ -41,6 +41,26 @@ int main()
 	} //tengo una matriz con todos los pesos
 
 vector<vector<int> > presolucion;	//ARMAR UNA PRESOLUCION
+/*
+vector<int> a;
+vector<int> b;
+vector<int> c;
+vector<int> d;
+a.push_back(1);
+b.push_back(2);
+c.push_back(3);
+d.push_back(4);
+a.push_back(5);
+b.push_back(6);
+c.push_back(7);
+d.push_back(8);
+a.push_back(9);
+b.push_back(10);
+presolucion.push_back(a);
+presolucion.push_back(b);
+presolucion.push_back(c);
+presolucion.push_back(d);
+*/
 
 reacomodar(vertices, aristas, particiones, presolucion, pesos);//FUNCION PRINCIPAL
 
@@ -89,11 +109,9 @@ vector<vector<int> > crear_vecino( int indice, vector<vector<int> > &solucion, i
 	float mayor_peso = -1;//tengo a la cosa mas pesada
 	int nodo_a_separarA, nodo_a_separarB;
 	int separo_A, separo_B;
-	int nodo_A = 0;
-	while(nodo_A < solucion[indice].size() -1) //ambos while sirven para agarrar todo PAR de nodo
-	{	
-		int nodo_B = nodo_A + 1;
-		while(nodo_B < solucion[indice].size())
+	for(int nodo_A = 0; nodo_A < solucion[indice].size() -1; nodo_A++)
+	{		//ambos while sirven para agarrar todo PAR de nodo
+		for(int nodo_B = nodo_A +1; nodo_B < solucion[indice].size(); nodo_B++)
 		{	
 			nodo_a_separarA = solucion[indice][nodo_A];
 			nodo_a_separarB = solucion[indice][nodo_B];
@@ -108,9 +126,7 @@ vector<vector<int> > crear_vecino( int indice, vector<vector<int> > &solucion, i
 					separo_B = nodo_a_separarB;
 				}
 			}
-		nodo_B++;	
 		}
-	nodo_A++;		
 	} //tengo a los nodos que quiero separar y el peso
 	//En esta parte voy a ubicar a los nodos donde mas me convenga
 	float suma_minima = suma_conjunto(solucion[indice], pesos); //es el peso del conjunto sin los vertices
@@ -118,25 +134,34 @@ vector<vector<int> > crear_vecino( int indice, vector<vector<int> > &solucion, i
 	int ubicar_A = indice; //si no lo dejo como esta
 	int ubicar_B = indice;
 	vector<vector<int> > nuevo_vecino = solucion; //este va a ser el vecino con las modificaciones
+	
 	if (mayor_peso != -1) // si antes no encontre nodos adyacentes entonces mayor_peso quedo en -1, no tiene sentido seguir iterando
 	{
+		
 		sacar(nuevo_vecino[indice], separo_A, separo_B);
-
 		for(int i = 0; i < particiones && suma_minima!= 0; i++ )
 		{
+			nuevo_vecino[i].push_back(separo_A); // se fija si al agregar dos nodos el costo es menor que algun anterior
+			float agregado_A =suma_conjunto(nuevo_vecino[i], pesos);
+
 			for(int j = 0; j < particiones && suma_minima !=0; j++ )
 			{//ambos for me sirven para ver todas las combinaciones de donde meter a los nodos mas pesados
-				if(puedo_agregarlos(nuevo_vecino[i], nuevo_vecino[j], separo_A, separo_B, suma_minima, pesos))
-				{ //puedo_agregarlos le pasas dos conjuntos y en uno ubica a el nodo A y en otro a B.
-				// si al agregarlo suma menos que donde estaban anteriormente me guardo esas nuevas ubicaciones 
+			
+				nuevo_vecino[j].push_back(separo_B); // se fija si al agregar dos nodos el costo es menor que algun anterior
+				float agregado_B = suma_conjunto(nuevo_vecino[j], pesos);
+
+				if(suma_minima > agregado_B + agregado_A)
+				{
+					suma_minima = agregado_A + agregado_B;
 					ubicar_A = i;
 					ubicar_B = j;
 				}
+				nuevo_vecino[j].pop_back();
 			}
+			nuevo_vecino[i].pop_back();
 		}
 		nuevo_vecino[ubicar_A].push_back(separo_A); //los agrego donde me conviene
 		nuevo_vecino[ubicar_B].push_back(separo_B);
 	}
-
 	return nuevo_vecino; // devuelvo el vecino modificado
 }
