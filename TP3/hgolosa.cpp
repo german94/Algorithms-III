@@ -33,6 +33,7 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 
 	particion[0].push_back(a);
 	particion[1].push_back(b);
+	cout<<a+1<<" "<<b+1<<endl;
 	marcados[a] = true;
 	marcados[b] = true;
 	encolarAdyacentesNoAgregados(a, n, mAdy, marcados, cola, encolados);
@@ -58,7 +59,7 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 				cola.pop_front();
 			}
 
-			if((adyacente == -1 || marcados[adyacente]) && cola.empty())
+			if(adyacente == -1 || marcados[adyacente])
 				adyacente = dameAlgunoQueFalte(marcados);
 		}
 
@@ -75,8 +76,6 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 		{
 			meterVerticeEnParticion(adyacente, mAdy, particion);
 			nodoActual = -1;
-			if(!cola.empty())
-				nodoActual = cola.front();
 			agregados++;
 		}
 
