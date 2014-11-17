@@ -1,0 +1,99 @@
+\documentclass[a4paper]{article}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{vmargin}
+\usepackage{mdwlist}
+\setpapersize{A4}
+\setmargins{2.5cm}       % margen izquierdo
+{1.5cm}                        % margen superior
+{16.5cm}                      % anchura del texto
+{23.42cm}                    % altura del texto
+{10pt}                           % altura de los encabezados
+{1cm}                           % espacio entre el texto y los encabezados
+{0pt}                             % altura del pie de p\'agina
+{2cm}  
+\begin{document}
+
+
+\subsection{Resoluci\'on:}
+
+Para la resoluci\'on se cuenta inicialmente con una K-partici\'on con sus elementos (nodos) distribuidos de alguna forma, la llamaremos $solucion$. Lo que se va a proceder a hacer es tratar de mejorar el peso total de esta K-partici\'on (con peso total nos referimos a la suma de los pesos de todos los conjuntos de dicha partici\'on). Reubicando sus nodos de manera que se minimice dicho peso.
+Para esto y siguiendo la idea de b\'usqueda local se construir\'an varias posibles soluciones, vecinos, y nos quedaremos con el mejor de ellos (el mejor es aquel, cuyo peso total sea el m\'inimo de entre los vecinos que constituyen la vecindad).  
+Para la resoluci\'on, empezaremos tomando al primero de los conjuntos  que constituyen a $solucion$. Una vez tomado, se trabajara con los nodos dentro del mismo y de a par, siempre que estos sean adyacentes. Si no hay nodos adyacentes en el conjunto, entonces se devolver\'a como solucion y vecino, a $solucion$ (no se producen cambios). En caso de existir al menos un  par de nodos adyacentes. Evaluaremos el peso que se genera entre la arista que une a este par y el peso de las aristas a los nodos adyacentes dentro del conjunto actual, $peso\_combinacion$. Calculado este \'ultimo peso, nos quedaremos con aquel cuyo valor es m\'aximo, $mayor\_peso$. Es decir, podemos pensarlo como encontrar la componente conexa con mas peso dentro del conjunto. Una vez hallado este par de nodos, a los que llamaremos a uno $nodo\_A$ y otro $nodo\_B$, crearemos otra K-partici\'on, $nuevo\_vecino$. El mismo sera una copia de la $solucion$ actual, solo que no contara con los nodos denominados $nodo\_A$ y $nodo\_B$.  Y lo que se va a proceder a hacer es a reubicar a ambos nodos en aquel o aquellos conjuntos tal que el peso final de $nuevo\_vecino$ sea m\'inimo. Y tendremos una posible soluci\'on. Finalizado esto, se procede a operar de la misma manera pero, ahora trabajando con el siguiente conjunto. De esta forma vamos a obtener un nuevo vecino. Luego de haber trabajado con los k conjuntos elegiremos a aquel vecino de todos los formados cuyo peso total sea el m\'inimo. Como $solucion$ es hasta el momento la soluci\'on para el problema, se comparara si el peso del vecino elegido es menor que este. Si no lo es, no se pudo obtener una mejor ubicaci\'on  que la que ya se tenia para los nodos y se finaliza el algoritmo siendo $solucion$ la solucion a nuestro problema. En caso de serlo $solucion$ pasara a ser el vecino seleccionado. Y se comenzara a ejecutar nuevamente lo propuesto inicialmente, pero ahora con la K-partici\'on $solucion$ modificada. Para poder seguirla optimizando.
+
+
+\vspace{0.4cm}
+\begin{algorithmic}[1]
+\Procedure{reacomodar}{\textit{..solucion, total de conjuntos,..}}       
+        \State $suma\_solucion \gets \textit{sumar el peso de la solucion}$
+        \If {(\textit{solucion no usa los k conjuntos})}
+        		\State $ \textit{agregar conjuntos restantes vacios a solucion} $
+        \EndIf
+        \State vecino\_solucion $\gets \textit{crear una nueva k\_particion}$     
+        \State posible\_solucion $\gets -1$
+		\While{(\textit{se pueda mejorar suma\_solucion})}    
+        		\For{ i= 1,...,$total$ $de$ $conjuntos$}
+                \If{$(\textit{solucion[i] tiene mas de un nodo})$}
+					\State nuevo\_vecino $\gets \textit{crear una nueva k\_particion}$                              
+                		\State $peso\_vecino \gets \textit{ crear\_vecino(...,i, ,solucion, vecino\_actual,..)} $ 
+                \EndIf
+                \If{$(peso\_vecino < posible\_solucion$ $o$ $posible\_solucion == -1)$}
+                		\State posible\_solucion $\gets peso\_vecino$
+                		\State vecino\_solucion $\gets nuevo\_vecino$
+                \EndIf     
+			\EndFor   
+			\If {$(posible\_solucion < suma\_solucion)$}
+				\State suma\_solucion $ \gets posible\_solucion$
+				\State solucion $ \gets vecino\_solucion$
+				\State posible\_solucion $\gets -1$
+			\Else
+				\State $return$ $solucion$
+			\EndIf   
+        \EndWhile            
+        \State Return solucion
+\EndProcedure
+\end{algorithmic}
+
+\vspace{0.4cm}
+\begin{algorithmic}[1]
+\Procedure{crear\_vecino}{$..i,solucion, vecino\_actual..$}
+        \For {\textit{cada combinacion entre par de nodos adyacente dentro de solucion[i]}}
+				\State nodo\_A $\gets \textit{tomar un nodo de solucion[i]}$ 
+				\State nodo\_B $\gets \textit{tomar un nodo adyacente a nodo\_A en solucion[i]} $              
+                \State peso\_combinacion $\gets \textit{sumar el peso de la arista entre el nodo\_A y el nodo\_B y el peso de las aristas}  \newline \textit{de los nodos adyacentes a nodo\_A y nodo\_B dentro de solucion[i]}$
+			    \State mayor\_peso $\gets$ $el$ $mayor$ $peso\_combinacion $
+			    \State separo\_A $\gets$ $nodo\_A$ $con$ $mayor$ $peso\_combinacion$
+			    \State separo\_B $\gets$ $nodo\_B$ $con$ $mayor$ $peso\_combinacion$     
+		\EndFor	         
+         \State nuevo\_vecino  $\gets solucion$ 
+         \State \textit{sacar a los nodos separo\_A y separo\_B del conjunto nuevo\_vecino[i]}   
+         \State \textit{ubicar a los nodos separo\_A y separo\_B entre los conjuntos de nuevo\_vecino de manera de minimizar el peso total} 
+         \State \textit{return peso total de nuevo\_vecino}
+\EndProcedure
+\end{algorithmic}
+\vspace{0.4cm}
+
+ \textit {tanto solucion[i] como nuevo\_vecino[i] hacen referencia al i-esimo conjunto de cada K-partici\'on. Con los conjuntos enumerados de 1 al total de conjuntos.}
+ 
+\subsection{An\'alisis de complejidad:}
+ 
+Para representar la K-partici\'on $solucion$, se utilizo un vector de tuplas. donde la segunda componente emula un conjunto, por medio de un vector de int, y la primera a la suma del peso de dicho conjunto. 
+El algoritmo cuenta con dos funciones principales que son las mencionadas $reacomodar$ y $crear$ $vecino$, como el mismo se ejecuta hasta que ya no se pueda mejorar al vector $solucion$. Analizaremos la complejidad de cada iteraci\'on.  \newline \newline
+1) Complejidad de $reacomodar$:\newline
+a) Como se trabaja a partir de una soluci\'on\'on dada, la misma quiz\'as no utiliza la cantidad total de conjuntos con que dispone. Entonces se procede a completar al vector $solucion$ con las tuplas restantes. O(k)\newline
+b) Se crear un vector vac\'io, que almacenara al mejor de los vecinos. O(1) y se comienza con las mencionadas iteraciones. \newline
+c)Por cada conjunto de $solucion$ se llama a la funci\'on crear vecino. Es decir se la llama k veces (siendo k la cantidad de conjuntos). \newline
+d) Cada vez que se obtiene un $nuevo\_vecino$ y su peso, se verifica si es menor que el peso de los anteriores vecinos o si es el primer vecino creado. En caso de serlo se guarda este peso 0(1) y tambien a $nuevo\_vecino$ en $vecino\_solucion$ O(k+n) (n cantidad de nodos en total). Como esto se realiza a lo sumo para todos los conjuntos tenemos O(k*(k+n))\newline
+e) Finalizada estas iteraciones, se verifica si el peso de $vecino\_solucion$ es menor que el peso de $solucion$ en caso de serlo se guarda el peso y se reemplaza a $solucion$ O(k+n). Y se vuelve a realizar una nueva iteraci\'on.\newline \newline 
+2) Complejidad de $Crear$ $vecino$: \newline
+a) Esta funci\'on comienza por buscar a los pares de nodos que sean adyacentes y calculando su $peso\_combinacion$. Para obtener todas las combinaciones se emplearon dos for anidados, el primero de ellos va desde 1 al total de nodos en el conjunto que se esta utilizando, denominaremos t a esta cantidad con 0 $<=$ t $<$ n. El segundo comienza desde el siguiente nodo que se este utilizando en el primero de los for hasta t. De esta forma obtenemos todas las combinaciones. Pero, por cada una hay que sumar el peso de la arista que los une y el peso de sus adyacentes. Para calcular este \'ultimo, se vuelve a recorrer a todos los nodos y si son adyacentes se suma el peso de la arista. El mismo se encuentra en una matriz a la que podemos acceder en O(1). De esta manera se realizan, para generalizar, dos for de 1 hasta t. y en cada iteracion una suma de t elementos en total O($t^{3}$).
+Comparando cada $peso\_combinacion$ realizado para guardarnos el m\'aximo O(1). \newline
+b) Procedemos a copiar al vector $solucion$ a $nuevo\_vecino$ O(k + n), y a retirar del i-esimo conjunto (i-esima tupla) de este \'ultimo vector a $nodo\_A$ y $nodo\_B$ O(t).  Y se actualiza la primer componente con la suma correspondiente. Que es la cantidad de aristas, en el peor de los casos O($t^{2}$).  \newline
+c) Para encontrar la mejor ubicaci\'on del par de nodos es necesario ver todos las combinaciones con los k conjuntos y ubicarlo donde el peso total generado sea el m\'inimo que con alguna otra combinaci\'on. Para representar esto, se crearan dos vectores de longitud k (cada posici\'on  hace referencia a un conjunto de $nuevo\_vecino$). El primero posee en cada posici\'on el peso que se adiciona al meter al $nodo\_A$ en cada conjunto y el segundo al adicionado por insertar a $nodo\_B$. De esta manera, se busca la combinacion de estos vectores donde el valor de la posici\'on de uno mas la del otro sea la m\'inima O($k^{2}$). Y se guarda las posiciones elegidas. \newline
+d) Por \'ultimo se inserta al par de nodos en las posiciones elegidas dentro de $nuevo\_vecino$ y se calcula el peso total de este vector O(k)\newline \newline
+El costo total de esta funci\'on es por lo tanto O($t^{3}$) + O(k + n) + O(t) + O($t^{2}$)+ O($k^{2}$) + O(k) = O($t^{3}$) + O($k^{2}$) + O(n) \newline t es como m\'aximo igual a n. Acotamos t por n y obtenemos: \newline O($n^{3}$ + $k^{2}$) \newline
+Pero esta funci\'on como se menciono en el punto 1.c es llamada k veces entonces tenemos: \newline O(k*($n^{3}$ + $k^{2}$)) \newline
+Agregando los costos de la funci\'on $reacomodar$ tenemos en total: \newline 
+O(k) + O(k*($n^{3}$ + $k^{2}$)) + O(k*(k + n)) + O(k + n) = O(k*$n^{3}$ + $k^{3}$) 
+\end{document}
