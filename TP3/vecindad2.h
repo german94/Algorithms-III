@@ -24,12 +24,7 @@ void mostrar(float suma_solucion, vector <pair<float, vector<int> > > &solucion)
 
 float suma_conjunto(const vector<int> &conjunto_actual, float **pesos)
 {
-<<<<<<< HEAD
 	float suma = 0; //suma todos los vertices de un conjunto determinado
-=======
-	float suma = 0;
-	//suma todos los vertices de un conjunto determinado
->>>>>>> ac4d79745afac6c766d87d964402e2135681b3c8
 	for(int A= 0; A < conjunto_actual.size(); A++)
 	{
 		for(int B = A +1; B < conjunto_actual.size() ; B++ )
@@ -87,18 +82,10 @@ float sumar_adyacentes(int nodo_A, int nodo_B, const vector<int> &conjunto_actua
 void sacar(pair<float, vector<int> > &conjunto, int separo_A, int separo_B, float **pesos)
 {
 	vector<int> nuevo; //saca dos vertices determinafo de un conjunto
-<<<<<<< HEAD
 	for(int i = 0; i < conjunto.second.size(); i++)
 	{
 		if(conjunto.second[i] != separo_A && conjunto.second[i] != separo_B) {nuevo.push_back(conjunto.second[i]);}
 	}
 	conjunto.first = suma_conjunto(nuevo, pesos);
 	conjunto.second = nuevo;
-=======
-	for(int i = 0; i < conjunto.size(); i++)
-	{
-		if(conjunto[i] != separo_A && conjunto[i] != separo_B) {nuevo.push_back(conjunto[i]);}
-	}
-	conjunto = nuevo;
->>>>>>> ac4d79745afac6c766d87d964402e2135681b3c8
 }
