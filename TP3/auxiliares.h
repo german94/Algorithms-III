@@ -127,17 +127,24 @@ void meterParDeVerticesEnParticion(int v1, int v2, float* const * mAdy, vector<v
 	int dondePonerAv1;
 	int dondePonerAv2;
 	float pesoMejor = -1;
+	vector<int> pesos_Precalculados_De_v2(particion.size(), 0);
+
+	for(int j = 0; j < particion.size(); j++)
+		pesos_Precalculados_De_v2[j] = sumaEnConjunto(v2, mAdy, particion[j]);
+
 	for(int i = 0; i < particion.size(); i++)
 	{
+		float nuevoPeso = sumaEnConjunto(v1, mAdy, particion[i]);
+
 		for(int j = 0; j < particion.size(); j++)
 		{
-			float nuevoPeso = sumaEnConjunto(v1, mAdy, particion[i]) + sumaEnConjunto(v2, mAdy, particion[j]);
+			float _peso = nuevoPeso + pesos_Precalculados_De_v2[j];
 			if(i == j)
-				nuevoPeso += peso(v1, v2, mAdy);
+				_peso += peso(v1, v2, mAdy);
 
-			if(nuevoPeso < pesoMejor || pesoMejor == -1)
+			if(_peso < pesoMejor || pesoMejor == -1)
 			{
-				pesoMejor = nuevoPeso;
+				pesoMejor = _peso;
 				dondePonerAv1 = i;
 				dondePonerAv2 = j;
 			}
