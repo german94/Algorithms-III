@@ -9,56 +9,64 @@
 using namespace std;
 
 void reacomodar(int vertices, int aristas, int particiones, vector<vector<int> > &solucion, float **pesos);
-vector<vector<int> > crear_vecino( int indice, vector<vector<int> > &solucion, int particiones, float **pesos);
+float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, vector<pair <float, vector<int> > > &nuevo_vecino, float **pesos); 
+
+void mostrar(float suma_solucion, vector <pair<float, vector<int> > > &solucion)
+{//SOLO MUESTRA EL RESULTADO
+	cout << "suma:" << suma_solucion << endl; 
+	for (int t = 0; t < solucion.size(); t++){ 
+		for (int j = 0; j < solucion[t].second.size(); j++){
+			cout << t +1 << "_" << solucion[t].second[j] << " ";
+		}
+	}
+	cout << endl;
+}	
 
 float suma_conjunto(const vector<int> &conjunto_actual, float **pesos)
 {
-	float suma = 0;
-	int A= 0; //suma todos los vertices de un conjunto determinado
-	while(A < conjunto_actual.size())
+	float suma = 0; //suma todos los vertices de un conjunto determinado
+	for(int A= 0; A < conjunto_actual.size(); A++)
 	{
 		for(int B = A +1; B < conjunto_actual.size() ; B++ )
 		{
 			if(pesos[conjunto_actual[A] -1][conjunto_actual[B] -1] != -1) {suma = suma + pesos[conjunto_actual[A] -1][conjunto_actual[B] -1];}
 		} 
-		A++;
 	}
 	return suma;
 }
 
-float sumar_particion(const vector<vector<int> > &particion, float **pesos)
+vector<pair<float, vector<int> > > obtener_pesos(vector<vector<int> > &presolucion, float **pesos)
+{
+	vector<pair<float, vector<int> > > res;
+	for(int i = 0; i < presolucion.size(); i++)
+	{
+		pair<float, vector<int> > elemento;
+		elemento.second = presolucion[i];
+		elemento.first = suma_conjunto(presolucion[i], pesos);
+		res.push_back(elemento); 
+	}
+	return res;
+}
+
+void peso_agregado(vector<float> &mas_peso, int a_agregar, float **pesos, vector<pair <float, vector<int> > > &nuevo_vecino)
+{
+	for(int i = 0; i < nuevo_vecino.size(); i++)
+	{
+		float res = 0;
+		for(int j = 0; j < nuevo_vecino[i].second.size(); j++)
+		{
+			if(pesos[a_agregar -1][nuevo_vecino[i].second[j] -1] != -1) {res = res + pesos[a_agregar -1][nuevo_vecino[i].second[j] -1];}		
+		}
+	mas_peso.push_back(res);
+	}
+}
+
+float sumar_particion(const vector<pair<float, vector<int> > > &solucion )
 {
 	float res = 0; //suma todo una particion 
-	for(int i = 0; i < particion.size(); i++) { res = res +suma_conjunto(particion[i], pesos);}
+	for(int i = 0; i < solucion.size(); i++) { res = res + solucion[i].first;}
 	return res;
 }
-
-int seleccionar_vecino(const vector<vector<vector<int> > > &vecindad, float &posible_solucion, float **pesos)
-{
-	float menor = -1;
-	int res; // va a sumar el peso de cada particion y quedarse con el minimo
-	for(int i = 0; i < vecindad.size(); i++)
-	{
-		float peso = sumar_particion(vecindad[i], pesos);
-		if(menor == -1 || menor > peso)
-		{
-			menor = peso;
-			res = i;
-		}
-	}
-	posible_solucion =  menor;
-	return res;
-}
-
-void mostrar(float suma_solucion, vector <vector<int> > &solucion){//SOLO MUESTRA EL RESULTADO
-	cout << "suma:" << suma_solucion << endl; 
-	for (int t = 0; t < solucion.size(); t++){ 
-		for (int j = 0; j < solucion[t].size(); j++){
-			cout << t +1 << "_" << solucion[t][j] << " ";
-		}
-	}
-	cout << endl;
-}	
 
 float sumar_adyacentes(int nodo_A, int nodo_B, const vector<int> &conjunto_actual, float **pesos )
 {
@@ -71,31 +79,13 @@ float sumar_adyacentes(int nodo_A, int nodo_B, const vector<int> &conjunto_actua
 	return suma - pesos[nodo_A -1][nodo_B-1]; //ya que lo sume dos veces
 }
 
-void sacar(vector<int> &conjunto, int separo_A, int separo_B)
+void sacar(pair<float, vector<int> > &conjunto, int separo_A, int separo_B, float **pesos)
 {
 	vector<int> nuevo; //saca dos vertices determinafo de un conjunto
-	for(int i = 0; i < conjunto.size(); i++)
+	for(int i = 0; i < conjunto.second.size(); i++)
 	{
-		if(conjunto[i] != separo_A && conjunto[i] != separo_B) {nuevo.push_back(conjunto[i]);}
+		if(conjunto.second[i] != separo_A && conjunto.second[i] != separo_B) {nuevo.push_back(conjunto.second[i]);}
 	}
-	conjunto = nuevo;
-}
-
-bool puedo_agregarlos(vector<int> &para_A, vector<int> &para_B, int A, int B, float &suma_minima, float **pesos)
-{
-	bool res = false;
-	para_A.push_back(A); // se fija si al agregar dos nodos el costo es menor que algun anterior
-	para_B.push_back(B);
-	float agregado_A =suma_conjunto(para_A, pesos);
-	float agregado_B =suma_conjunto(para_B, pesos);
-
-	if(suma_minima > agregado_B + agregado_A)
-	{
-		suma_minima = agregado_A + agregado_B;
-		res = true;
-	}
-	para_A.pop_back();
-	para_B.pop_back();
-
-	return res;
+	conjunto.first = suma_conjunto(nuevo, pesos);
+	conjunto.second = nuevo;
 }
