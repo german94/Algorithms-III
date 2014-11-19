@@ -61,8 +61,16 @@ Caso contrario, retroced\'i hasta llegar al v\'ertice 1. Esto significa que term
          \EndFor        
 \EndProcedure
 \end{algorithmic}
+
+\subsection{Resoluci\'on agregando poda:}
+
+En la resoluci\'on anterior se comienza con el valor de $suma\_solucion$
+igual al peso obtenido de ubicar a todos los v\'ertices en un mismo 
+conjunto. Ya que esta es la cota m\'axima y luego se realizan distintas combinaciones para ir optimiz\'andola. La poda se encargara de comenzar con otro valor. Lo que haremos es obtener el peso que resulta de empezar distribuyendo al v\'ertice n\'umero 1 en el primer conjunto, al segundo en el siguiente y as\'i hasta que lleguemos al conjunto k o ya no nos queden nodos. Si se llego al k y a\'un quedan v\'ertices, volvemos al primer conjunto. Hasta que distribuyamos a todos. A diferencia de la resoluci\'on anterior para este caso es necesario que el vector que representa a la combinaci\'on tenga tamaño k en vez de uno. De esta forma, en el mejor de los casos si la cantidad de v\'ertices es menor que k (cantidad total de conjuntos) obtendremos una de las combinaciones \'optimas (peso total igual a cero). Y si no, al no tener a todos los v\'ertices juntos estaremos eliminando adyacencias y ubicando a posibles v\'ertices adyacentes en distintos conjuntos. Por lo que $suma\_solucion$ tiene un valor menor que el planteado en la anterior resoluci\'on. Y evitamos realizar las combinaciones que antes hac\'iamos para llegar al mismo. Luego se continua a partir de la linea 8 de $UBICAR\_VERTICE$.
+  
+
 \subsection{Complejidad}
-$k\_particion$ es un conjunto de conjuntos de v\'ertices (en él se van realizando las combinaciones). El mismo se representa con un vector de vectores de enteros. Pero, para un r\'apido acceso a la suma total de los pesos de los conjuntos. Se tendr\'a una tupla, la primer componente es la suma y la segunda el vector.
+$k\_particion$ es un conjunto de conjuntos de v\'ertices (en \'el se van realizando las combinaciones). El mismo se representa con un vector de vectores de enteros. Pero, para un r\'apido acceso a la suma total de los pesos de los conjuntos. Se tendr\'a una tupla, la primer componente es la suma y la segunda el vector.
 Para calcular la complejidad total vamos a analizar por partes nuestro algoritmo.\newline
 A) Complejidad de la funci\'on $ubicar\_vertice$:\newline
 1) Calcular el valor inicial de $suma\_solucion$ (que va a ser el peso de tener a todas los v\'ertices en un solo conjunto). Es decir, sumar m aristas. O(m)\newline
@@ -86,4 +94,10 @@ El costo total, de ambas secciones seria:
 O($m$) + O($n^{2}$)*O($k^{n}$) = O($m$) + O($n^{2}*k^{n}$)\newline 
 acotando m por $n*(n-1)/2$, que es el n\'umero m\'aximo de aristas que puede haber para n v\'ertices, tenemos:\newline
 O($n^{2}$) + O($n^{2}*k^{n}$) = O($n^{2}*k^{n}$)  
+
+\subsection{Complejidad con la poda:}
+
+Como se explic\'o en la parte de $resolucion$ $con$ $poda$, con la misma se cambia la forma de obtener el valor inicial de $peso\_solucion$ y a la k-partici\'on que la respresenta. Mientras que el resto del algoritmo se mantiene, por lo que el an\'alisis anterior solo cambia para los items A.1 y A.2. Los cuales van a ser reemplazados por la complejidad de la funci\'on que representa el funcionamiento de la poda. La misma va a distribuir a todos los nodos O(n) en un vector de tama\~no k, O(k), e ir calculando el valor de $peso\_solucion$ O(m) (a lo sumo es la suma de todas las aristas) . En total O(m) + O(n) + O(k). Mientras que los siguientes pasos siguen conservando la misma complejidad. Por lo que ahora la complejidad total ser\'ia O($n^{2}*k^{n}$) + O(k)
+
+
 \end{document}
