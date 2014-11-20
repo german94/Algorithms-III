@@ -7,7 +7,7 @@
 #include <fstream>
 #include <ctime>
 #include <algorithm>
-#include "vecindad2.h" 
+#include "vecin2masgolosa.h" 
 using namespace std;
 
 void reacomodar(int vertices, int aristas, int particiones, vector<vector<int> > &solucion, float **pesos);
