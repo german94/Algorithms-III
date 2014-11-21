@@ -9,7 +9,7 @@
 #include <algorithm>
 using namespace std;
 
-void vecindad2(int vertices, int aristas, int particiones, vector<vector<int> > &solucion, float *const*pesos);
+void vecindad2(int particiones, vector<vector<int> > &solucion, float *const*pesos);
 float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, vector<pair <float, vector<int> > > &nuevo_vecino, float *const*pesos); 
 float suma_conjunto(const vector<int> &conjunto_actual, float *const*pesos);
 vector<pair<float, vector<int> > > obtener_pesos(vector<vector<int> > &presolucion, float *const*pesos);

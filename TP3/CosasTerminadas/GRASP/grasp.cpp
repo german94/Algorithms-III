@@ -29,7 +29,7 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool
 		if(usarVecindad2)
 		{
 			convertirIndices(iParticion);
-			vecindad2(n, m, iParticion.size(), iParticion, mAdy);
+			vecindad2(iParticion.size(), iParticion, mAdy);
 
 		}
 		else

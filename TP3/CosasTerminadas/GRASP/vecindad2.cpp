@@ -69,7 +69,7 @@ void sacar(pair<float, vector<int> > &conjunto, int separo_A, int separo_B, floa
 }
 
 
-void vecindad2(int vertices, int aristas, int particiones, vector<vector<int> > &presolucion, float *const*pesos)
+void vecindad2(int particiones, vector<vector<int> > &presolucion, float *const*pesos)
 {		
 	vector<pair<float, vector<int> > > solucion = obtener_pesos(presolucion, pesos);
 	float suma_solucion = sumar_particion(solucion); //inicialmente la suma solucion es la de la presolucion
