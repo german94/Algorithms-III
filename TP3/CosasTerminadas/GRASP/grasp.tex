@@ -36,64 +36,55 @@ El algoritmo básicamente itera una cantidad de veces, en principio desconocida,
 \vspace{0.5cm}
 \subsection*{a) Experimentación}
 Las instancias que generamos para realizar la experimentación de la calidad de las soluciones y la performance de GRASP, fueron grafos completos. Al igual que como experimentamos con otros algoritmos, los pesos de las aristas de los grafos completos se determinaron de manera aleatoria en un rango de 0 a 50.
-\newline Todas las mediciones que presentaremos a continuación se realizaron sobre el mismo conjunto de instancias, el cual tiene 100 grafos completos con vértices de 1 a 100.
+\newline Todas las mediciones que presentaremos a continuación se realizaron sobre el mismo conjunto de instancias, el cual tiene 100 grafos completos con vértices de 1 a 90.
 \newline El objetivo de esta experimentación es poder encontrar una configuración conveniente de los parámetros de GRASP y ver si se adapta a otros grafos que no necesariamente sean completos.
 \newline
 \newline Vamos a presentar gráficos comparativos sobre la performance y la calidad de las soluciones que nos brinda GRASP con distintas configuraciones.
 Cuando hablemos de Vecindad 1 y Vecindad 2, vamos a estar haciendo referencia al primer y segundo algoritmo de búsqueda local que presentamos.
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{20202010.jpg}\caption{En este experimento los porcentajes que determinan las RCL se mantienen bajos. También, delta es un número relativamente bajo. Podemos observar que el algoritmo con esa configuración, utilizando la vecindad 1, brinda soluciones de peso mayor en casi todos los casos, que cuando utiliza la vecindad 2. Por lo cual, en calidad de soluciones podemos decir que conviene utilizar la vecindad 2.}
+\includegraphics[scale=0.7]{20202010.jpg}\caption{En este experimento los porcentajes que determinan las RCL se mantienen bajos. También, delta es un número relativamente bajo. Podemos observar que la calidad de las soluciones que da GRASP utilizando una vecindad u otra, es similar. Solo en el intervalo de $n \in [60 .. 70]$ se puede ver que las soluciones cuando se utiliza la vecindad 1 son mejores, pero no es un rango muy significativo.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{20202010c.jpg}\caption{En este gráfico, podemos contemplar la enorme diferencia entre el tiempo de ejecución de GRASP utilizando una vecindad y la otra. Es importante ver que GRASP utilizando la vecindad 2 es mucho más rápido y casualmente era con la vecindad 2 (con esta misma configuración y con este conjunto de instancias) que GRASP nos daba soluciones mejores. Claramente con estos valores de alfa, beta, gamma y delta, el algoritmo funciona mejor utilizando la vecindad 2.}
+\includegraphics[scale=0.7]{20202010c.jpg}\caption{En este gráfico, podemos contemplar una diferencia significativa entre el tiempo de ejecución de GRASP utilizando una vecindad y la otra. Se puede ver incluso como esa diferencia tiende a hacerse más grande asintóticamente.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{20202050.jpg}\caption{
-\noindent En este caso decidimos aumentar delta. Intuitivamente podríamos creer que el hecho de aumentar esto nos puede llegar a dar soluciones mejores, debido a que aumentan las chances de encontrar una mejor solución. En este caso esto efectivamente se cumplió en algunas instancias.}
+\noindent En este caso decidimos aumentar delta. Intuitivamente podríamos creer que el hecho de aumentar esto nos puede llegar a dar soluciones mejores, debido a que aumentan las chances de encontrar una mejor solución. Sin embargo, esto no paso en este caso e incluso algunas soluciones fueron peores. Esto se debe a que hay otros factores en juego además del delta (como el alfa, beta y gamma) y, como está todo aleatorizado, puede suceder que tratando de mejorar nuestras soluciones aumentando el delta, al correr nuevamente el algoritmo tengamos mala suerte y la aleatoriedad nos juegue en contra. Una vez más se puede observar que la calidad de las soluciones haciendo uso de la vecindad 1 o la vecindad 2, es similar.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{20202050c.jpg}\caption{Podemos observar también como el tiempo de ejecución del algoritmo al aumentar ese parámetro, se incrementa bastante. De todas formas, como decidimos que la mejor vecindad para este caso es la 2, vamos a ver que tanto empeora el tiempo de ejecución y que tanto mejoran las soluciones en relación a los datos anteriores, pero utilizando solo la vecindad 2. Será en los siguientes gráficos que mostraremos esto.}
+\includegraphics[scale=0.7]{20202050c.jpg}\caption{Podemos observar también como el tiempo de ejecución del algoritmo al aumentar ese parámetro, se incrementa bastante. Si bien no es del todo visible con la vecindad 2 porque el tiempo que tarda GRASP al hacer uso de ella es despreciable con respecto al que tarda cuando usa la vecindad 1, el tiempo igualmente aumenta porque, de una forma u otra estamos haciendo más iteraciones, independientemente de la vecindad a utilizar.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{20202020difcal.jpg}\caption{Vemos como efectivamente si aumentamos delta obtenemos soluciones mejores.}
+\includegraphics[scale=0.7]{80808010.jpg}\caption{Ahora, probamos aumentar bastante los parámetros alfa, beta y gamma. Lo que produce esto es aumentar el tamaño de nuestras listas de candidatos (ya que ahora podrán estar dentro de ellas los que cumplan estar hasta un 80\% lejos del mejor). Vemos que las soluciones que provee GRASP utilizando una vecindad u otra, siguen siendo similares en cuanto a calidad. Empezamos a pensar que esto es independiente de los valores de alfa, beta y gamma.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{202020difcom.jpg}\caption{En el gráfico anterior pudimos ver "lo que ganamos" al aumentar el delta. En este gráfico podemos ver lo que nos cuesta aumentar el delta. Es claro ver que el tiempo de ejecución va aumentar si el delta aumenta. De todas formas, en este caso el aumento no es demasiado grande y algunas soluciones son significativamente mejores, con lo cual parece razonable aumentar el tiempo de ejecución con el objetivo de mejorar nuestras soluciones.}
+\includegraphics[scale=0.7]{80808050.jpg}\caption{Una vez más, aumentamos el delta y vemos que, con ninguna de las dos vecindades hay una mejora realmente notable, la cual justifique el costo necesario para realizar este cambio.}
+\end{figure}
+\noindent Dado que las soluciones que provee GRASP haciendo uso de cualquiera de las dos vecindades son muy similares en cuanto a calidad, al parecer lo que nos conviene hacer es utilizar la vecindad 2. Esto es así debido a que las soluciones que produce GRASP con la vecindad 2 son muy similares a cuando utiliza la vecindad 1, pero con un tiempo de ejecución muchísimo menor.
+
+Como los experimentos realizados tienen siempre el mismo valor para alfa, beta y gamma, sería interesante ver si las soluciones que provee GRASP utilizando valores más distantes (y por ende distintos) de alfa, beta y gamma, siguen siendo similares con una vecindad u otra, en términos de calidad.
+\newline Para ver esto realizamos una última experimentación, con distintos valores de alfa, beta y gamma:
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{ultimaexp.jpg}\caption{Vemos que, salvo casos muy particulares, las soluciones con una vecindad u otra siguen siendo similares a pesar de que alfa, beta y gamma ahora no comparten el mismo valor (y son notablemente distintos).}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{202020difcom.jpg}\caption{En el gráfico anterior pudimos ver "lo que ganamos" al aumentar el delta. En este gráfico podemos ver lo que nos cuesta aumentar el delta. Es claro ver que el tiempo de ejecución va aumentar si el delta aumenta. De todas formas, en este caso el aumento no es demasiado grande y algunas soluciones son significativamente mejores, con lo cual parece razonable aumentar el tiempo de ejecución con el objetivo de mejorar nuestras soluciones.}
+\includegraphics[scale=0.7]{ultimaexpc.jpg}\caption{Acompañamos al gráfico anterior, con éste que nos provee alguna información sobre los tiempos de ejecución con los valores anteriores. Se puede ver que los tiempos son similares a cuando alfa = 80\%, beta = 80\%, gamma = 80\% y delta = 50.}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.7]{80808010.jpg}\caption{Ahora, probamos aumentar bastante los parámetros alfa, beta y gamma. Lo que produce esto es aumentar el tamaño de nuestras listas de candidatos (ya que ahora podrán estar dentro de ellas los que cumplan estar hasta un 80\% lejos del mejor). Vemos que las soluciones que provee GRASP utilizando la vecindad 2 siguen siendo mejores que las que provee cuando utiliza la 1. Empezamos a pensar que esto es independiente de los parámetros alfa, beta, gamma y delta.}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.7]{80808050.jpg}\caption{Una vez más, aumentamos el delta y vemos que, con ambas vecindades, obtenemos soluciones mejores. Sin embargo, la vecindad 2 sigue predominando sobre la 1 en calidad de soluciones.}
-\end{figure}
-\noindent Dado que las soluciones que provee GRASP con la vecindad 2 siempre son mejores a las que provee cuando hace uso de la vecindad 1 y, además, es significativamente más lento cuando usa esta última (lo vimos en el gráfico 4 y además la complejidad teórica del algoritmo que usa esa vecindad es mayor a que usa la vecindad 2), claramente conviene correr GRASP con la vecindad 2. Por otra parte, vimos también que si aumentamos el parámetro delta, si bien el tiempo de ejecución aumenta, también mejoran las soluciones que obtenemos. Una buena configuración entonces, estaría determinada por delta $\sim 50$ y la vecindad 2. Restaría ver qué parámetros de alfa, beta y gamma nos conviene utilizar.
-
-\begin{figure}[H]
-\centering 
-\includegraphics[scale=0.7]{vecindad2variaabgd.jpg}
-\end{figure}
-
-En el gráfico de arriba, podemos observar la calidad de las soluciones obtenidas con tres configuraciones distintas de alfa, beta y gamma. Entre estas tres configuraciones distintas, se encuentran dos de las que mencionamos arriba y una nueva en la cual a, b y g no tienen los mismos valores y el valor de delta es 30. Esta nueva configuración fue elegida para poder ver si el hecho de variar los tamaños de las RCL's puede llegar a aumentar las chances de obtener mejores soluciones.
-\newline En el gráfico podemos ver que la nueva configuración que varía los tamaños de las RCL's es la que mejores soluciones nos da. Si bien en algunos casos la combinación alfa = beta = gamma = 20 y delta = 50 da mejores soluciones, en la mayoría de los casos la nueva configuración le gana.
-\newline Podemos concluir entonces que una buena configuración para estos casos, es variar el alfa, beta y gamma de manera que las RCL's tengan distinto tamaño y que el delta sea "mediano". De esta forma, un valor "mediano" de delta no nos recorta demasiadas soluciones, pero tampoco incrementa demasiado el tiempo de ejecución.
+Finalmente, podemos concluir que una buena configuración de los parámetros de GRASP puede ser tomar valores de alfa, beta y gamma relativamente bajos (20 puede ser un buen número según nuestros gráficos), ya que al parecer, no tiene mucho sentido agrandar demasiado el tamaño de nuestras RCL's si lo que buscamos es mejorar la calidad de las soluciones. Por otra parte, el valor del delta tampoco necesita ser grande (10 podría ser un valor razonable según el primer gráfico). Finalmente, es claro que es conveniente utilizar la vecindad 2, ya que solo se poseen dos vecindades distintas y GRASP con cualquiera de ellas arroja soluciones similares a las que daría si utilizara la otra, con la diferencia de un tiempo de ejecución significativamente menor.
 \end{document}
