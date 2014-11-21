@@ -13,7 +13,7 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool
 		vector<vector<int> > iParticion = vector<vector<int> >(particion.size(), vector<int>());
 
 		heuristica_golosa_aleatorizada(mAdy, iParticion, n, alfa);
-		float peso = pesoTotalParticion(iParticion, mAdy, usarVecindad2);
+		float peso = pesoTotalParticion(iParticion, mAdy, false);
 
 		////////////////////////////////////////////////////////////////////////////////////////////
 		//esto es para ver la particion que arma la golosa aleatorizada
@@ -26,11 +26,11 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool
 			}
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////
-
 		if(usarVecindad2)
 		{
 			convertirIndices(iParticion);
 			vecindad2(n, m, iParticion.size(), iParticion, mAdy);
+
 		}
 		else
 			vecindad1(mAdy, iParticion, pesoTotalParticion(iParticion, mAdy, false)); 
@@ -54,7 +54,7 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool
 
 int main()
 {
-	bool usarVecindad2 = false;
+	bool usarVecindad2 = true;
 	int cuantasParaTerminar = 10;
 	float alfa = 20;
 	int ta = 1;

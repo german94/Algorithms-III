@@ -115,6 +115,13 @@ void vecindad2(int vertices, int aristas, int particiones, vector<vector<int> > 
 			}
 		} else {posible_solucion = suma_solucion;}	
 	} while (posible_solucion < suma_solucion); // no me sirve poner <= porque podria no terminar, por eso antes decremente a psibles_solucion
+
+	vector<vector<int> > restauro;
+	for(int i = 0; i < solucion.size() ; i++){
+		vector<int> a = solucion[i].second;
+		restauro.push_back(a);
+	}
+	presolucion = restauro;
 }
 
 float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, vector<pair <float, vector<int> > > &nuevo_vecino, float *const*pesos) 
