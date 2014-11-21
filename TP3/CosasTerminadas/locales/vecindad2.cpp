@@ -90,14 +90,14 @@ void vecindad2(int particiones, vector<vector<int> > &presolucion, float **pesos
 
 	float posible_solucion = -1; 
 	float peso_vecino;
-	vector<pair<float, vector<int> > > vecino_solucion;
+	vector<pair<float, vector<int> > > vecino_solucion; // va a tener al vecino mas optimo de la vecindad
 	do 
 	{ 
 		for(int i = 0; i < solucion.size(); i ++) //modificadas 
 		{
 			if(solucion[i].second.size() > 1) 
 			{
-				vector<pair<float, vector<int> > > nuevo_vecino;
+				vector<pair<float, vector<int> > > nuevo_vecino; //genero un vecino
 				peso_vecino = crear_vecino(i, solucion, nuevo_vecino, pesos);
 				if(posible_solucion ==-1 || posible_solucion > peso_vecino)
 				{
@@ -128,11 +128,11 @@ void vecindad2(int particiones, vector<vector<int> > &presolucion, float **pesos
 
 float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, vector<pair <float, vector<int> > > &nuevo_vecino, float **pesos) 
 {
-	float mayor_peso = -1;//tengo a la cosa mas pesada
+	float mayor_peso = -1;//va a tener el peso de los adyacentes con sus adyacentes
 	int nodo_a_separarA, nodo_a_separarB;
 	int separo_A, separo_B;
 	for(int nodo_A = 0; nodo_A < solucion[indice].second.size() -1; nodo_A++)
-	{		//ambos while sirven para agarrar todo PAR de nodo
+	{		//ambos for sirven para agarrar todo PAR de nodo
 		for(int nodo_B = nodo_A +1; nodo_B < solucion[indice].second.size(); nodo_B++)
 		{	
 			nodo_a_separarA = solucion[indice].second[nodo_A];
@@ -187,5 +187,5 @@ float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, ve
 		nuevo_vecino[ubicar_B].first = nuevo_vecino[ubicar_B].first + mas_peso_de_B[ubicar_B]; 
 		if(ubicar_A == ubicar_B) {nuevo_vecino[ubicar_A].first += pesos[separo_A -1][separo_B -1];}
 	}
-	return sumar_particion(nuevo_vecino); //inicialmente la suma solucion es la de la presolucion
+	return sumar_particion(nuevo_vecino); 
 }
