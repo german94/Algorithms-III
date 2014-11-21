@@ -4,6 +4,7 @@
 
 void grasp(vector<vector<int> >& particion, float *const* mAdy, bool usarVecindad2, int cuantasParaTerminar, int n, int m, float alfa, float beta, float gamma)
 {
+	clock_t begin = clock();
 	float mejorPeso = -1;
 	int repeticionesSeguidasSinMejorar = 0;
 	vector<vector<int> > mejorParticion;
@@ -13,6 +14,7 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, bool usarVecinda
 		vector<vector<int> > iParticion = vector<vector<int> >(particion.size(), vector<int>());
 
 		heuristica_golosa_aleatorizada(mAdy, iParticion, n, alfa, beta, gamma);
+
 		float peso = pesoTotalParticion(iParticion, mAdy, false);
 
 		if(usarVecindad2)
@@ -36,14 +38,16 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, bool usarVecinda
 
 	}
 
-
 	particion = mejorParticion;
+	clock_t end = clock();
+    double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
+    DarTiempo(elapsed_msecs, mejorPeso);
 	mostrar(n, particion, usarVecindad2);
 }
 
 int main()
 {
-	bool usarVecindad2 = true;
+	bool usarVecindad2 = false;
 	int cuantasParaTerminar = 10;
 	float alfa = 20;
 	float beta = 20;

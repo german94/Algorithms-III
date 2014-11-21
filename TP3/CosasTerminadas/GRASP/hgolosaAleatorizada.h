@@ -36,4 +36,5 @@ float aristaDePesoMaximo(int n, float* const * mAdy, int& a, int& b);
 float pesoTotalParticion(const vector<vector<int> >& particion, float *const* mAdy, bool desde1);
 void convertirIndices(vector<vector<int> >& solucion);
 void mostrar(int n, const vector <vector<int> > &solucion, bool desde1);
+void DarTiempo(double t, float s);
 #endif

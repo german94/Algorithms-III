@@ -414,11 +414,15 @@ void convertirIndices(vector<vector<int> >& solucion)
 	}
 }
 
-void DarTiempo(double t)
+void DarTiempo(double t, float s)
 {
 	ofstream myfile;
 	myfile.open ("tiempos.txt", ios::app);
 	myfile<<t<< "\n";
+	myfile.close();
+
+	myfile.open ("resultados.txt", ios::app);
+	myfile<<s<< "\n";
 	myfile.close();
 }
 
