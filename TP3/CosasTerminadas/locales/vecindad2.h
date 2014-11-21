@@ -11,16 +11,22 @@ using namespace std;
 void vecindad2(int particiones, vector<vector<int> > &solucion, float **pesos);
 float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, vector<pair <float, vector<int> > > &nuevo_vecino, float **pesos); 
 
-void mostrar(float suma_solucion, vector <pair<float, vector<int> > > &solucion)
-{//SOLO MUESTRA EL RESULTADO
-	cout << "suma:" << suma_solucion << endl; 
-	for (int t = 0; t < solucion.size(); t++){ 
-		for (int j = 0; j < solucion[t].second.size(); j++){
-			cout << t +1 << "_" << solucion[t].second[j] << " ";
+void mostrar(int n, const vector <vector<int> > &solucion)
+{	
+	for(int i = 0; i < n; i++)
+	{
+		for(int j = 0; j < solucion.size(); j++)
+		{
+			for(int k = 0; k < solucion[j].size(); k++)
+			{
+				if(solucion[j][k] == i+1)
+					cout<<j+1<<" ";
+			}
 		}
 	}
-	cout << endl;
-}	
+	cout<<endl;
+}
+
 
 float suma_conjunto(const vector<int> &conjunto_actual, float **pesos)
 {

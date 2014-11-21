@@ -57,10 +57,11 @@ int main()
 			pesos[vertice_b -1][ vertice_a -1] = peso;
 		} 
 
-
 			vector<vector<int> > presolucion;
 			
 			vecindad2(particiones, presolucion, pesos);//FUNCION PRINCIPAL
+			
+			mostrar(vertices, presolucion); //cuando ya no encuentra nada mejor termina
 
 			for(int i = 0; i < vertices; i++) {free (pesos[i]);} //LIBERO MEMORIA
 				free (pesos);
@@ -116,7 +117,13 @@ void vecindad2(int particiones, vector<vector<int> > &presolucion, float **pesos
 		} else {posible_solucion = suma_solucion;}	
 	} while (posible_solucion < suma_solucion); // no me sirve poner <= porque podria no terminar, por eso antes decremente a psibles_solucion
 
-	mostrar(suma_solucion, solucion); //cuando ya no encuentra nada mejor termina
+	vector<vector<int> > restauro;
+	for(int i = 0; i < solucion.size() ; i++){
+		vector<int> a = solucion[i].second;
+		restauro.push_back(a);
+	}
+	presolucion = restauro;
+
 }
 
 float crear_vecino(int indice, vector<pair <float, vector<int> > > &solucion, vector<pair <float, vector<int> > > &nuevo_vecino, float **pesos) 
