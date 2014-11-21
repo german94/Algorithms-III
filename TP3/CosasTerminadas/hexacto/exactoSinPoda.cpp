@@ -8,7 +8,6 @@
 #include <ctime>
 using namespace std;
 
-void mostrar(float suma_solucion, vector <vector<int> > &solucion);
 bool agregar_vertice(vector<int> &conjunto_actual, float &suma_actual, int particiones, int vertice_actual, float **pesos, int vertices, float suma_solucion);
 void ubicar_siguientes_vertices( vector <vector <int> > &solucion, int vertices, int aristas, int particiones, int vertice_actual, int conjuntos_disponibles, std::pair <float, vector <vector <int> > > &k_particion, float **pesos, float &suma_solucion);
 void ubicar_vertice( int vertices, int aristas, int particiones, float **pesos);
@@ -22,6 +21,21 @@ void DarTiempo(double t)
 	myfile.close();
 }
 
+void mostrar(int n, const vector <vector<int> > &solucion)
+{	
+	for(int i = 0; i < n; i++)
+	{
+		for(int j = 0; j < solucion.size(); j++)
+		{
+			for(int k = 0; k < solucion[j].size(); k++)
+			{
+				if(solucion[j][k] == i+1)
+					cout<<j+1<<" ";
+			}
+		}
+	}
+	cout<<endl;
+}
 
 float costo_de_agregarlo(int vertice_actual, vector<int> &conjunto_actual, float **pesos){
 	if(conjunto_actual.size() == 0) {return 0.0;}
@@ -84,16 +98,6 @@ int main()
 	}		
     return 0;
 }
-
-void mostrar(float suma_solucion, vector <vector<int> > &solucion){//SOLO MUESTRA EL RESULTADO
-	cout << "suma:" << suma_solucion << endl; 
-	for (int t = 0; t < solucion.size(); t++){ 
-		for (int j = 0; j < solucion[t].size(); j++){
-			cout << t +1 << "_" << solucion[t][j] << " ";
-		}
-	}
-	cout << endl;
-}	
 
 bool agregar_vertice(vector<int> &conjunto_actual, float &suma_actual, int particiones, int vertice_actual, float **pesos, int vertices, float suma_solucion){ 
 	float suma = suma_actual; //VA A RECORRER EL CONJUNTO ACTUAL Y VER SI EL AGREGAR UN VERTICE SUPERA EL "UMBRAL"
@@ -172,6 +176,6 @@ void ubicar_vertice(int vertices, int aristas, int particiones, float **pesos)
 	clock_t end = clock();
    	double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) *1000; //en seg
     DarTiempo(elapsed_msecs);
-		
-	//mostrar(suma_solucion, solucion);
+
+    mostrar(vertices, solucion);
 }
