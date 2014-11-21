@@ -84,7 +84,8 @@ void heuristica_golosa(float* const * mAdy, vector<vector<int> >& particion, int
 
 	clock_t end = clock();
     double elapsed_msecs = (double(end - begin) / CLOCKS_PER_SEC) * 1000;
-    DarTiempo(elapsed_msecs);
+
+    DarTiempo(elapsed_msecs, pesoTotalParticion(particion, mAdy));
 }
 
 int main()
@@ -140,6 +141,9 @@ int main()
 				
 		float **pesos = new float *[vertices];
 		for(int i = 0; i < vertices; i++)  {pesos[i] = new float[vertices];}
+		for(int i = 0; i < vertices; i++)
+			for(int j = 0; j < vertices; j++)
+				pesos[i][j] = -1;
 		for(int i=0; i < aristas; i++)
 		{
 			std::getline(cin, l);

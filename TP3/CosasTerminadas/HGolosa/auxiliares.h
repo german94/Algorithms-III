@@ -9,6 +9,38 @@
 #include <list>
 using namespace std;
 
+
+float pesoTotalParticion(const vector<vector<int> >& particion, float *const* mAdy)
+{
+	float pesoTotal = 0;
+
+	for(int i = 0; i < particion.size(); i++)
+	{
+		for(int j = 0; j < particion[i].size(); j++)
+		{
+			for(int k = j + 1; k < particion[i].size(); k++)
+			{
+				if(mAdy[particion[i][j]][particion[i][k]] != -1)
+					pesoTotal += mAdy[particion[i][j]][particion[i][k]];
+			}
+		}
+	}
+
+	return pesoTotal;
+}
+
+void DarTiempo(double t, float s)
+{
+	ofstream myfile;
+	myfile.open ("tiempos.txt", ios::app);
+	myfile<<t<< "\n";
+	myfile.close();
+
+	myfile.open ("resultados.txt", ios::app);
+	myfile<<s<< "\n";
+	myfile.close();
+}
+
 int dameAlgunoQueFalte(const vector<bool>& marcados)
 {
 	for(int i = 0; i < marcados.size(); i++)
@@ -100,7 +132,7 @@ void encolarAdyacentesNoAgregados(int vertice, int n, float* const * mAdy, const
 //tengo que tener alguna manera de diferenciar cuando dos vertices son (>= 0) o no (-1) adyacentes
 float peso(int v1, int v2, float* const * mAdy)
 {
-	if(mAdy[v1][v2] == -1)
+	if(mAdy[v1][v2] < 0)
 		return 0;
 
 	return mAdy[v1][v2];
@@ -369,11 +401,3 @@ void mostrar(int n, const vector <vector<int> > &solucion){
 
 	cout<<endl;
 }	
-
-void DarTiempo(double t)
-{
-	ofstream myfile;
-	myfile.open ("tiempos.txt", ios::app);
-	myfile<<t<< "\n";
-	myfile.close();
-}
