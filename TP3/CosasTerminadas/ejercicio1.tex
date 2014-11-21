@@ -1,0 +1,80 @@
+\documentclass[a4paper]{article}
+\usepackage{color}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{vmargin}
+\usepackage[utf8]{inputenc}
+\usepackage{mdwlist}
+\setpapersize{A4}
+\setmargins{2.5cm}       % margen izquierdo
+{1.5cm}                        % margen superior
+{16.5cm}                      % anchura del texto
+{23.42cm}                    % altura del texto
+{10pt}                           % altura de los encabezados
+{1cm}                           % espacio entre el texto y los encabezados
+{0pt}                             % altura del pie de página
+{2cm}                           % espacio entre el texto y el pie de página
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\begin{document}
+
+\section{Ejercicio 1}
+\subsection{Relación entre k-pmp y el problema biohazard}
+Empecemos por ver de qué manera podríamos modelar biohazard utilizando grafos. Podemos armar un grafo $G$ de manera tal que, cada vértice de $G$, representa un producto químico. Para cada par de vértices $p_1$ y $p_2$, determinamos su coeficiente de peligrosidad en base al peso de la arista que los une. Podemos decidir modelar el problema con grafos completos, entonces si el coeficiente de peligrosidad entre $p_1$ y $p_2$ es 0, el peso de la arista que los une es 0. O bien podemos decidir no modelarlo con grafos completos y si el coeficiente de peligrosidad es 0 entonces $p_1$ y $p_2$ no son adyacentes.
+\newline Ahora que sabemos de que manera podríamos modelar el problema utilizando grafos (optamos por la segunda opción, es decir, no utilizar grafos completos), podemos ver que, un cierto gafo de entrada $G$ al problema k-pmp puede ser tranquilamente un input a biohazard y viceversa. Más aún, tanto k-pmp como biohazard buscan una determinada partición (no necesariamente única) de los vértices de $G$ que cumpla con ciertas condiciones. La diferencia entre ambos problemas entonces, radica en que cosas restringe cada uno y permite el otro.
+\newline Vemos que el objetivo de biohazard es encontrar una partición del grafo de entrada, de manera tal que se cumpla una misma condición (no superar un umbral dado) sobre cada conjunto perteneciente a ella, y que la cantidad de conjuntos de dicha partición sea la mínima. Es decir, parte del problema es encontrar la cardinalidad de la partición. Las imposiciones son sobre cada una de sus partes y no interesa cuanto pueden afectar estas imposiciones a aspectos de la partición entera. En cambio en k-pmp, lo que interesa es que la partición entera cumpla determinada condición, sin importar (siempre y cuando la condición se cumpla) lo que tiene cada conjunto, visto de manera independiente o individual. Además, la cardinalidad de la partición ya se sabe, o por lo menos, se conoce una cota superior. Si bien esto último también vale para biohazard (ya que la cota superior sería $n$ conjuntos, uno para cada camión), el problema es minimizar la cardinalidad, en cambio k-pmp simplemente pide que la cantidad de conjuntos no vacíos sea menor o igual a $k$ y mientras eso se cumpla, no importa si existe una partición cuyo cardinal es estrictamente menor y también es solución al problema.
+\newline Con lo que dijimos hasta ahora, podemos afirmar que, si tenemos un algoritmo que soluciona biohazard, seguramente va a ir probando las distintas combinaciones posibles resultantes de meter vértices en conjuntos. Como la idea en biohazard es minimizar la cantidad de conjuntos, es razonable pensar que el algoritmo empezaría probando con un conjunto e iría subiendo la cantidad a medida que agota las combinaciones. Cuando el algoritmo decide aumentar la cantidad actual de conjuntos $c$ que tiene, es porque ya probó todas las maneras de ubicar los vértices en $c$ conjuntos y no existe ninguna combinación que cumpla que ningún conjunto de esos $c$ supere el umbral establecido. Para que esto suceda, el algoritmo a medida que va armando cada combinación debe ir chequeando también que se cumpla la condición que pide biohazard. Si en lugar de chequear que se cumpla esa condición, pudiera saber si la combinación que está analizando puede llegar a ser una solución a k-pmp, entonces como dijimos que se exploran todas las soluciones y se empieza con un conjunto, vemos que podríamos dar una solución a k-pmp. Para poder lograr esto, solo basta con ir guardando cierta información (de ser necesario) de cada combinación a la cual se llega y, cuando llegamos a una combinación distinta, la comparamos con la que teníamos y vemos si es mejor o no, reemplazando lo guardado en el caso de que lo sea. Al terminar de explorar todas las combinaciones, claramente nos habremos quedado con la mejor. Otra cosa importante a tener en cuenta si queremos pasar de biohazard a k-pmp, es lo que dijimos anteriormente sobre la cota superior. En k-pmp nuestro espacio de soluciones se limita a las particiones de cardinalidad menor o igual a $k$ (si pensamos que la partición solución no tiene conjuntos vacíos, de lo contrario la cardinalidad es exactamente $k$) pero, podría no existir ninguna solución a biohazard con una cantidad menor a $n$ camiones ($n$ = cantidad de vértices). Entonces como sería inútil (y de hecho podría devolver una solución de más de $k$ conjuntos vacíos, cosa que no queremos) para k-pmp explorar particiones que tengan más de $k$ conjuntos no vacíos, otra modificación que habría que efectuar en el algoritmo sería terminar y devolver la mejor partición obtenida cuando se exploraron todas las particiones de cardinal menor o igual a $k$.
+\newline Si quisiéramos realizar el proceso inverso, es decir, dado un algoritmo que resuelve k-pmp, tratar de utilizarlo para resolver biohazard, tendríamos que modificar la condición que chequea el algoritmo, ya que hay que verificar si, dada una partición, cada conjunto perteneciente a ella tiene una peligrosidad menor al umbral (ahora no hace falta guardar ninguna partición). En principio, el $k$ ahora deberíamos reemplazarlo por $n$, ya que en el peor caso esa es la cantidad de conjuntos no vacíos de la solución. Y, en el caso de que se llegue a una partición que cumpla lo pedido, como sabemos que es efectivamente una solución al problema, no tendría sentido que el algoritmo continúe, por lo tanto debería devolver esa partición y terminar.
+\newline Vemos entonces que, si tenemos un algoritmo que soluciona k-pmp es muy facil modificarlo para que solucione a biohazard y al revés también. Esto sucede porque ambos problemas requieren explorar todas las soluciones posibles (en k-pmp esto es inevitable y en biohazard pasa en el peor caso) y la solución es, en ambos casos una partición del grafo de entrada.
+
+\subsection{Casos de la vida real}
+\begin{center}
+Cocina rápida:
+\end{center}
+\textit{\textbf{Def:}} Demora: dados 2 platos es el tiempo que se tarda en cocinarlos juntos,esta puede ser 0. Asumimos que las demoras se suman, es decir, que la demora total de cocinar $c$ platos es la suma de las demoras de los platos de a pares.\newline
+\textit{\textbf{Def:}}La ineficiencia de un cocinero es la suma de las demoras que generan cocinar un cierto conjunto de platos.\newline  
+Un cierto restaurante tiene un gerente muy estricto, y quiere que los pedidos de los clientes se realicen lo más rápido posible. Tiene a su cargo $k$ cocineros y una lista de tiempos de preparación, para todo par de platos en la lista de platos disponibles($n$ en total).
+Nos encargó que armemos un "restaurant ideal", donde los platos no podrían prepararse más rápido. Para esto pensamos en $k-pmp$ que justo es el ejercicio del TP.
+Interpretamos a la lista de tiempos como un grafo, donde los platos son los nodos, la lista de tiempos son las aristas con sus pesos y los cocineros son la cantidad de particiones. \newline
+Así con $k-pmp$ minimizamos la cantidad de aristas que se generan en cada conjunto, esto es la ineficiencia de cada cocinero. Entonces los platos se preparan de manera óptima.
+
+\begin{center}
+Cursos cortos:
+\end{center}
+\textit{\textbf{Def:}} Promedio recursantes: dados 2 curso es la cantidad de personas en promedio que recursó ambos o 1 de los cursos. Asumimos que los promedios se suman, es decir, que el promedio recursantes total de un conjunto de cursos es la suma de los promedio recursantes de los cursos de a pares.\newline
+\textbf{Def:}La ineficiencia de un período de cursos es la suma de los promedio recursantes de todas los cursos que se dictan.\newline 
+La persona a cargo de la distribución de los cursos en $k$ períodos, piensa que trae mala reputación al establecimiento tener muchos recursantes y quiere minimizar la cantidad de ellos en el próximo ciclo lectivo. Para ello hizo un historial de promedio recursantes, para todo par de cursos. Además sabe que tiene $k$ períodos en el próximo cuatrimestre. \newline
+También nos encargó que encontremos su "período de cursos perfecto" donde no podría haber menos recursantes.
+Para esto también pensamos en $k-pmp$, interpretamos al historial como un grafo, donde los cursos son los nodos, el historial son las aristas con los pesos y los períodos son las particiones.
+Así con $k-pmp$ minimizamos la cantidad de aristas que se generan en cada conjunto, esto es la ineficiencia de cada período de cursos haciendo del próximo ciclo lectivo un establecimiento con mejor reputación.\newline
+
+\begin{center}
+Alumnos alborotados:
+\end{center}
+\textit{\textbf{Def:}} El ruido: dados 2 alumnos es un valor numérico, cuya escala creo la maestra,que representa cuan molesto es para ella. Asumimos que los ruidos se suman, es decir, que el ruido total de un conjunto de alumnos es la suma de los ruidos de los alumnos de a pares.\newline
+\textbf{Def:}Los papelones son la cantidad de veces que un guardia del museo reta a sus alumnos, y los retan cuando gritan, no importa cuanto.\newline 
+
+Una maestra decide realizar una excursión al museo, como sabe que sus alumnos son muy ruidosos cuando ciertos "grupitos" se juntan y no quiere pasar papelones en el museo ideó un plan. Creó una lista de ruidos para todo par de alumnos en su clase. La cantidad de alumnos que tiene es $n$ y una cantidad $k$ de maestras auxiliares para ayudarla. Quiere mantener alejados a los "grupitos", es decir con diferentes auxiliares para que la cantidad de papelones sea mínima.\newline
+Para esto una vez más recurrieron a nosotros. Otra vez interpretamos la situación como un grafo, la lista de ruidos son las aristas con sus pesos, los nodos son los alumnos y las auxiliares son las particiones. Así la maestra con nuestra ayuda pudo tener un día de excursión bastante controlado, es decir sin pasar más papelones que los mínimos que podía sufrir.
+
+\subsection{Relación entre k-pmp y el k-coloreo}
+Podemos empezar preguntándonos si podemos resolver el problema de $k-coloreo$ con $k-pmp$. La respuesta es si, obteniendo ciertos resultados con $k-pmp$.\newline
+Primero hacemos una modificación en el grafo de entrada, poniendo peso 1 a todas las aristas. El problema de   $k-pmp$ busca agrupar los vértices en $k$ conjuntos tales que la suma de los costos(todas las aristas que se generan dentro) en cada conjunto,que llamaremos \textit{costo de la partición}, sea mínima. Con esta modificación vamos a obtener la mínima cantidad de aristas (porque cada una suma 1) que se generan con $k$ conjuntos.\newline
+Si el costo de la partición para un $k$ es 0, para tener un coloreo válido necesitamos $k'$ colores, donde $k'$ es la cantidad de conjuntos no vacíos y $k'$ $\leq$ $k$. Esto es porque sabemos que en cada conjunto no hay aristas(porque si habría el costo no sería 0), entonces podemos interpretar a cada conjunto no vacío(porque estaríamos dando colores de más contando los vacíos) como un color y pintar los nodos de cada conjunto de uno de los $k'$ colores no usados, por lo dicho anteriormente es válido el coloreo porque en el conjunto no hay adyacencias. \newline
+Si todos los conjuntos son no vacíos y el costo de la partición, es mayor que 1 quiere decir que hay por lo menos una arista dentro de un conjunto. Si sucede esto no tenemos un coloreo válido con $k$ colores, porque existen 2 nodos que son adyacentes que tienen el mismo color.
+Este es un problema para coloreo pero no para $k-pmp$, entonces podemos decir que necesitamos 1 color más por cada arista que se genera,para obtener un coloreo válido, la cantidad de aristas es el costo de la partición.\newline
+En conclusión si $k-pmp$ da un costo t, podemos hacer un $(k+t)-coloreo$ y este será válido. Esto parece no servir mucho para encontrar $\chi$ ($G$), si tenemos un grafo $G$ y $\chi$ ($G$) es $c$, corremos $k-pmp$ con $k$ muy alejado de $c$, vamos a obtener un coloreo válido pero muy alejado del óptimo.\newline
+Si bien no encontramos el óptimo corriendo $k-pmp$ una vez, tal vez podemos encontrarlo de alguna forma. Vimos que cuando aumentamos el $k$ se aleja del óptimo, pero ¿Qué pasa si vamos bajando el $k$? \newline
+Corremos $k-pmp$ para $k=n$ (con $k=n$ porque es la máxima cantidad de colores que podemos usar para colorear $n$ nodos) y nos guardamos el costo total $T$. Luego corremos i-pmp para 2 $\leq$ $i$ $\leq$ $n-1$, actualizando $T$ por el costo obtenido en $i-pmp$, cuando es más chico que $T$($i=1$ no tiene sentido porque es ver si son todos nodos aislados y en tiempo polinomial se puede saber). En algún momento el costo del $i-pmp$ va a ser mayor a $T$ ,intuitivamente cuando disminuye $k$, menos puedo separar los nodos sin generar aristas en los conjuntos, entonces el costo aumenta. Luego cuando encontremos un $i-pmp$ cuyo costo sea mayor al $T$, vamos a saber que todos los $T'$ $\geq$ $T$ van a ser coloreos válidos y los $T''$ $<$ $T$ van a ser no validos con lo cual $\chi$($G$) = $T$ que es el óptimo.\newline
+
+Si bien encontramos el óptimo, la complejidad de encontrarlo de esta forma no es buena. Tenemos que aplicar un algoritmo $k-pmp$ que no es polinomial sino exponencial, en peor caso $n$ veces(es una cota muy grosera). Para un n suficientemente grande el tiempo de ejecución puede ser muy grande, con lo cual para la práctica no sirve este algoritmo.\newline
+Ya vimos que se puede resolver k-coloreo con k-pmp y que se puede encontrar el coloreo óptimo.\newline
+
+Ahora vamos a ver que sucede si tenemos $k-coloreo$ y queremos resolver $k-pmp$.\newline
+Mucho no podemos hacer porque $k-coloreo$ no tiene en cuenta el costo de las aristas, solo es relevante la adyacencia entre nodos.\newline
+Veamos si podemos ver alguna relación o similitud de los resultados de ambos problemas.\newline
+Si un grafo es $k-coloreable$ entonces el resultado de aplicar $k'-pmp$ $k$ $\leq$ $k'$ al grafo modificado de la forma explicada anteriormente, es costo 0, $k'$-$k$ conjuntos vacíos y $k$ conjuntos de nodos sin arista. Esto es fácil de ver, podemos interpretar cada conjunto de nodos de un color, usando  $k'$ colores y pintarlos todos de colores distinto.
+
+\end{document}
