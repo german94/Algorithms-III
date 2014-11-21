@@ -2,7 +2,7 @@
 #include "vecindad1.h"
 #include "vecindad2.h"
 
-void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool usarVecindad2, int cuantasParaTerminar, int n, int m)
+void grasp(vector<vector<int> >& particion, float *const* mAdy, bool usarVecindad2, int cuantasParaTerminar, int n, int m, float alfa, float beta, float gamma)
 {
 	float mejorPeso = -1;
 	int repeticionesSeguidasSinMejorar = 0;
@@ -12,20 +12,9 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool
 	{
 		vector<vector<int> > iParticion = vector<vector<int> >(particion.size(), vector<int>());
 
-		heuristica_golosa_aleatorizada(mAdy, iParticion, n, alfa);
+		heuristica_golosa_aleatorizada(mAdy, iParticion, n, alfa, beta, gamma);
 		float peso = pesoTotalParticion(iParticion, mAdy, false);
 
-		////////////////////////////////////////////////////////////////////////////////////////////
-		//esto es para ver la particion que arma la golosa aleatorizada
-		if(n == 3)
-		{
-			for(int i = 0; i < iParticion.size(); i++)
-			{
-				for(int j = 0; j < iParticion[i].size(); j++)
-					cout<<"iParticion["<<i<<"]["<<j<<"] = "<<iParticion[i][j]<<endl; 	
-			}
-		}
-		////////////////////////////////////////////////////////////////////////////////////////////
 		if(usarVecindad2)
 		{
 			convertirIndices(iParticion);
@@ -44,12 +33,12 @@ void grasp(vector<vector<int> >& particion, float *const* mAdy, float alfa, bool
 			mejorPeso = peso;
 			mejorParticion = iParticion;
 		}
-		cout<<"_________________________________________"<<endl;
 
 	}
 
 
 	particion = mejorParticion;
+	mostrar(n, particion, usarVecindad2);
 }
 
 int main()
@@ -57,6 +46,8 @@ int main()
 	bool usarVecindad2 = true;
 	int cuantasParaTerminar = 10;
 	float alfa = 20;
+	float beta = 20;
+	float gamma = 20;
 	int ta = 1;
 	string l;
 	std::getline(cin, l);
@@ -100,7 +91,7 @@ int main()
 			// cout << i<<endl;
 		} 
 			// cout << "paso3"<<endl;
-			grasp(particion, pesos, alfa, usarVecindad2, cuantasParaTerminar, vertices, aristas);
+			grasp(particion, pesos, usarVecindad2, cuantasParaTerminar, vertices, aristas, alfa, beta, gamma);
 			cout<<"termino la instancia "<<ta<<endl;
 			ta++;
 

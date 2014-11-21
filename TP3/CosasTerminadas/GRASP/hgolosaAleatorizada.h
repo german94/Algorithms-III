@@ -12,7 +12,7 @@
 #include <list>
 using namespace std;
 
-void heuristica_golosa_aleatorizada(float* const * mAdy, vector<vector<int> >& particion, int n, float alfa);
+void heuristica_golosa_aleatorizada(float* const * mAdy, vector<vector<int> >& particion, int n, float alfa, float beta, float gamma);
 int dameAlgunoQueFalte(const vector<bool>& marcados);
 bool faltanAgregar(const vector<bool>& marcados);
 int dameAdyacenteNoMarcado(int vertice, int n, float* const * mAdy, vector<bool>& yaAgregados);
@@ -35,4 +35,5 @@ float aristaDePesoMaximoRCL(int n, float* const * mAdy, int& a, int& b, float al
 float aristaDePesoMaximo(int n, float* const * mAdy, int& a, int& b);
 float pesoTotalParticion(const vector<vector<int> >& particion, float *const* mAdy, bool desde1);
 void convertirIndices(vector<vector<int> >& solucion);
+void mostrar(int n, const vector <vector<int> > &solucion, bool desde1);
 #endif

@@ -386,6 +386,25 @@ float pesoTotalParticion(const vector<vector<int> >& particion, float *const* mA
 	return pesoTotal;
 }
 
+void mostrar(int n, const vector <vector<int> > &solucion, bool desde1)
+{
+	int correrIndice = desde1 ? 1 : 0;
+	
+	for(int i = 0; i < n; i++)
+	{
+		for(int j = 0; j < solucion.size(); j++)
+		{
+			for(int k = 0; k < solucion[j].size(); k++)
+			{
+				if(solucion[j][k] - correrIndice == i)
+					cout<<j+1<<" ";
+			}
+		}
+	}
+
+	cout<<endl;
+}	
+
 void convertirIndices(vector<vector<int> >& solucion)
 {	
 	for(int i = 0; i < solucion.size(); i++){
@@ -403,7 +422,7 @@ void DarTiempo(double t)
 	myfile.close();
 }
 
-void heuristica_golosa_aleatorizada(float* const * mAdy, vector<vector<int> >& particion, int n, float alfa)
+void heuristica_golosa_aleatorizada(float* const * mAdy, vector<vector<int> >& particion, int n, float alfa, float beta, float gamma)
 {
 	//clock_t begin = clock();
 
@@ -468,8 +487,8 @@ void heuristica_golosa_aleatorizada(float* const * mAdy, vector<vector<int> >& p
 
 		if(tieneAdyacenteNoAgregado(adyacente, n, mAdy, marcados))
 		{
-			int par = dameParNoMarcadoRCL(adyacente, n, mAdy, marcados, alfa);
-			meterParDeVerticesEnParticionRCL(adyacente, par, mAdy, particion, alfa);
+			int par = dameParNoMarcadoRCL(adyacente, n, mAdy, marcados, beta);
+			meterParDeVerticesEnParticionRCL(adyacente, par, mAdy, particion, gamma);
 			marcados[par] = true;
 			encolarAdyacentesNoAgregados(adyacente, n, mAdy, marcados, cola, encolados);
 			agregados += 2;
@@ -477,7 +496,7 @@ void heuristica_golosa_aleatorizada(float* const * mAdy, vector<vector<int> >& p
 		}
 		else
 		{
-			meterVerticeEnParticionRCL(adyacente, mAdy, particion, alfa);
+			meterVerticeEnParticionRCL(adyacente, mAdy, particion, gamma);
 			nodoActual = -1;
 			agregados++;
 		}
