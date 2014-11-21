@@ -128,9 +128,9 @@ int main()
 }
 
 bool agregar_vertice(vector<int> &conjunto_actual, float &suma_actual, int particiones, int vertice_actual, float **pesos, int vertices, float suma_solucion){ 
-	float suma = suma_actual; //VA A RECORRER EL CONJUNTO ACTUAL Y VER SI EL AGREGAR UN VERTICE SUPERA EL "UMBRAL"
-	// EL UMBRAL AHORA ES LA SUMA TOTAL, SINO SUPERA SE AGREGA EL VERTICE AL ELEMENTO ACTUAL
-	//Y SE ACTUALIZA SUMA_SOLUCION POR ESO ES POR REFERENCIA. SINO NO SE HACE NADA
+	float suma = suma_actual; //VA A RECORRER EL CONJUNTO ACTUAL Y VER SI EL AGREGAR UN VERTICE SUPERA a suma_solucion"
+	// SINO SUPERA SE AGREGA EL VERTICE AL ELEMENTO ACTUAL
+	//Y SE ACTUALIZA SUMA_SOLUCION. SINO NO SE HACE NADA
 	for (int i =0; i < conjunto_actual.size(); i++){
 		suma = suma + pesos[conjunto_actual[i]-1][vertice_actual -1];
 		if (suma > suma_solucion) {return false;}
@@ -177,7 +177,7 @@ void ubicar_vertice(int vertices, int aristas, int particiones, float **pesos)
 	float suma_solucion = 0.0; // VA A TENER LA SUMA MINIMA HASTA EL MOMENTO
 	vector <vector <int> > solucion; //ACÁ SE VAN A SOBREESCRIBIR LAS SOLUCIONES 
 
-	poda(suma_solucion, pesos, vertices, particiones, solucion);// PARA USAR LA PODA HAY QUE COMENTAR 
+	poda(suma_solucion, pesos, vertices, particiones, solucion);
 		vector <int> conjunto;
 		k_particion.second.push_back(conjunto);
 		for (int conjuntos_disponibles = 1; conjuntos_disponibles < particiones; conjuntos_disponibles++ ){	

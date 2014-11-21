@@ -100,8 +100,8 @@ int main()
 }
 
 bool agregar_vertice(vector<int> &conjunto_actual, float &suma_actual, int particiones, int vertice_actual, float **pesos, int vertices, float suma_solucion){ 
-	float suma = suma_actual; //VA A RECORRER EL CONJUNTO ACTUAL Y VER SI EL AGREGAR UN VERTICE SUPERA EL "UMBRAL"
-	// EL UMBRAL AHORA ES LA SUMA TOTAL, SINO SUPERA SE AGREGA EL VERTICE AL ELEMENTO ACTUAL
+	float suma = suma_actual; //VA A RECORRER EL CONJUNTO ACTUAL Y VER SI EL AGREGAR UN VERTICE SUPERA a suma_solucion
+// SINO SUPERA SE AGREGA EL VERTICE AL ELEMENTO ACTUAL
 	//Y SE ACTUALIZA SUMA_SOLUCION POR ESO ES POR REFERENCIA. SINO NO SE HACE NADA
 	for (int i =0; i < conjunto_actual.size(); i++){
 		suma = suma + pesos[conjunto_actual[i]-1][vertice_actual -1];
